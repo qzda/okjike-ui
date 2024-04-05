@@ -14,6 +14,9 @@ export default defineConfig({
   runner: {
     startUrls: ["https://web.okjike.com"],
     chromiumArgs: ["--user-data-dir"],
+    binaries: {
+      edge: "C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe",
+    },
   },
   outDir: "dist",
   vite: () => ({
