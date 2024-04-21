@@ -7,7 +7,6 @@
   "scripts": {
     "dev": "wxt",
     "dev:firefox": "wxt -b firefox",
-    "dev:edge": "wxt -b edge",
     "build": "wxt build",
     "build:firefox": "wxt build -b firefox",
     "zip": "wxt zip",
@@ -16,13 +15,15 @@
     "postinstall": "wxt prepare"
   },
   "dependencies": {
-    "vue": "^3.4.0"
+    "@vueuse/core": "^10.9.0",
+    "vue": "^3.4.23"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^5.0.1",
-    "sass": "^1.72.0",
-    "typescript": "^5.3.3",
-    "vue-tsc": "^2.0.6",
-    "wxt": "^0.17.0"
+    "@vitejs/plugin-vue": "^5.0.4",
+    "sass": "^1.75.0",
+    "typescript": "^5.4.5",
+    "unocss": "^0.59.4",
+    "vue-tsc": "^2.0.13",
+    "wxt": "^0.17.12"
   }
 }
