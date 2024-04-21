@@ -1,69 +1,69 @@
 <script lang="ts" setup>
   import { onMounted, reactive, ref } from "vue";
-  import { browser } from "wxt/browser";
-  import { storage } from "wxt/storage";
+  import { useDark, useToggle } from "@vueuse/core";
 
-  onMounted(() => {
-    browser.runtime.sendMessage("message!");
-  });
+  const isDark = useDark();
+
+  const Layout = ["waterfall", "normal"] as const;
 
   const configRef = reactive<{
-    layout?: "waterfall" | "normal";
+    layout?: (typeof Layout)[number];
   }>({ layout: "waterfall" });
 </script>
-
 <template>
-  <div class="popup-container">
-    <form class="form-config-container">
-      <div
-        v-for="layout in ['waterfall', 'normal']"
-        class="form-item"
-      >
-        <input
-          type="radio"
-          name="layout"
-          :value="layout"
-          :id="layout"
-          v-model="configRef.layout"
-        />
-        <label :for="layout">{{ layout }}</label>
+  <div
+    class="font-sans text-gray-700 dark:text-gray-200 dark:bg-dark w-300px p-2"
+  >
+    <div>
+      <h3 class="m-0">Theme:</h3>
+      <div class="flex gap-2">
+        <span
+          @click="isDark = false"
+          class="flex gap-1 items-center cursor-pointer"
+        >
+          <input
+            class="m-0"
+            type="radio"
+            name="theme"
+            title="theme"
+            :checked="!isDark"
+          />light
+        </span>
+        <span
+          @click="isDark = true"
+          class="flex gap-1 items-center cursor-pointer"
+        >
+          <input
+            class="m-0"
+            type="radio"
+            name="theme"
+            title="theme"
+            :checked="isDark"
+          />dark
+        </span>
       </div>
-    </form>
+    </div>
 
-    <!-- <pre>{{ JSON.stringify(configRef, null, 2) }}</pre> -->
+    <div>
+      <h3 class="m-0">Layout:</h3>
+      <div class="flex gap-2">
+        <span
+          v-for="layout in Layout"
+          @click="configRef.layout = layout"
+          class="flex gap-1 items-center cursor-pointer"
+        >
+          <input
+            class="m-0"
+            type="radio"
+            name="layout"
+            :title="layout"
+            :checked="configRef.layout === layout"
+          />{{ layout }}
+        </span>
+      </div>
+    </div>
+    <pre class="font-mono text-3 m-0 p-2 bg-gray-200">{{
+      JSON.stringify(configRef, null, 2)
+    }}</pre>
   </div>
 </template>
-
-<style scoped lang="scss">
-  .popup-container {
-    width: 200px;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-      Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
-      sans-serif;
-
-    > .form-config-container {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-
-      > .form-item {
-        label {
-          cursor: pointer;
-        }
-
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        gap: 0.2rem;
-
-        input {
-          margin: 0;
-        }
-      }
-    }
-
-    p {
-      font-size: 1rem;
-    }
-  }
-</style>
