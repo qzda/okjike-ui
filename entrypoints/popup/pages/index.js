@@ -5,7 +5,7 @@ import Container from "../components/ui/Container";
 
 const IndexPage = () => (
   <Container>
-    <Header />
+    {/* <Header /> */}
     <Main />
     <Footer />
   </Container>
