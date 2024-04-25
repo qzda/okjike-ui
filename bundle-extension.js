@@ -8,11 +8,12 @@ import zipper from "zip-local";
 const CONFIG = {
   matches: ["https://web.okjike.com/*"],
   default_icon: {
-    16: "images/icon-16.png",
-    32: "images/icon-32.png",
-    48: "images/icon-48.png",
-    96: "images/icon-96.png",
-    128: "images/icon-128.png",
+    16: "images/icon-176.png",
+    32: "images/icon-176.png",
+    48: "images/icon-176.png",
+    96: "images/icon-176.png",
+    128: "images/icon-176.png",
+    176: "images/icon-176.png",
   },
 };
 
