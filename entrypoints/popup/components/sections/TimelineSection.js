@@ -10,7 +10,7 @@ import {
   KeyStickyHeader,
   KeyTrendsHomeTimeline,
   KeyWriterMode,
-} from "../../../storage-keys";
+} from "../../../../storage-keys";
 import useMounted from "../../utilities/hooks/useMounted";
 import TimelineWidthSlider from "../controls/TimelineWidthSlider";
 import VanityCheckboxes from "../controls/VanityCheckboxes";

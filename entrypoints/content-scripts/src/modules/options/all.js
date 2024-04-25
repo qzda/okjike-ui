@@ -40,7 +40,7 @@ import {
   KeyVerifiedOrgsButton,
   KeyWriterMode,
   KeyXPremiumButton,
-} from "../../../../storage-keys";
+} from "../../../../../storage-keys";
 import { changeCustomCss } from "./advanced";
 import { changeFollowCount, changeLikeCount, changeReplyCount, changeRetweetCount } from "./hideVanityCounts";
 import changeHideViewCounts from "./hideViewCount";

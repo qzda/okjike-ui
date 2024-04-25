@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { KeyAllVanity, KeyFollowCount, KeyLikeCount, KeyReplyCount, KeyRetweetCount } from "../../../storage-keys";
+import { KeyAllVanity, KeyFollowCount, KeyLikeCount, KeyReplyCount, KeyRetweetCount } from "../../../../storage-keys";
 import { getStorage, setStorage } from "../../utilities/chromeStorage";
 import ToggleChevron from "../ui/ToggleChevron";
 import { CheckboxControl } from "../ui/checkboxes";

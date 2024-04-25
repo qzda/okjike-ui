@@ -1,4 +1,4 @@
-import { KeyTitleNotifications } from "../../../../storage-keys";
+import { KeyTitleNotifications } from "../../../../../storage-keys";
 import selectors from "../../selectors";
 import addStyles, { removeStyles } from "../utilities/addStyles";
 import { getStorage } from "../utilities/storage";

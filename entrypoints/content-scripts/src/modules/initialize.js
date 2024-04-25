@@ -8,7 +8,7 @@ import {
   KeyTypefullyGrowTab,
   KeyWriterMode,
   KeyXPremiumButton,
-} from "../../../storage-keys";
+} from "../../../../storage-keys";
 import changeHideViewCounts from "./options/hideViewCount";
 import { addAnalyticsButton, addCommunitiesButton, addListsButton, addTopicsButton, addXPremiumButton } from "./options/navigation";
 import { changeFollowingTimeline, changeRecentMedia, changeTimelineTabs, changeTrendsHomeTimeline } from "./options/timeline";

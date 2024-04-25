@@ -2,7 +2,7 @@ import { css } from "@codemirror/lang-css";
 import CodeMirror from "@uiw/react-codemirror";
 import debounce from "lodash.debounce";
 import { useCallback, useEffect, useState } from "react";
-import { KeyCustomCss } from "../../../storage-keys";
+import { KeyCustomCss } from "../../../../storage-keys";
 import { getStorage, setStorage } from "../../utilities/chromeStorage";
 import SectionLabel from "../ui/SectionLabel";
 

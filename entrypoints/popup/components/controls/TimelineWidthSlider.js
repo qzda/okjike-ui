@@ -2,7 +2,7 @@ import * as SliderPrimitive from "@radix-ui/react-slider";
 import { styled } from "@stitches/react";
 import { useEffect, useState } from "react";
 
-import { KeyTimelineWidth } from "../../../storage-keys";
+import { KeyTimelineWidth } from "../../../../storage-keys";
 import { getStorage, setStorage } from "../../utilities/chromeStorage";
 
 const StyledSlider = styled(SliderPrimitive.Root, {
