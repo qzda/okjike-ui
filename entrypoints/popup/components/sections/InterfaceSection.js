@@ -1,4 +1,4 @@
-import { KeyInterFont, KeySearchBar, KeyTitleNotifications, KeyTransparentSearch, KeyTweetButton } from "../../../storage-keys";
+import { KeyInterFont, KeySearchBar, KeyTitleNotifications, KeyTransparentSearch, KeyTweetButton } from "../../../../storage-keys";
 import SectionLabel from "../ui/SectionLabel";
 import SwitchControl from "../ui/SwitchControl";
 

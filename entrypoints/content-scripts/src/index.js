@@ -1,4 +1,4 @@
-import { KeyExtensionStatus, allSettingsKeys } from "../../storage-keys";
+import { KeyExtensionStatus, allSettingsKeys } from "../../../storage-keys";
 import { addMutationsOnDomChanges, addMutationsOnPageLoad, addMutationsOnResize, addStylesheets } from "./modules/initialize";
 import { injectAllChanges } from "./modules/options/all";
 import constructNewData from "./modules/utilities/constructNewData";

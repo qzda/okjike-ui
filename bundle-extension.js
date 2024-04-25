@@ -1,7 +1,7 @@
 import { exec } from "child_process";
 import { copy } from "fs-extra";
 import { copyFile, rm, writeFile } from "fs/promises";
-import process from "process";
+import process, { config } from "process";
 import readline from "readline";
 import zipper from "zip-local";
 
@@ -11,6 +11,8 @@ const CONFIG = {
     16: "public/icon/16.png",
     32: "public/icon/32.png",
     48: "public/icon/48.png",
+    96: "public/icon/96.png",
+    128: "public/icon/128.png",
   },
 };
 
@@ -30,13 +32,7 @@ const manifest = {
   short_name: "okjike-ui",
   description: "Refine and declutter the 'web.okjike.com' web experience.",
   version: "0.0.1",
-  icons: {
-    16: "public/icon/16.png",
-    32: "public/icon/32.png",
-    48: "public/icon/48.png",
-    96: "public/icon/96.png",
-    128: "public/icon/128.png",
-  },
+  icons: CONFIG.default_icon,
   permissions: ["storage"],
   options_ui: {
     page: "index.html",
@@ -145,23 +141,26 @@ const bundle = async (manifest, bundleDirectory) => {
       });
     };
 
-    await runBuildScript("./entrypoints/popup");
-    await runBuildScript("./entrypoints/content-scripts");
+    await runBuildScript("entrypoints/popup");
+    await runBuildScript("entrypoints/content-scripts");
 
     process.stdout.clearLine();
     process.stdout.cursorTo(0);
     console.log("🔥  Built popup and content scripts.");
 
     // Bundle popup Next.js export
-    await copy("popup/out", `${bundleDirectory}`);
+    await copy("entrypoints/popup/out", `${bundleDirectory}`);
     console.log(`🚗  Moved export to bundle.`);
 
     // Bundle content-scripts
-    await copy("content-scripts/dist", `${bundleDirectory}/dist`);
+    await copy("entrypoints/content-scripts/dist", `${bundleDirectory}/dist`);
     console.log(`🚗  Moved content_scripts to bundle.`);
 
     // Bundle background.js
-    await copyFile("background.js", `${bundleDirectory}/background.js`);
+    await copyFile(
+      "entrypoints/background.js",
+      `${bundleDirectory}/background.js`
+    );
     console.log(`🚗  Moved background.js to bundle.`);
 
     // Bundle css
@@ -173,7 +172,7 @@ const bundle = async (manifest, bundleDirectory) => {
     console.log(`🚗  Moved fonts to bundle.`);
 
     // Bundle images
-    await copy("images", `${bundleDirectory}/images`);
+    await copy("public/icon", `${bundleDirectory}/images`);
     console.log(`🚗  Moved images to bundle.`);
 
     // Create manifest

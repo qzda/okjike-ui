@@ -1,5 +1,5 @@
 import throttle from "lodash.throttle";
-import { defaultPreferences } from "../../storage-keys";
+import { defaultPreferences } from "../../../storage-keys";
 
 /*--
 - Docs: https://developer.chrome.com/docs/extensions/reference/storage/

@@ -21,7 +21,7 @@ import {
   KeyVerifiedOrgsButton,
   KeyXPremiumButton,
   defaultPreferences,
-} from "../../../storage-keys";
+} from "../../../../storage-keys";
 import SectionLabel from "../ui/SectionLabel";
 
 import { useEffect, useState } from "react";

@@ -1,4 +1,4 @@
-import { KeyRecentMedia } from "../../../../storage-keys";
+import { KeyRecentMedia } from "../../../../../storage-keys";
 import selectors from "../../selectors";
 import addStyles, { removeStyles, stylesExist } from "../utilities/addStyles";
 import { getStorage } from "../utilities/storage";
@@ -249,7 +249,7 @@ export const changeRecentMedia = async (recentMedia) => {
                 top: 70px;
                 width: 300px;
               }
-              
+
               [data-testid="primaryColumn"] {
                 transform: translateX(-64px);
               }

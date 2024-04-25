@@ -1,4 +1,4 @@
-import { KeyNavigationButtonsLabels, KeyNavigationButtonsLabelsHover } from "../../../../storage-keys";
+import { KeyNavigationButtonsLabels, KeyNavigationButtonsLabelsHover } from "../../../../../storage-keys";
 import selectors from "../../selectors";
 import svgAssets from "../svgAssets";
 import addStyles, { removeStyles } from "../utilities/addStyles";

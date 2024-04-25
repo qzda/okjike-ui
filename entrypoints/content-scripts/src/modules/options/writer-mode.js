@@ -1,4 +1,4 @@
-import { KeyWriterMode } from "../../../../storage-keys";
+import { KeyWriterMode } from "../../../../../storage-keys";
 import selectors from "../../selectors";
 import svgAssets from "../svgAssets";
 import { createTypefullyLinkElement, createTypefullyLogo, getCurrentTextAndSendToTypefully } from "../typefully";

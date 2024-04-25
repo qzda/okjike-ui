@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { defaultPreferences } from "../../storage-keys";
+import { defaultPreferences } from "../../../storage-keys";
 import { getStorage, setStorage } from "./chromeStorage";
 
 export default function useStorageKeyState(storageKey) {

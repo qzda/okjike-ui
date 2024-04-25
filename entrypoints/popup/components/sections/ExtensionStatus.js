@@ -1,4 +1,4 @@
-import { KeyExtensionStatus } from "../../../storage-keys";
+import { KeyExtensionStatus } from "../../../../storage-keys";
 import ControlsWrapper from "../ui/ControlsWrapper";
 import SwitchControl from "../ui/SwitchControl";
 
