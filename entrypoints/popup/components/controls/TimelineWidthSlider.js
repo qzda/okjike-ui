@@ -112,7 +112,7 @@ const TimelineWidthSlider = () => {
             ))}
           </span>
         </StyledSlider>
-        <span className="text-lg font-medium">800px</span>
+        <span className="text-xs font-medium">800px</span>
       </div>
     </form>
   );

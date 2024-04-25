@@ -134,7 +134,7 @@ const VanityCheckboxes = () => {
     <>
       <CheckboxControl
         id="all"
-        label="Engagements Under Posts"
+        label="隐藏帖子下的数字"
         labelExtras={<ToggleChevron pressed={showVanityCheckboxes} onClick={setShowVanityCheckboxes} />}
         checked={hideAll}
         onCheckedChange={(checked) => onCheckedChange("all", checked)}
