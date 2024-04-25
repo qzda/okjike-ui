@@ -1,7 +1,7 @@
 import { exec } from "child_process";
 import { copy } from "fs-extra";
 import { copyFile, rm, writeFile } from "fs/promises";
-import process, { config } from "process";
+import process from "process";
 import readline from "readline";
 import zipper from "zip-local";
 
@@ -67,7 +67,7 @@ const MANIFEST_CHROME = {
   ],
   action: {
     default_icon: CONFIG.default_icon,
-    default_title: "Minimal Twitter",
+    default_title: "okjike-ui",
     default_popup: "index.html",
   },
 };
@@ -253,7 +253,8 @@ rl.question(
         break;
 
       default:
-        await bundleAll();
+        await bundle(MANIFEST_CHROME, "bundle/chrome");
+      // await bundleAll();
     }
 
     rl.close();
