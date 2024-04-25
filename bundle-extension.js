@@ -8,11 +8,11 @@ import zipper from "zip-local";
 const CONFIG = {
   matches: ["https://web.okjike.com/*"],
   default_icon: {
-    16: "public/icon/16.png",
-    32: "public/icon/32.png",
-    48: "public/icon/48.png",
-    96: "public/icon/96.png",
-    128: "public/icon/128.png",
+    16: "images/icon-16.png",
+    32: "images/icon-32.png",
+    48: "images/icon-48.png",
+    96: "images/icon-96.png",
+    128: "images/icon-128.png",
   },
 };
 
@@ -44,7 +44,7 @@ const MANIFEST_CHROME = {
   ...manifest,
   manifest_version: 3,
   background: {
-    service_worker: "entrypoints/background.js",
+    service_worker: "background.js",
     type: "module",
   },
   content_scripts: [
@@ -172,7 +172,7 @@ const bundle = async (manifest, bundleDirectory) => {
     console.log(`🚗  Moved fonts to bundle.`);
 
     // Bundle images
-    await copy("public/icon", `${bundleDirectory}/images`);
+    await copy("images", `${bundleDirectory}/images`);
     console.log(`🚗  Moved images to bundle.`);
 
     // Create manifest
