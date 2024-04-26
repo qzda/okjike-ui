@@ -51,7 +51,8 @@ const StyledThumb = styled(SliderPrimitive.Thumb, {
   height: 16,
   backgroundColor: "#1DA1F2",
   borderRadius: 10,
-  boxShadow: "rgb(101 119 134 / 20%) 0px 0px 7px, rgb(101 119 134 / 15%) 0px 1px 3px 1px",
+  boxShadow:
+    "rgb(101 119 134 / 20%) 0px 0px 7px, rgb(101 119 134 / 15%) 0px 1px 3px 1px",
   "&:hover": { boxShadow: `0 0 0 5px rgba(29, 155, 240, 0.1)` },
   "&:focus": { boxShadow: `0 0 0 5px rgba(29, 155, 240, 0.1)` },
 });
@@ -78,7 +79,7 @@ const TimelineWidthSlider = () => {
       <div className="flex items-center gap-x-3">
         <span className="text-base font-medium">600px</span>
         <StyledSlider
-          onValueChange={async (value) => {
+          onValueChange={async value => {
             if (value && value[0]) {
               setUserTrack(value[0]);
               try {

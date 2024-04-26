@@ -4,7 +4,7 @@ import * as TogglePrimitive from "@radix-ui/react-toggle";
 const ToggleChevron = ({ pressed, onClick }) => (
   <TogglePrimitive.Root
     pressed={pressed}
-    onPressedChange={(pressed) => {
+    onPressedChange={pressed => {
       onClick(pressed);
     }}
     className="flex items-center"
