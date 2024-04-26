@@ -1,4 +1,8 @@
-import { KeyStickyHeader, KeyWriterMode, KeyWaterfallMode } from "../../../../storage-keys";
+import {
+  KeyStickyHeader,
+  KeyWriterMode,
+  KeyWaterfallMode,
+} from "../../../../storage-keys";
 import useMounted from "../../utilities/hooks/useMounted";
 import TimelineWidthSlider from "../controls/TimelineWidthSlider";
 import VanityCheckboxes from "../controls/VanityCheckboxes";
@@ -12,14 +16,23 @@ const TimelineSection = () => {
 
   return (
     <section className="flex flex-col gap-y-2">
-      <SectionLabel>时间线</SectionLabel>
+      <SectionLabel className="px-4">时间线</SectionLabel>
       {mounted ? (
         <ControlsWrapper>
           <TimelineWidthSlider />
           <Separator />
-          <SwitchControl label="瀑布流布局" storageKey={KeyWaterfallMode} />
-          <SwitchControl label="固定顶栏" storageKey={KeyStickyHeader} />
-          <SwitchControl label="禅模式" storageKey={KeyWriterMode} />
+          <SwitchControl
+            label="瀑布流布局"
+            storageKey={KeyWaterfallMode}
+          />
+          <SwitchControl
+            label="固定顶栏"
+            storageKey={KeyStickyHeader}
+          />
+          <SwitchControl
+            label="禅模式"
+            storageKey={KeyWriterMode}
+          />
           <Separator />
           <SectionLabel>简化帖子</SectionLabel>
           <VanityCheckboxes />
