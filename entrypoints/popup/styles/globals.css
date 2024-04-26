@@ -26,11 +26,11 @@
   margin: 0;
 }
 
-html,
+/* html,
 body,
 #__next {
   @apply h-full;
-}
+} */
 
 body {
   @apply antialiased dark:bg-x-bgOneDark bg-x-bgOne;

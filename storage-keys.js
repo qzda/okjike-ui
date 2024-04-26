@@ -41,6 +41,7 @@ export const KeyInterFont = "interFont";
 export const KeyTitleNotifications = "titleNotifications";
 export const KeyCustomCss = "customCss";
 export const KeyHideViewCount = "hideViewCount";
+export const KeyWaterfallMode = "waterfallMode";
 
 export const allSettingsKeys = [
   KeyExtensionStatus,
@@ -86,6 +87,7 @@ export const allSettingsKeys = [
   KeyTitleNotifications,
   KeyCustomCss,
   KeyHideViewCount,
+  KeyWaterfallMode,
 ];
 
 export const defaultPreferences = {
@@ -131,4 +133,5 @@ export const defaultPreferences = {
   [KeyTitleNotifications]: "on",
   [KeyCustomCss]: "",
   [KeyHideViewCount]: "off",
+  [KeyWaterfallMode]: "on",
 };

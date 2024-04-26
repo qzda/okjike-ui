@@ -76,7 +76,7 @@ const TimelineWidthSlider = () => {
   return (
     <form>
       <div className="flex items-center gap-x-3">
-        <span className="text-xs font-medium">600px</span>
+        <span className="text-base font-medium">600px</span>
         <StyledSlider
           onValueChange={async (value) => {
             if (value && value[0]) {
@@ -112,7 +112,7 @@ const TimelineWidthSlider = () => {
             ))}
           </span>
         </StyledSlider>
-        <span className="text-xs font-medium">800px</span>
+        <span className="text-base font-medium">800px</span>
       </div>
     </form>
   );
