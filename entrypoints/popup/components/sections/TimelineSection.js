@@ -12,9 +12,9 @@ const TimelineSection = () => {
 
   return (
     <section className="flex flex-col gap-y-2">
-      <SectionLabel htmlFor="user-control-timeline">时间线</SectionLabel>
+      <SectionLabel>时间线</SectionLabel>
       {mounted ? (
-        <ControlsWrapper id="user-control-timeline">
+        <ControlsWrapper>
           <TimelineWidthSlider />
           <Separator />
           <SwitchControl label="瀑布流布局" storageKey={KeyWaterfallMode} />

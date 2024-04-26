@@ -4,8 +4,8 @@ import SwitchControl from "../ui/SwitchControl";
 
 const InterfaceSection = () => (
   <section className="flex flex-col gap-y-2">
-    <SectionLabel htmlFor="user-control-interface">界面</SectionLabel>
-    <div id="user-control-interface">
+    <SectionLabel>界面</SectionLabel>
+    <div>
       <form className="flex flex-col items-center justify-between px-4 dark:bg-x-bgTwoDark bg-x-bgTwo rounded-2xl">
         <div className="w-full py-4">
           <div className="flex flex-col gap-y-4">
