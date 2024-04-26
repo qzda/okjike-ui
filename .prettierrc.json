@@ -6,5 +6,6 @@
   "arrowParens": "avoid",
   "bracketSpacing": true,
   "printWidth": 80,
-  "singleAttributePerLine": true
+  "singleAttributePerLine": true,
+  "jsxSingleQuote": false
 }

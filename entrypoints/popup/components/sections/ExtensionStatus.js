@@ -5,7 +5,10 @@ import SwitchControl from "../ui/SwitchControl";
 export default function ExtensionStatus() {
   return (
     <ControlsWrapper>
-      <SwitchControl label="启用扩展" storageKey={KeyExtensionStatus} />
+      <SwitchControl
+        label="启用扩展"
+        storageKey={KeyExtensionStatus}
+      />
     </ControlsWrapper>
   );
 }
