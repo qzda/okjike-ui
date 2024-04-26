@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
-import { KeyAllVanity, KeyLikeCount, KeyReplyCount, KeyRetweetCount } from "../../../../storage-keys";
+import {
+  KeyAllVanity,
+  KeyLikeCount,
+  KeyReplyCount,
+  KeyRetweetCount,
+} from "../../../../storage-keys";
 import { getStorage, setStorage } from "../../utilities/chromeStorage";
 import ToggleChevron from "../ui/ToggleChevron";
 import { CheckboxControl } from "../ui/checkboxes";
@@ -25,7 +30,8 @@ const VanityCheckboxes = () => {
     const getUserDefaultReply = async () => {
       try {
         const userDefaultReply = await getStorage(KeyReplyCount);
-        userDefaultReply && setHideReply(userDefaultReply === "hide" ? true : false);
+        userDefaultReply &&
+          setHideReply(userDefaultReply === "hide" ? true : false);
       } catch (error) {
         console.warn(error);
       }
@@ -33,7 +39,8 @@ const VanityCheckboxes = () => {
     const getUserDefaultLike = async () => {
       try {
         const userDefaultLike = await getStorage(KeyLikeCount);
-        userDefaultLike && setHideLike(userDefaultLike === "hide" ? true : false);
+        userDefaultLike &&
+          setHideLike(userDefaultLike === "hide" ? true : false);
       } catch (error) {
         console.warn(error);
       }
@@ -41,7 +48,8 @@ const VanityCheckboxes = () => {
     const getUserDefaultRetweet = async () => {
       try {
         const userDefaultRetweet = await getStorage(KeyRetweetCount);
-        userDefaultRetweet && setHideRetweet(userDefaultRetweet === "hide" ? true : false);
+        userDefaultRetweet &&
+          setHideRetweet(userDefaultRetweet === "hide" ? true : false);
       } catch (error) {
         console.warn(error);
       }
@@ -110,18 +118,37 @@ const VanityCheckboxes = () => {
   return (
     <>
       <CheckboxControl
-        id="all"
         label="隐藏帖子下的数字"
-        labelExtras={<ToggleChevron pressed={showVanityCheckboxes} onClick={setShowVanityCheckboxes} />}
+        labelExtras={
+          <ToggleChevron
+            pressed={showVanityCheckboxes}
+            onClick={setShowVanityCheckboxes}
+          />
+        }
         checked={hideAll}
-        onCheckedChange={(checked) => onCheckedChange("all", checked)}
+        onCheckedChange={checked => onCheckedChange("all", checked)}
         crossedIcon
       />
       {showVanityCheckboxes && (
         <div className="pl-3 flex flex-col gap-4 mb-2">
-          <CheckboxControl crossedIcon id="reply" label="回复" onCheckedChange={(checked) => onCheckedChange("reply", checked)} checked={hideReply} />
-          <CheckboxControl crossedIcon id="retweet" label="转发" onCheckedChange={(checked) => onCheckedChange("retweet", checked)} checked={hideRetweet} />
-          <CheckboxControl crossedIcon id="like" label="点赞" onCheckedChange={(checked) => onCheckedChange("like", checked)} checked={hideLike} />
+          <CheckboxControl
+            crossedIcon
+            label="回复"
+            onCheckedChange={checked => onCheckedChange("reply", checked)}
+            checked={hideReply}
+          />
+          <CheckboxControl
+            crossedIcon
+            label="转发"
+            onCheckedChange={checked => onCheckedChange("retweet", checked)}
+            checked={hideRetweet}
+          />
+          <CheckboxControl
+            crossedIcon
+            label="点赞"
+            onCheckedChange={checked => onCheckedChange("like", checked)}
+            checked={hideLike}
+          />
         </div>
       )}
     </>

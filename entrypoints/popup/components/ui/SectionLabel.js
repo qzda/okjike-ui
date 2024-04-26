@@ -1,7 +1,11 @@
-const SectionLabel = ({ htmlFor, className = "", children }) => {
+const SectionLabel = ({ className = "", children }) => {
   return (
-    <label htmlFor={htmlFor || "user-control-interface"} className={"text-sm font-bold dark:text-x-accent1Dark text-x-accent1 " + className}>
-      {children || "Interface"}
+    <label
+      className={
+        "text-sm font-bold dark:text-x-accent1Dark text-x-accent1 " + className
+      }
+    >
+      {children}
     </label>
   );
 };
