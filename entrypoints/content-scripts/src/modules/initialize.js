@@ -10,10 +10,25 @@ import {
   KeyXPremiumButton,
 } from "../../../../storage-keys";
 import changeHideViewCounts from "./options/hideViewCount";
-import { addAnalyticsButton, addCommunitiesButton, addListsButton, addTopicsButton, addXPremiumButton } from "./options/navigation";
-import { changeFollowingTimeline, changeRecentMedia, changeTimelineTabs, changeTrendsHomeTimeline } from "./options/timeline";
+import {
+  addAnalyticsButton,
+  addCommunitiesButton,
+  addListsButton,
+  addTopicsButton,
+  addXPremiumButton,
+} from "./options/navigation";
+import {
+  changeFollowingTimeline,
+  changeRecentMedia,
+  changeTimelineTabs,
+  changeTrendsHomeTimeline,
+} from "./options/timeline";
 import { addWriterModeButton, changeWriterMode } from "./options/writer-mode";
-import { addTypefullyPlug, addTypefullyReplyPlug, saveCurrentReplyToLink } from "./typefully";
+import {
+  addTypefullyPlug,
+  addTypefullyReplyPlug,
+  saveCurrentReplyToLink,
+} from "./typefully";
 import addStyleSheet from "./utilities/addStyleSheet";
 import { extractColorsAsRootVars } from "./utilities/colors";
 import debounce from "./utilities/debounce";
@@ -26,27 +41,27 @@ import throttle from "./utilities/throttle";
 // Function to add main stylesheet
 export const addStylesheets = async () => {
   addStyleSheet("main", chrome.runtime.getURL("css/main.css"));
-  addStyleSheet("typefully", chrome.runtime.getURL("css/typefully.css"));
-
-  // Load cached CSS
-  const mainStylesheetFromCDN = await fetch("https://raw.githubusercontent.com/typefully/minimal-twitter/main/css/main.css");
-  const typefullyStylesheetFromCDN = await fetch("https://raw.githubusercontent.com/typefully/minimal-twitter/main/css/typefully.css");
-  const mainText = (await mainStylesheetFromCDN.text()).trim();
-  const typefullyText = (await typefullyStylesheetFromCDN.text()).trim();
-  addStyleSheet("external", null, mainText.concat("\n\n").concat(typefullyText));
 };
 
 export const runDocumentMutations = throttle(async () => {
   extractColorsAsRootVars();
 
-  const data = await getStorage([KeyWriterMode, KeyFollowingTimeline, KeyTrendsHomeTimeline, KeyRemoveTimelineTabs]);
+  const data = await getStorage([
+    KeyWriterMode,
+    KeyFollowingTimeline,
+    KeyTrendsHomeTimeline,
+    KeyRemoveTimelineTabs,
+  ]);
 
   if (data) {
     if (data[KeyWriterMode] === "on") {
       changeWriterMode(data[KeyWriterMode]);
     } else {
       changeTimelineTabs(data[KeyRemoveTimelineTabs], data[KeyWriterMode]);
-      changeTrendsHomeTimeline(data[KeyTrendsHomeTimeline], data[KeyWriterMode]);
+      changeTrendsHomeTimeline(
+        data[KeyTrendsHomeTimeline],
+        data[KeyWriterMode]
+      );
       changeFollowingTimeline(data[KeyFollowingTimeline]);
       addTypefullyPlug();
     }
@@ -99,7 +114,13 @@ export const addMutationsOnResize = () => {
 
 // Use "forced" when you want to re-add a button even if it's already there
 async function addSidebarButtons(forced) {
-  const data = await getStorage([KeyListsButton, KeyCommunitiesButton, KeyTopicsButton, KeyXPremiumButton, KeyTypefullyGrowTab]);
+  const data = await getStorage([
+    KeyListsButton,
+    KeyCommunitiesButton,
+    KeyTopicsButton,
+    KeyXPremiumButton,
+    KeyTypefullyGrowTab,
+  ]);
 
   if (!data) return;
 
