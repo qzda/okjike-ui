@@ -3,12 +3,11 @@
   "type": "module",
   "license": "MIT",
   "scripts": {
-    "build": "node ./bundle-extension.js"
+    "build": "bun run ./index.ts"
   },
   "dependencies": {
     "fs-extra": "^11.1.0",
-    "node-cmd": "^5.0.0",
-    "zip-local": "^0.3.5"
+    "node-cmd": "^5.0.0"
   },
   "devDependencies": {
     "@types/fs-extra": "^9.0.13"
