@@ -37,6 +37,9 @@ Thumbs.db
 bower_components
 node_modules
 package-lock.json
+bun.lockb
+yarn.lock
+
 out
 dist
 bundle/chrome
@@ -45,4 +48,3 @@ bundle/firefox
 
 # xcode project
 xcuserdata/
-bun.lockb
