@@ -1,0 +1,6 @@
+{
+  "bracketSpacing": true,
+  "semi": false,
+  "singleAttributePerLine": true,
+  "vueIndentScriptAndStyle": true
+}

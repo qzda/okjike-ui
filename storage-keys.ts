@@ -1,47 +1,47 @@
-export const KeyExtensionStatus = "extensionStatus";
-export const KeyListsButton = "listsButton";
-export const KeyCommunitiesButton = "communitiesButton";
-export const KeyTopicsButton = "topicsButton";
-export const KeyXPremiumButton = "xPremiumButton";
-export const KeyVerifiedOrgsButton = "verifiedOrgsButton";
-export const KeyTypefullyGrowTab = "typefullyGrowTab";
-export const KeyFollowingTimeline = "followingTimeline";
-export const KeyTrendsHomeTimeline = "trendsHomeTimeline";
-export const KeyRemoveTimelineTabs = "removeTimelineTabs";
-export const KeyWriterMode = "writerMode";
-export const KeyTimelineWidth = "timelineWidth";
-export const KeyRemoveTimelineBorders = "timelineBorders";
-export const KeyRemoveTweetBorders = "tweetBorders";
-export const KeyStickyHeader = "stickyHeader";
-export const KeySidebarLogo = "sidebarLogo";
-export const KeyHomeButton = "homeButton";
-export const KeyExploreButton = "exploreButton";
-export const KeyNotificationsButton = "notificationsButton";
-export const KeyMessagesButton = "messagesButton";
-export const KeyBookmarksButton = "bookmarksButton";
-export const KeyTopArticlesButton = "topArticlesButton";
-export const KeyProfileButton = "profileButton";
-export const KeyNavigationButtonsLabelsHover = "navigationButtonsLabelsHover";
-export const KeyNavigationButtonsLabels = "navigationButtonsLabels";
-export const KeyNavigationCenter = "navigationCenter";
-export const KeyUnreadCountBadge = "unreadCountBadge";
-export const KeyAllVanity = "allVanity";
-export const KeyReplyCount = "replyCount";
-export const KeyRetweetCount = "retweetCount";
-export const KeyLikeCount = "likeCount";
-export const KeyFollowCount = "followCount";
-export const KeyTweetButton = "tweetButton";
-export const KeySearchBar = "searchBar";
-export const KeyTransparentSearch = "transparentSearch";
-export const KeyRemovePromotedPosts = "removePromotedPosts";
-export const KeyRemoveTopicsToFollow = "removeTopicsToFollow";
-export const KeyRecentMedia = "recentMedia";
-export const KeyTypefullyComposerButtons = "typefullyComposerButtons";
-export const KeyInterFont = "interFont";
-export const KeyTitleNotifications = "titleNotifications";
-export const KeyCustomCss = "customCss";
-export const KeyHideViewCount = "hideViewCount";
-export const KeyWaterfallMode = "waterfallMode";
+export const KeyExtensionStatus = "extensionStatus"
+export const KeyListsButton = "listsButton"
+export const KeyCommunitiesButton = "communitiesButton"
+export const KeyTopicsButton = "topicsButton"
+export const KeyXPremiumButton = "xPremiumButton"
+export const KeyVerifiedOrgsButton = "verifiedOrgsButton"
+export const KeyTypefullyGrowTab = "typefullyGrowTab"
+export const KeyFollowingTimeline = "followingTimeline"
+export const KeyTrendsHomeTimeline = "trendsHomeTimeline"
+export const KeyRemoveTimelineTabs = "removeTimelineTabs"
+export const KeyWriterMode = "writerMode"
+export const KeyTimelineWidth = "timelineWidth"
+export const KeyRemoveTimelineBorders = "timelineBorders"
+export const KeyRemoveTweetBorders = "tweetBorders"
+export const KeyStickyHeader = "stickyHeader"
+export const KeySidebarLogo = "sidebarLogo"
+export const KeyHomeButton = "homeButton"
+export const KeyExploreButton = "exploreButton"
+export const KeyNotificationsButton = "notificationsButton"
+export const KeyMessagesButton = "messagesButton"
+export const KeyBookmarksButton = "bookmarksButton"
+export const KeyTopArticlesButton = "topArticlesButton"
+export const KeyProfileButton = "profileButton"
+export const KeyNavigationButtonsLabelsHover = "navigationButtonsLabelsHover"
+export const KeyNavigationButtonsLabels = "navigationButtonsLabels"
+export const KeyNavigationCenter = "navigationCenter"
+export const KeyUnreadCountBadge = "unreadCountBadge"
+export const KeyAllVanity = "allVanity"
+export const KeyReplyCount = "replyCount"
+export const KeyRetweetCount = "retweetCount"
+export const KeyLikeCount = "likeCount"
+export const KeyFollowCount = "followCount"
+export const KeyTweetButton = "tweetButton"
+export const KeySearchBar = "searchBar"
+export const KeyTransparentSearch = "transparentSearch"
+export const KeyRemovePromotedPosts = "removePromotedPosts"
+export const KeyRemoveTopicsToFollow = "removeTopicsToFollow"
+export const KeyRecentMedia = "recentMedia"
+export const KeyTypefullyComposerButtons = "typefullyComposerButtons"
+export const KeyInterFont = "interFont"
+export const KeyTitleNotifications = "titleNotifications"
+export const KeyCustomCss = "customCss"
+export const KeyHideViewCount = "hideViewCount"
+export const KeyWaterfallMode = "waterfallMode"
 
 export const allSettingsKeys = [
   KeyExtensionStatus,
@@ -88,7 +88,7 @@ export const allSettingsKeys = [
   KeyCustomCss,
   KeyHideViewCount,
   KeyWaterfallMode,
-];
+] as const
 
 export const defaultPreferences = {
   [KeyExtensionStatus]: "on",
@@ -134,4 +134,4 @@ export const defaultPreferences = {
   [KeyCustomCss]: "",
   [KeyHideViewCount]: "off",
   [KeyWaterfallMode]: "on",
-};
+} as const
