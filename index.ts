@@ -47,7 +47,8 @@ async function bundle(manifest: Record<string, any>, bundleDirectory: string) {
       })
     }
 
-    await runBuildScript("entrypoints/popup")
+    // await runBuildScript("entrypoints/popup")
+    await runBuildScript("entrypoints/popup2")
     await runBuildScript("entrypoints/content-scripts")
 
     process.stdout.clearLine(0)
@@ -55,19 +56,22 @@ async function bundle(manifest: Record<string, any>, bundleDirectory: string) {
     console.log("🔥  Built popup and content scripts.")
 
     // Bundle popup Next.js export
-    await copy("entrypoints/popup/out", `${bundleDirectory}`)
+    // await copy("entrypoints/popup/out", `${bundleDirectory}`)
+    // console.log(`🚗  Moved export to bundle.`)
+
+    // Bundle popup2 Vite export
+    await copy("entrypoints/popup2/dist", `${bundleDirectory}`)
     console.log(`🚗  Moved export to bundle.`)
 
     // Bundle content-scripts
     await copy("entrypoints/content-scripts/dist", `${bundleDirectory}/dist`)
     console.log(`🚗  Moved content_scripts to bundle.`)
 
-    // Bundle background.js
-    await copyFile(
-      "entrypoints/background.js",
-      `${bundleDirectory}/background.js`
+    // Bundle background.ts
+    await runCommand(
+      `bun build entrypoints/background.ts --outdir='./${bundleDirectory}/'`
     )
-    console.log(`🚗  Moved background.js to bundle.`)
+    console.log(`🚗  Moved background.ts to bundle.`)
 
     // Bundle css
     await copy("css", `${bundleDirectory}/css`)
