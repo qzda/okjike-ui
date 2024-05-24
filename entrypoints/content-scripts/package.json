@@ -1,6 +1,6 @@
 {
-  "name": "minimal-twitter-content-scripts",
-  "source": "src/index.js",
+  "name": "okjike-ui-content-scripts",
+  "source": "src/index.ts",
   "main": "dist/main.js",
   "scripts": {
     "watch": "parcel watch",
