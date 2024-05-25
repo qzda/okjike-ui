@@ -109,7 +109,7 @@ async function bundle(manifest: Record<string, any>, bundleDirectory: string) {
       )}`
     )
 
-    console.log(`📦  Bundled ${logCyan(bundleDirectory)}`)
+    console.log(`📦  Bundled\t\t\t=> ${logCyan(bundleDirectory)}`)
 
     // todo: zip
 
