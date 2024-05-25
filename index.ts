@@ -5,10 +5,14 @@ import readline from "node:readline"
 import { copy } from "fs-extra"
 import { MANIFEST_CHROME, MANIFEST_FIREFOX } from "./config"
 
+function logCyan(str: string): string {
+  return `\x1b[36m${str}\x1b[0m`
+}
+
 async function bundle(manifest: Record<string, any>, bundleDirectory: string) {
   try {
     await rm(bundleDirectory, { recursive: true, force: true })
-    console.log(`🧹  Cleaned up \`${bundleDirectory}\` directory.`)
+    console.log(`🧹  Cleaned up ${logCyan(bundleDirectory)} directory.`)
 
     function runCommand(command: string, yes?: boolean) {
       return new Promise((resolve, reject) => {
@@ -43,47 +47,55 @@ async function bundle(manifest: Record<string, any>, bundleDirectory: string) {
           clearInterval(intervalId)
           console.error(`Error running build script for ${directory}: ${error}`)
           reject(error)
+        } finally {
+          process.stdout.clearLine(0)
+          process.stdout.cursorTo(0)
         }
       })
     }
 
-    // await runBuildScript("entrypoints/popup")
-    await runBuildScript("entrypoints/popup2")
-    await runBuildScript("entrypoints/content-scripts")
-
-    process.stdout.clearLine(0)
-    process.stdout.cursorTo(0)
     console.log("🔥  Built popup and content scripts.")
 
+    // await runBuildScript("entrypoints/popup")
     // Bundle popup Next.js export
     // await copy("entrypoints/popup/out", `${bundleDirectory}`)
     // console.log(`🚗  Moved export to bundle.`)
 
+    await runBuildScript("entrypoints/popup2")
     // Bundle popup2 Vite export
     await copy("entrypoints/popup2/dist", `${bundleDirectory}`)
-    console.log(`🚗  Moved export to bundle.`)
+    console.log(`🚗  Moved popup2 export\t\t=> ${logCyan(bundleDirectory)}`)
 
+    await runBuildScript("entrypoints/content-scripts")
     // Bundle content-scripts
     await copy("entrypoints/content-scripts/dist", `${bundleDirectory}/dist`)
-    console.log(`🚗  Moved content_scripts to bundle.`)
+    console.log(`🚗  Moved content-scripts\t=> ${logCyan(bundleDirectory)}`)
 
     // Bundle background.ts
     await runCommand(
-      `bun build entrypoints/background.ts --outdir='./${bundleDirectory}/'`
+      `bun build entrypoints/background.ts --outdir="${bundleDirectory}"`
     )
-    console.log(`🚗  Moved background.ts to bundle.`)
+    console.log(
+      `🚗  Moved background.ts\t\t=> ${logCyan(
+        `${bundleDirectory}/background.js`
+      )}`
+    )
 
     // Bundle css
     await copy("css", `${bundleDirectory}/css`)
-    console.log(`🚗  Moved css to bundle.`)
+    console.log(`🚗  Moved css\t\t\t=> ${logCyan(`${bundleDirectory}/css`)}`)
 
     // Bundle fonts
     await copy("fonts", `${bundleDirectory}/fonts`)
-    console.log(`🚗  Moved fonts to bundle.`)
+    console.log(
+      `🚗  Moved fonts\t\t\t=> ${logCyan(`${bundleDirectory}/fonts`)}`
+    )
 
     // Bundle images
     await copy("images", `${bundleDirectory}/images`)
-    console.log(`🚗  Moved images to bundle.`)
+    console.log(
+      `🚗  Moved images\t\t=> ${logCyan(`${bundleDirectory}/images`)}`
+    )
 
     // Create manifest
     await writeFile(
@@ -91,8 +103,13 @@ async function bundle(manifest: Record<string, any>, bundleDirectory: string) {
       Buffer.from(JSON.stringify(manifest, null, 2)),
       "utf8"
     )
+    console.log(
+      `🚗  Moved manifest.json\t\t=> ${logCyan(
+        `${bundleDirectory}/manifest.json`
+      )}`
+    )
 
-    console.log(`📦  Bundled \`${bundleDirectory}\`.`)
+    console.log(`📦  Bundled ${logCyan(bundleDirectory)}`)
 
     // todo: zip
 
@@ -113,7 +130,7 @@ const rl = readline.createInterface({
 })
 
 rl.question(
-  "Which browser would you like to build for? [All / Chrome / Firefox] ",
+  "Which browser would you like to build for? [All / Chrome / Firefox]",
   async (browser) => {
     switch (browser) {
       case "Chrome":
