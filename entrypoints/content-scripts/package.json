@@ -1,6 +1,6 @@
 {
   "name": "okjike-ui-content-scripts",
-  "source": "src/index.ts",
+  "source": "src/index.js",
   "main": "dist/main.js",
   "scripts": {
     "watch": "parcel watch",
