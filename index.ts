@@ -1,5 +1,5 @@
 import { exec } from "node:child_process"
-import { copyFile, rm, writeFile } from "node:fs/promises"
+import { rm, writeFile } from "node:fs/promises"
 import process from "node:process"
 import readline from "node:readline"
 import { copy } from "fs-extra"
@@ -130,17 +130,24 @@ const rl = readline.createInterface({
 })
 
 rl.question(
-  "Which browser would you like to build for? [All / Chrome / Firefox]",
+  "Which browser would you like to build for? [All / Chrome / Firefox] ",
   async (browser) => {
     switch (browser) {
       case "Chrome":
+      case "chrome":
+      case "c":
         await bundle(MANIFEST_CHROME, "dist/chrome")
         break
 
       case "Firefox":
+      case "firefox":
+      case "f":
         await bundle(MANIFEST_FIREFOX, "dist/firefox")
         break
 
+      case "All":
+      case "all":
+      case "a":
       default:
         await bundleAll()
     }
