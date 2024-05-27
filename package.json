@@ -1,12 +1,16 @@
 {
   "name": "okjike-ui",
+  "version": "0.0.1",
   "type": "module",
   "license": "MIT",
   "workspaces": [
     "entrypoints/*"
   ],
   "scripts": {
-    "build": "bun run ./index.ts"
+    "build": "bun run ./index.ts",
+    "dev:popup": "cd ./entrypoints/popup && bun dev",
+    "dev:popup2": "cd ./entrypoints/popup2 && bun dev",
+    "preview:chrome": "cd ./dist/chrome && bun x http-server"
   },
   "dependencies": {
     "fs-extra": "^11.2.0",

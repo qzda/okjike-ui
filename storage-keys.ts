@@ -90,7 +90,7 @@ export const allSettingsKeys = [
   KeyWaterfallMode,
 ] as const
 
-export const defaultPreferences = {
+export const defaultPreferences: Record<string, string | number> = {
   [KeyExtensionStatus]: "on",
   [KeyTimelineWidth]: 700,
   [KeyRemoveTimelineBorders]: "off",
@@ -134,4 +134,4 @@ export const defaultPreferences = {
   [KeyCustomCss]: "",
   [KeyHideViewCount]: "off",
   [KeyWaterfallMode]: "on",
-} as const
+}
