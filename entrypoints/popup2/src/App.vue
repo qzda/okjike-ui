@@ -4,8 +4,17 @@
   import MdiToggleSwitchOffOutline from "./components/icon/MdiToggleSwitchOffOutline.vue"
 
   import { useToggle } from "@vueuse/core"
+  import { AllSettingsKeys } from "../../../storage-keys"
+  import { getStorage } from "../../../utils/chromeStorage"
+  import { onMounted, ref } from "vue"
 
   const [enable, toggleEnable] = useToggle(true)
+  const allSettings = ref<Record<string, string | number>>()
+  onMounted(() => {
+    getStorage(AllSettingsKeys).then((val) => {
+      allSettings.value = val
+    })
+  })
 </script>
 
 <template>
@@ -29,6 +38,8 @@
         />
       </div>
     </div>
-    <div class="box flex-1">hello</div>
+    <div class="box flex-1">
+      <pre>{{ JSON.stringify(allSettings, null, 2) }}</pre>
+    </div>
   </div>
 </template>

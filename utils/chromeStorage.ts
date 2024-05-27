@@ -1,5 +1,5 @@
 import { throttle } from "lodash"
-import { defaultPreferences } from "../../../../storage-keys"
+import { defaultPreferences } from "../storage-keys"
 
 /**
  * Use storage.local to allow user to store customizations
