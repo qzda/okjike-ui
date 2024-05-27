@@ -1,3 +1,5 @@
+import { version } from "./package.json"
+
 export const CONFIG = {
   matches: ["https://web.okjike.com/*"],
   default_icon: {
@@ -13,8 +15,8 @@ export const CONFIG = {
 export const MANIFEST = {
   name: "okjike-ui",
   short_name: "okjike-ui",
-  description: "Refine and declutter the 'web.okjike.com' web experience.",
-  version: "0.0.1",
+  description: "完善即刻网页版的体验。",
+  version: version,
   icons: CONFIG.default_icon,
   permissions: ["storage"],
   options_ui: {
