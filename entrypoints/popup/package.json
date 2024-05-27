@@ -1,5 +1,5 @@
 {
-  "name": "okjike-ui-popup",
+  "name": "popup",
   "private": true,
   "scripts": {
     "dev": "next dev",

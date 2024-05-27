@@ -1,5 +1,5 @@
 {
-  "name": "okjike-ui-content-scripts",
+  "name": "content-scripts",
   "source": "src/index.js",
   "main": "dist/main.js",
   "scripts": {
