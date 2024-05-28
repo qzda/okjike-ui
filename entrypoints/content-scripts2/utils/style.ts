@@ -9,11 +9,3 @@ export default function addStyles(id: string, css: string) {
   style.textContent = css.trim().split("\n").join("")
   head?.appendChild(style)
 }
-
-export function removeStyles(id: string) {
-  removeElementById("okjike-ui-" + id)
-}
-
-export function stylesExist(id: string) {
-  return document.getElementById("okjike-ui-" + id)
-}
