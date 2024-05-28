@@ -29,23 +29,19 @@ export const MANIFEST_CHROME = {
   ...MANIFEST,
   manifest_version: 3,
   background: {
-    service_worker: "background.js",
+    service_worker: "background/index.js",
     type: "module",
   },
   content_scripts: [
     {
       run_at: "document_end",
       matches: CONFIG.matches,
-      js: ["dist/main.js"],
+      js: ["content-scripts/index.js"],
     },
   ],
   web_accessible_resources: [
     {
-      resources: [
-        "css/main.css",
-        "css/typefully.css",
-        "fonts/inter-subset.woff2",
-      ],
+      resources: ["css/main.css", "fonts/inter-subset.woff2"],
       matches: CONFIG.matches,
     },
   ],
@@ -65,21 +61,17 @@ export const MANIFEST_FIREFOX = {
     },
   },
   background: {
-    scripts: ["background.js"],
+    scripts: ["background/index.js"],
     persistent: false,
   },
   content_scripts: [
     {
       run_at: "document_idle",
       matches: CONFIG.matches,
-      js: ["dist/main.js"],
+      js: ["content-scripts/index.js"],
     },
   ],
-  web_accessible_resources: [
-    "css/main.css",
-    "css/typefully.css",
-    "fonts/inter-subset.woff2",
-  ],
+  web_accessible_resources: ["css/main.css", "fonts/inter-subset.woff2"],
   browser_action: {
     default_icon: CONFIG.default_icon,
     default_title: "okjike popup",

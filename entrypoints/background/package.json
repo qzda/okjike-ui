@@ -1,0 +1,8 @@
+{
+  "name": "background",
+  "source": "src/index.js",
+  "main": "dist/main.js",
+  "scripts": {
+    "build": "bun build ./index.ts --outdir='dist' --sourcemap=external"
+  }
+}
