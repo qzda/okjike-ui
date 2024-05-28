@@ -11,5 +11,6 @@ chrome.storage.onChanged.addListener(async (changes) => {
   }
 
   const status = await getStorage(KeyExtensionStatus)
+  console.log("status", status)
   if (status === "off") return
 })

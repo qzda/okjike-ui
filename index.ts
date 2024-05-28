@@ -9,76 +9,77 @@ function logCyan(str: string): string {
   return `\x1b[36m${str}\x1b[0m`
 }
 
+function runCommand(command: string, yes?: boolean) {
+  return new Promise((resolve, reject) => {
+    exec(yes ? `echo "y" | ${command}` : command, (err, stdout, stderr) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve({ stdout, stderr })
+      }
+    })
+  })
+}
+
+function runBuildScript(directory: string) {
+  return new Promise(async (resolve, reject) => {
+    const P = ["\\", "|", "/", "-"]
+    let spinner = "\\"
+    const intervalId = setInterval(() => {
+      process.stdout.clearLine(0)
+      process.stdout.cursorTo(0)
+      spinner = P[P.indexOf(spinner) + 1] || P[0]
+      process.stdout.write(`${spinner}   Building popup and content scripts...`)
+    }, 250)
+
+    try {
+      await runCommand(`cd ./${directory} && bun i && bun run build`)
+      clearInterval(intervalId)
+      resolve(null)
+    } catch (error) {
+      clearInterval(intervalId)
+      console.error(`Error running build script for ${directory}: ${error}`)
+      reject(error)
+    } finally {
+      process.stdout.clearLine(0)
+      process.stdout.cursorTo(0)
+    }
+  })
+}
+
 async function bundle(manifest: Record<string, any>, bundleDirectory: string) {
   try {
     await rm(bundleDirectory, { recursive: true, force: true })
     console.log(`🧹  Cleaned up ${logCyan(bundleDirectory)} directory.`)
 
-    function runCommand(command: string, yes?: boolean) {
-      return new Promise((resolve, reject) => {
-        exec(yes ? `echo "y" | ${command}` : command, (err, stdout, stderr) => {
-          if (err) {
-            reject(err)
-          } else {
-            resolve({ stdout, stderr })
-          }
-        })
-      })
-    }
-
-    function runBuildScript(directory: string) {
-      return new Promise(async (resolve, reject) => {
-        const P = ["\\", "|", "/", "-"]
-        let spinner = "\\"
-        const intervalId = setInterval(() => {
-          process.stdout.clearLine(0)
-          process.stdout.cursorTo(0)
-          spinner = P[P.indexOf(spinner) + 1] || P[0]
-          process.stdout.write(
-            `${spinner}   Building popup and content scripts...`
-          )
-        }, 250)
-
-        try {
-          await runCommand(`cd ./${directory} && bun i && bun run build`)
-          clearInterval(intervalId)
-          resolve(null)
-        } catch (error) {
-          clearInterval(intervalId)
-          console.error(`Error running build script for ${directory}: ${error}`)
-          reject(error)
-        } finally {
-          process.stdout.clearLine(0)
-          process.stdout.cursorTo(0)
-        }
-      })
-    }
-
     console.log("🔥  Built popup and content scripts.")
 
-    // await runBuildScript("entrypoints/popup")
-    // Bundle popup Next.js export
-    // await copy("entrypoints/popup/out", `${bundleDirectory}`)
-    // console.log(`🚗  Moved export to bundle.`)
-
-    await runBuildScript("entrypoints/popup2")
     // Bundle popup2 Vite export
+    await runBuildScript("entrypoints/popup2")
     await copy("entrypoints/popup2/dist", `${bundleDirectory}`)
-    console.log(`🚗  Moved popup2 export\t\t=> ${logCyan(bundleDirectory)}`)
+    console.log(
+      `🚗  Moved popup2 export\t\t=> ${logCyan(
+        `${bundleDirectory}/index.html`
+      )}`
+    )
 
-    await runBuildScript("entrypoints/content-scripts")
-    // Bundle content-scripts
-    await copy("entrypoints/content-scripts/dist", `${bundleDirectory}/dist`)
-    console.log(`🚗  Moved content-scripts\t=> ${logCyan(bundleDirectory)}`)
-
-    // Bundle background.ts
-    await runCommand(
-      `bun build entrypoints/background.ts --outdir="${bundleDirectory}"`
+    // Bundle content-scripts2
+    await runBuildScript("entrypoints/content-scripts2")
+    await copy(
+      "entrypoints/content-scripts2/dist",
+      `${bundleDirectory}/content-scripts`
     )
     console.log(
-      `🚗  Moved background.ts\t\t=> ${logCyan(
-        `${bundleDirectory}/background.js`
+      `🚗  Moved content-scripts2\t=> ${logCyan(
+        `${bundleDirectory}/content-scripts`
       )}`
+    )
+
+    // Bundle background.ts
+    await runBuildScript("entrypoints/background")
+    await copy("entrypoints/background/dist", `${bundleDirectory}/background`)
+    console.log(
+      `🚗  Moved background\t\t=> ${logCyan(`${bundleDirectory}/background`)}`
     )
 
     // Bundle css
