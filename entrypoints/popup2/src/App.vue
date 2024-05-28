@@ -4,16 +4,45 @@
   import MdiToggleSwitchOffOutline from "./components/icon/MdiToggleSwitchOffOutline.vue"
 
   import { useToggle } from "@vueuse/core"
-  import { AllSettingsKeys } from "../../../storage-keys"
-  import { getStorage } from "../../../utils/chromeStorage"
-  import { onMounted, ref } from "vue"
+  import {
+    AllSettingsKeys,
+    KeyExtensionStatus,
+    KeyTimelineWidth,
+  } from "../../../storage-keys"
+  import { getStorage, setStorage } from "../../../utils/chromeStorage"
+  import { onMounted, ref, watch } from "vue"
 
-  const [enable, toggleEnable] = useToggle(true)
+  const [enable, toggleEnable] = useToggle()
   const allSettings = ref<Record<string, string | number>>()
-  onMounted(() => {
+  watch(allSettings, (_allSettings) => {
+    toggleEnable(_allSettings?.[KeyExtensionStatus] === "on")
+  })
+
+  function updateAllSettings() {
     getStorage(AllSettingsKeys).then((val) => {
       allSettings.value = val
     })
+  }
+
+  function changeKeyExtensionStatus() {
+    setStorage({
+      [KeyExtensionStatus]: enable.value ? "off" : "on",
+    }).then(() => {
+      updateAllSettings()
+    })
+  }
+
+  function changeKeyTimelineWidth(e: Event) {
+    const w = +(e.target as HTMLInputElement).value
+    setStorage({
+      [KeyTimelineWidth]: Math.max(600, Math.min(w, 1200)),
+    }).then(() => {
+      updateAllSettings()
+    })
+  }
+
+  onMounted(() => {
+    updateAllSettings()
   })
 </script>
 
@@ -21,12 +50,12 @@
   <div class="p2 w-300px flex flex-col gap-2">
     <div class="box xy-between">
       <div>
-        <span class="my-0 font-bold text-xl">okjike-ui</span>
+        <span class="font-bold text-xl">okjike-ui</span>
         <span class="mx-1 text-xs op50">v{{ version }}</span>
       </div>
       <div
-        class="xy-center w-6 h-6 cursor-pointer"
-        @click="toggleEnable()"
+        class="xy-center w-6 h-6 cursor-pointer c-#fbe54f"
+        @click="changeKeyExtensionStatus()"
       >
         <MdiToggleSwitch
           v-if="enable"
@@ -38,7 +67,20 @@
         />
       </div>
     </div>
-    <div class="box flex-1">
+    <div class="box xy-between">
+      <div>时间线</div>
+      <div>
+        <input
+          type="number"
+          :value="allSettings?.[KeyTimelineWidth]"
+          min="400"
+          max="1000"
+          @change="changeKeyTimelineWidth"
+        />
+        <span>px</span>
+      </div>
+    </div>
+    <div class="box">
       <pre>{{ JSON.stringify(allSettings, null, 2) }}</pre>
     </div>
   </div>

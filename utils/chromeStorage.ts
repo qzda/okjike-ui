@@ -1,4 +1,3 @@
-import { throttle } from "lodash"
 import { defaultPreferences } from "../storage-keys"
 
 /**
@@ -41,16 +40,11 @@ function getMultipleStorageKeys(keysArray: string[]) {
 
 /**
  * Set storage with storage.local
- *
- * Throttle function to prevent hitting API limits
  */
 export function setStorage(kv: Record<string, string | number>) {
-  throttle(async () => {
-    const promise = new Promise((resolve, _reject) => {
-      chrome?.storage?.local.set(kv, () => {
-        return resolve(kv)
-      })
+  return new Promise<Record<string, string | number>>((resolve, _reject) => {
+    chrome?.storage?.local.set(kv, () => {
+      return resolve(kv)
     })
-    return promise
-  }, 500)()
+  })
 }
