@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react"
-import { Input, InputNumber, Radio, Switch } from "antd"
+import React, { useEffect, useState } from "react"
+import { InputNumber, Radio, Switch } from "antd"
 
 import { version } from "../../../package.json"
 import { getStorage, setStorage } from "../../../utils/chromeStorage"
 import {
   AllSettingsKeys,
   KeyExtensionStatus,
+  KeyTimelineLayout,
   KeyTimelineWidth,
 } from "../../../storage-keys"
 
@@ -40,6 +41,14 @@ export default function App() {
     })
   }
 
+  function changeKeyTimelineLayout(layout: string) {
+    setStorage({
+      [KeyTimelineLayout]: layout,
+    }).then(() => {
+      updateAllSettings()
+    })
+  }
+
   useEffect(() => {
     updateAllSettings()
   }, [])
@@ -57,6 +66,7 @@ export default function App() {
         />
       </div>
       <div className="box flex flex-col gap2">
+        {/* 时间线 */}
         <div className="xy-between">
           <div>时间线</div>
           <InputNumber
@@ -74,6 +84,7 @@ export default function App() {
             }}
           />
         </div>
+        {/* 布局 */}
         <div className="xy-between">
           <div>布局</div>
           <Radio.Group
@@ -82,11 +93,15 @@ export default function App() {
               { label: "瀑布流", value: "waterfall" },
             ]}
             optionType="button"
+            value={allSettings[KeyTimelineLayout]}
+            onChange={(e) => {
+              changeKeyTimelineLayout(e.target.value)
+            }}
           />
         </div>
       </div>
       <div className="box">
-        <pre>{JSON.stringify(allSettings, null, 2)}</pre>
+        <pre className="m0">{JSON.stringify(allSettings, null, 2)}</pre>
       </div>
     </div>
   )
