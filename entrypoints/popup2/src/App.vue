@@ -35,7 +35,7 @@
   function changeKeyTimelineWidth(e: Event) {
     const w = +(e.target as HTMLInputElement).value
     setStorage({
-      [KeyTimelineWidth]: Math.max(600, Math.min(w, 1200)),
+      [KeyTimelineWidth]: Math.max(500, Math.min(w, 1000)),
     }).then(() => {
       updateAllSettings()
     })
@@ -71,13 +71,12 @@
       <div>时间线</div>
       <div>
         <input
+          class="w-50px outline-none box p1 mx-1 text-align-end"
           type="number"
           :value="allSettings?.[KeyTimelineWidth]"
-          min="400"
-          max="1000"
           @change="changeKeyTimelineWidth"
         />
-        <span>px</span>
+        <span class="text-xs op50">px</span>
       </div>
     </div>
     <div class="box">
