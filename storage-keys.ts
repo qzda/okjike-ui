@@ -11,8 +11,8 @@ export const AllSettingsKeys = [
 ]
 
 export const defaultPreferences: Record<string, string | number> = {
-  [KeyExtensionStatus]: "off",
-  [KeyTimelineWidth]: 700,
+  [KeyExtensionStatus]: "on",
+  [KeyTimelineWidth]: 1400,
   [KeyTimelineLayout]: "default",
-  [KeySidebarHidden]: "off",
+  [KeySidebarHidden]: "on",
 }

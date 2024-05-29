@@ -6,6 +6,6 @@ export default function addStyles(id: string, css: string) {
   const head = document.querySelector("head")
   const style = document.createElement("style")
   style.id = "okjike-ui-" + id
-  style.textContent = css.trim().split("\n").join("")
+  style.textContent = css.trim()
   head?.appendChild(style)
 }
