@@ -49,7 +49,12 @@ export function changeTimelineCardStyle() {
       overflow: hidden;
     }
     ${selectors.mainColumnItems.posts} > div article {
-      padding: 8px !important;
+      padding: 12px !important;
+    }
+    ${selectors.mainColumnItems.posts} > div article > div:last-child > div:nth-child(2),
+    ${selectors.mainColumnItems.posts} > div article > div:last-child > div:nth-child(3) {
+      width: calc(100% + 56px);
+      margin-left: -56px;
     }
     `
   )
