@@ -1,11 +1,11 @@
 import selectors from "../selectors"
 import addStyles from "./style"
 
-export function hiddenSidebar() {
+export function hiddenNewPost() {
   addStyles(
-    "hiddenSidebar",
+    "hiddenNewPost",
     `
-    ${selectors.sideBar} {
+    ${selectors.mainColumnItems.newPost} {
       display: none;
     }
     `

@@ -20,9 +20,9 @@ const selectors = {
   mainColumn: `${mainWrapper} > div:nth-child(2) > div`,
   mainColumnItems: {
     /** 发帖 */
-    createPostWrapper: `${mainColumn} > div:first-child`,
+    newPost: `${mainColumn} > div:first-child`,
     /** 新帖提示 */
-    newPost: `${mainColumn} > div[class*="NewMessageNoti"]`,
+    newMessage: `${mainColumn} > div[class*="NewMessageNoti"]`,
     /** 帖子列表 */
     posts: `${mainColumn} > div:last-child > div`,
   },

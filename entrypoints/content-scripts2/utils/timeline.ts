@@ -40,15 +40,17 @@ export function changeTimelineLayout(layout: string) {
   }
 }
 
-addStyles(
-  "timelineCardStyle",
-  `
-  ${selectors.mainColumnItems.posts} > div > div {
-    border-radius: 4px;
-    overflow: hidden;
-  }
-  ${selectors.mainColumnItems.posts} > div article {
-    padding: 8px !important;
-  }
-  `
-)
+export function changeTimelineCardStyle() {
+  addStyles(
+    "timelineCardStyle",
+    `
+    ${selectors.mainColumnItems.posts} > div > div {
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    ${selectors.mainColumnItems.posts} > div article {
+      padding: 8px !important;
+    }
+    `
+  )
+}
