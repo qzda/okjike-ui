@@ -24,31 +24,31 @@ export function changeTimelineLayout(layout: string) {
       `
       ${selectors.mainColumnItems.posts} {
         display: flex;
-        flex-flow: column wrap;
-        align-content: space-between;
-        height: 100vh;
-      }
-
-      ${selectors.mainColumnItems.posts}::before,
-      ${selectors.mainColumnItems.posts}::after {
-        content: "";
-        flex-basis: 100%;
-        width: 0;
-        order: 2;
+        flex-flow: row wrap;
+        gap: 8px;
+        margin-top: 8px;
       }
 
       ${selectors.mainColumnItems.posts} > div {
-        width: 33%;
-        min-width: 300px;
+        flex: 1;
+        min-width: 400px;
       }
-
-      /* 将内容块重排为3列 */
-      ${selectors.mainColumnItems.posts} > div:nth-child(3n+1) { order: 1; }
-      ${selectors.mainColumnItems.posts} > div:nth-child(3n+2) { order: 2; }
-      ${selectors.mainColumnItems.posts} > div:nth-child(3n)   { order: 3; }
       `
     )
   } else {
     addStyles("timelineLayout", "")
   }
 }
+
+addStyles(
+  "timelineCardStyle",
+  `
+  ${selectors.mainColumnItems.posts} > div > div {
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  ${selectors.mainColumnItems.posts} > div article {
+    padding: 8px !important;
+  }
+  `
+)
