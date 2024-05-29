@@ -8,21 +8,18 @@ import {
   KeyExtensionStatus,
   KeyTimelineLayout,
   KeyTimelineWidth,
-  KeySidebarHidden,
 } from "../../../storage-keys"
 
 export default function App() {
   const [devMode, setDevMode] = useState<boolean>(false)
 
   const [enable, setEnable] = useState<boolean>()
-  const [sidebarHidden, setSidebarHidden] = useState<boolean>()
 
   const [allSettings, setAllSettings] = useState<
     Record<string, string | number>
   >({})
   useEffect(() => {
     setEnable(allSettings[KeyExtensionStatus] === "on")
-    setSidebarHidden(allSettings[KeySidebarHidden] === "on")
   }, [allSettings])
 
   function updateAllSettings() {
@@ -55,20 +52,12 @@ export default function App() {
     })
   }
 
-  function changeKeySidebarHidden() {
-    setStorage({
-      [KeySidebarHidden]: sidebarHidden ? "off" : "on",
-    }).then(() => {
-      updateAllSettings()
-    })
-  }
-
   useEffect(() => {
     updateAllSettings()
   }, [])
 
   return (
-    <div className="p2 w-300px flex flex-col gap-2">
+    <div className="p2 w-300px flex flex-col gap-2 select-none text-base">
       <div className="box xy-between">
         <div>
           <span className="font-bold text-xl">okjike-ui</span>
@@ -94,7 +83,6 @@ export default function App() {
             className="w-100px"
             min={500}
             max={1400}
-            step={1}
             controls={false}
             addonAfter={"px"}
             value={allSettings[KeyTimelineWidth]}
@@ -118,14 +106,6 @@ export default function App() {
             onChange={(e) => {
               changeKeyTimelineLayout(e.target.value)
             }}
-          />
-        </div>
-        {/* 隐藏侧边栏 */}
-        <div className="xy-between">
-          <div>隐藏侧边栏</div>
-          <Switch
-            value={sidebarHidden}
-            onChange={changeKeySidebarHidden}
           />
         </div>
       </div>

@@ -12,7 +12,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       theme={{
         token: {
           colorPrimary: "#fbe54f",
-          fontSize: 12,
         },
       }}
     >
