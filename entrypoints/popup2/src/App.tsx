@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { InputNumber, Radio, Switch } from "antd"
 
 import { version } from "../../../package.json"
@@ -8,15 +8,21 @@ import {
   KeyExtensionStatus,
   KeyTimelineLayout,
   KeyTimelineWidth,
+  KeySidebarHidden,
 } from "../../../storage-keys"
 
 export default function App() {
+  const [devMode, setDevMode] = useState<boolean>(false)
+
   const [enable, setEnable] = useState<boolean>()
+  const [sidebarHidden, setSidebarHidden] = useState<boolean>()
+
   const [allSettings, setAllSettings] = useState<
     Record<string, string | number>
   >({})
   useEffect(() => {
     setEnable(allSettings[KeyExtensionStatus] === "on")
+    setSidebarHidden(allSettings[KeySidebarHidden] === "on")
   }, [allSettings])
 
   function updateAllSettings() {
@@ -49,6 +55,14 @@ export default function App() {
     })
   }
 
+  function changeKeySidebarHidden() {
+    setStorage({
+      [KeySidebarHidden]: sidebarHidden ? "off" : "on",
+    }).then(() => {
+      updateAllSettings()
+    })
+  }
+
   useEffect(() => {
     updateAllSettings()
   }, [])
@@ -58,7 +72,14 @@ export default function App() {
       <div className="box xy-between">
         <div>
           <span className="font-bold text-xl">okjike-ui</span>
-          <span className="mx-1 text-xs op50">v{version}</span>
+          <span
+            className="mx-1 text-xs op50 cursor-pointer"
+            onDoubleClick={() => {
+              setDevMode(!devMode)
+            }}
+          >
+            v{version}
+          </span>
         </div>
         <Switch
           value={enable}
@@ -99,8 +120,19 @@ export default function App() {
             }}
           />
         </div>
+        {/* 隐藏侧边栏 */}
+        <div className="xy-between">
+          <div>隐藏侧边栏</div>
+          <Switch
+            value={sidebarHidden}
+            onChange={changeKeySidebarHidden}
+          />
+        </div>
       </div>
-      <div className="box">
+      <div
+        className="box"
+        hidden={!devMode}
+      >
         <pre className="m0">{JSON.stringify(allSettings, null, 2)}</pre>
       </div>
     </div>
