@@ -1,4 +1,4 @@
-import { removeElementById } from "./removeElement.ts"
+import { removeElementById } from "./element.ts"
 
 export default function addStyles(id: string, css: string) {
   removeElementById("okjike-ui-" + id)

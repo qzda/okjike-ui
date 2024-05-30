@@ -7,7 +7,7 @@ export function changeTimelineWidth(width: number) {
     `
     ${selectors.mainColumn} {
       width: ${width}px !important;
-      max-width: ${width}px !important;
+      max-width: 100% !important;
       min-width: ${width}px !important;
     }
     `
@@ -17,27 +17,79 @@ export function changeTimelineWidth(width: number) {
 /**
  * @param layout "default" or "waterfall"
  */
-export function changeTimelineLayout(layout: string) {
+export function changeTimelineLayout(layout: string, timelineWidth: number) {
+  const gap = 8
+
   if (layout === "waterfall") {
+    const cardMinWidth = 400
+
     addStyles(
       "timelineLayout",
       `
       ${selectors.mainColumnItems.posts} {
         display: flex;
         flex-flow: row wrap;
-        gap: 8px;
-        margin-top: 8px;
+        gap: ${gap}px;
+        margin-top: ${gap}px;
       }
 
       ${selectors.mainColumnItems.posts} > div {
         flex: 1;
-        min-width: 400px;
+        min-width: ${cardMinWidth}px;
       }
       `
     )
+
+    initWaterFall(timelineWidth, cardMinWidth)
   } else {
-    addStyles("timelineLayout", "")
+    addStyles(
+      "timelineLayout",
+      `
+      ${selectors.mainColumnItems.posts} {
+        display: flex;
+        flex-direction: column;
+        gap: ${gap}px;
+        margin-top: ${gap}px;
+      }
+      `
+    )
   }
+}
+
+function initWaterFall(timelineWidth: number, cardMinWidth: number) {
+  const posts = [
+    ...document.querySelectorAll<HTMLDivElement>(
+      `${selectors.mainColumnItems.posts}  > div`
+    ),
+  ]
+
+  const cols = (timelineWidth / cardMinWidth) >> 0
+  const postsGroupByCol = new Array(cols)
+    .fill(0)
+    .map<HTMLDivElement[]>(() => [])
+  let [postsGroupByColIndex, postsIndex] = [0, 0]
+  while (postsGroupByColIndex < cols && postsIndex < posts.length) {
+    postsGroupByCol[postsGroupByColIndex].push(posts[postsIndex])
+
+    postsIndex++
+    postsGroupByColIndex++
+    if (postsGroupByColIndex === cols) {
+      postsGroupByColIndex = 0
+    }
+  }
+
+  postsGroupByCol.forEach((posts) => {
+    for (let i = 1; i < posts.length; i++) {
+      const element = posts[i]
+      const previousElement = posts[i - 1]
+
+      const heightDiff =
+        ((previousElement.firstChild as HTMLDivElement)?.getBoundingClientRect()
+          .height || 0) - previousElement.getBoundingClientRect().height
+
+      element.style.marginTop = `${heightDiff}px`
+    }
+  })
 }
 
 export function changeTimelineCardStyle() {
@@ -58,4 +110,14 @@ export function changeTimelineCardStyle() {
     }
     `
   )
+}
+
+export function addEventScrollend(layout: string, timelineWidth: number) {
+  document.addEventListener("scrollend", (e) => {
+    changeTimelineLayout(layout, timelineWidth)
+
+    setTimeout(() => {
+      changeTimelineLayout(layout, timelineWidth)
+    }, 2000)
+  })
 }
