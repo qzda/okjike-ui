@@ -20,7 +20,7 @@ const selectors = {
   mainColumn: `${mainWrapper} > div:nth-child(2) > div`,
   mainColumnItems: {
     /** 发帖 */
-    newPost: `${mainColumn} > div:first-child`,
+    newPost: `${mainColumn} > div:has(textarea[placeholder="分享你的想法..."])`,
     /** 新帖提示 */
     newMessage: `${mainColumn} > div[class*="NewMessageNoti"]`,
     /** 帖子列表 */
