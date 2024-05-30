@@ -54,23 +54,21 @@ async function bundle(manifest: Record<string, any>, bundleDirectory: string) {
 
     console.log("🔥  Built popup and content scripts.")
 
-    // Bundle popup2 Vite export
-    await runBuildScript("entrypoints/popup2")
-    await copy("entrypoints/popup2/dist", `${bundleDirectory}`)
+    // Bundle popup Vite export
+    await runBuildScript("entrypoints/popup")
+    await copy("entrypoints/popup/dist", `${bundleDirectory}`)
     console.log(
-      `🚗  Moved popup2 export\t\t=> ${logCyan(
-        `${bundleDirectory}/index.html`
-      )}`
+      `🚗  Moved popup export\t\t=> ${logCyan(`${bundleDirectory}/index.html`)}`
     )
 
-    // Bundle content-scripts2
-    await runBuildScript("entrypoints/content-scripts2")
+    // Bundle content-scripts
+    await runBuildScript("entrypoints/content-scripts")
     await copy(
-      "entrypoints/content-scripts2/dist",
+      "entrypoints/content-scripts/dist",
       `${bundleDirectory}/content-scripts`
     )
     console.log(
-      `🚗  Moved content-scripts2\t=> ${logCyan(
+      `🚗  Moved content-scripts\t=> ${logCyan(
         `${bundleDirectory}/content-scripts`
       )}`
     )
