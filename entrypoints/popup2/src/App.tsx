@@ -113,7 +113,7 @@ export default function App() {
         className="box"
         hidden={!devMode}
       >
-        <pre className="m0">{JSON.stringify(allSettings, null, 2)}</pre>
+        <pre className="m0 text-xs">{JSON.stringify(allSettings, null, 2)}</pre>
       </div>
     </div>
   )
