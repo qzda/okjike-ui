@@ -16,8 +16,36 @@ export function changeTimelineWidth(width: number) {
   )
 }
 
+export function changeTimelineCardStyle() {
+  addStyles(
+    "timelineCardStyle",
+    `
+    ${selectors.mainColumnItems.posts} > div > div {
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    ${selectors.mainColumnItems.posts} > div article {
+      padding: 12px !important;
+    }
+    ${selectors.mainColumnItems.posts} > div article > div:last-child > div:nth-child(2),
+    ${selectors.mainColumnItems.posts} > div article > div:last-child > div:nth-child(3) {
+      width: calc(100% + 56px);
+      margin-left: -56px;
+    }
+    `
+  )
+}
+
 const posts = new Set<HTMLDivElement>()
+const cardMinWidth = 400
+const gap = 8
+let pathname = ""
+
 function updatePosts() {
+  if (pathname !== location.pathname) {
+    pathname = location.pathname
+    posts.clear()
+  }
   const _posts = [
     ...(document.querySelector<HTMLDivElement>(
       `${selectors.mainColumnItems.posts}`
@@ -26,13 +54,13 @@ function updatePosts() {
   _posts.forEach((_post) => {
     posts.add(_post as HTMLDivElement)
   })
-  console.log("posts", posts.values())
+  console.log("posts.size", posts.size)
 }
 
 function initWaterfall() {
   updatePosts()
-  getStorage([KeyTimelineWidth]).then((val) => {
-    const timelineWidth = +val[KeyTimelineWidth]
+  getStorage(KeyTimelineWidth).then((val) => {
+    const timelineWidth = +val
 
     const cols = (timelineWidth / cardMinWidth) >> 0
     const postsGroupByCol = new Array(cols)
@@ -71,17 +99,13 @@ function cancelWaterfall() {
   posts.forEach((post) => {
     post.style.marginTop = ""
   })
+  posts.clear()
 }
-
-const cardMinWidth = 400
-const gap = 8
 
 /**
  * @param layout "default" or "waterfall"
  */
 export function changeTimelineLayout(layout: string) {
-  updatePosts()
-
   if (layout === "waterfall") {
     addStyles(
       "timelineLayout",
@@ -100,7 +124,7 @@ export function changeTimelineLayout(layout: string) {
       `
     )
     initWaterfall()
-    document.addEventListener("scrollend", initWaterfall)
+    document.addEventListener("scroll", initWaterfall)
   } else {
     addStyles(
       "timelineLayout",
@@ -114,26 +138,6 @@ export function changeTimelineLayout(layout: string) {
       `
     )
     cancelWaterfall()
-    document.removeEventListener("scrollend", initWaterfall)
+    document.removeEventListener("scroll", initWaterfall)
   }
-}
-
-export function changeTimelineCardStyle() {
-  addStyles(
-    "timelineCardStyle",
-    `
-    ${selectors.mainColumnItems.posts} > div > div {
-      border-radius: 4px;
-      overflow: hidden;
-    }
-    ${selectors.mainColumnItems.posts} > div article {
-      padding: 12px !important;
-    }
-    ${selectors.mainColumnItems.posts} > div article > div:last-child > div:nth-child(2),
-    ${selectors.mainColumnItems.posts} > div article > div:last-child > div:nth-child(3) {
-      width: calc(100% + 56px);
-      margin-left: -56px;
-    }
-    `
-  )
 }
