@@ -44,6 +44,15 @@ export function changeTimelineCardStyle() {
     ${selectors.mainColumnItems.posts} > div article {
       padding: 12px !important;
     }
+    ${selectors.mainColumnItems.posts} > div article > div:last-child > div:nth-child(3) > div:last-child {
+      justify-content: space-between;
+    }
+    ${selectors.mainColumnItems.posts} > div article > div:last-child > div:nth-child(3) > div:last-child > div {
+      min-width: auto;
+    }
+    ${selectors.mainColumnItems.posts} > div article > div:last-child > div:nth-child(3) > div:last-child > div.flex-1 {
+      display: none;
+    }
     `
   )
 }
