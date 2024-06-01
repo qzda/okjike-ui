@@ -8,18 +8,22 @@ import {
   KeyExtensionStatus,
   KeyTimelineLayout,
   KeyTimelineWidth,
+  KeyTimelinePostAlign,
 } from "../../../storage-keys"
 
 export default function App() {
   const [devMode, setDevMode] = useState<boolean>(false)
 
   const [enable, setEnable] = useState<boolean>()
+  const [enableTimelinePostAlign, setEnableTimelinePostAlign] =
+    useState<boolean>()
 
   const [allSettings, setAllSettings] = useState<
     Record<string, string | number>
   >({})
   useEffect(() => {
     setEnable(allSettings[KeyExtensionStatus] === "on")
+    setEnableTimelinePostAlign(allSettings[KeyTimelinePostAlign] === "on")
   }, [allSettings])
 
   function updateAllSettings() {
@@ -52,6 +56,14 @@ export default function App() {
     })
   }
 
+  function changeKeyTimelinePostAlig(b: boolean) {
+    setStorage({
+      [KeyTimelinePostAlign]: b ? "on" : "off",
+    }).then(() => {
+      updateAllSettings()
+    })
+  }
+
   useEffect(() => {
     updateAllSettings()
   }, [])
@@ -76,9 +88,8 @@ export default function App() {
         />
       </div>
       <div className="box flex flex-col gap2">
-        {/* 时间线 */}
         <div className="xy-between">
-          <div>时间线</div>
+          <div>时间线宽度</div>
           <InputNumber
             className="w-100px"
             min={500}
@@ -93,6 +104,15 @@ export default function App() {
             }}
           />
         </div>
+        <div className="xy-between">
+          <div>内容与头像对齐</div>
+          <Switch
+            value={enableTimelinePostAlign}
+            onChange={changeKeyTimelinePostAlig}
+          />
+        </div>
+      </div>
+      <div className="box flex flex-col gap2">
         {/* 布局 */}
         <div className="xy-between">
           <div>布局</div>

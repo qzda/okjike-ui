@@ -16,6 +16,23 @@ export function changeTimelineWidth(width: number) {
   )
 }
 
+export function changeKeyTimelinePostAlign(align: string) {
+  if (align === "on") {
+    addStyles(
+      "timelinePostAlign",
+      `
+      ${selectors.mainColumnItems.posts} > div article > div:last-child > div:nth-child(2),
+      ${selectors.mainColumnItems.posts} > div article > div:last-child > div:nth-child(3) {
+        width: calc(100% + 56px);
+        margin-left: -56px;
+      }
+      `
+    )
+  } else {
+    addStyles("timelinePostAlign", ``)
+  }
+}
+
 export function changeTimelineCardStyle() {
   addStyles(
     "timelineCardStyle",
@@ -26,11 +43,6 @@ export function changeTimelineCardStyle() {
     }
     ${selectors.mainColumnItems.posts} > div article {
       padding: 12px !important;
-    }
-    ${selectors.mainColumnItems.posts} > div article > div:last-child > div:nth-child(2),
-    ${selectors.mainColumnItems.posts} > div article > div:last-child > div:nth-child(3) {
-      width: calc(100% + 56px);
-      margin-left: -56px;
     }
     `
   )
