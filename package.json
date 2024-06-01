@@ -9,7 +9,6 @@
   "scripts": {
     "build": "bun run ./index.ts",
     "dev:popup": "cd ./entrypoints/popup && bun dev",
-    "dev:popup2": "cd ./entrypoints/popup2 && bun dev",
     "preview:chrome": "cd ./dist/chrome && bun x http-server"
   },
   "dependencies": {
