@@ -1,7 +1,23 @@
-# WXT + Vue 3
+# okjike-ui 🚧
 
-This template should help get you started developing with Vue 3 in WXT.
+完善即刻网页版的体验。
 
-## Recommended IDE Setup
+## 安装
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+todo
+
+## 开发
+
+本项目使用[Bun](https://bun.sh/)构建。
+
+```bash
+bun i
+bun run build
+# Which browser would you like to build for? [All / Chrome / Firefox] all
+#
+# dist
+# └── chrome
+# └── firefox
+```
+
+打开浏览器扩展管理，导入对应目录。
