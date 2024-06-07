@@ -20,7 +20,7 @@ export function getStorage(storageKeyOrKeys: string | string[]) {
 
 function getSingleStorageKey(key: string) {
   return new Promise<string | number>((resolve, _reject) => {
-    chrome?.storage?.local.get([key], (data) => {
+    chrome?.storage?.local?.get([key], (data) => {
       resolve(data[key] ?? defaultPreferences[key])
     })
   })
@@ -28,7 +28,7 @@ function getSingleStorageKey(key: string) {
 
 function getMultipleStorageKeys(keysArray: string[]) {
   return new Promise<Record<string, string | number>>((resolve, _reject) => {
-    chrome?.storage?.local.get(keysArray, (data) => {
+    chrome?.storage?.local?.get(keysArray, (data) => {
       const res = keysArray.reduce((acc, cur) => {
         acc[cur] = data[cur] ?? defaultPreferences[cur] // For each key, fallback to the default preference
         return acc

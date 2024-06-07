@@ -2,13 +2,15 @@ const mainWrapper = `#__next > div > div`
 const navBar = `${mainWrapper} > div`
 const mainColumn = `${mainWrapper} > div:nth-child(2) > div`
 const sideBar = `${mainWrapper} > div:nth-child(2) > aside`
+const posts = `${mainColumn} > div:last-child > div`
 
 const selectors = {
   mainWrapper: mainWrapper,
 
   navBar: `${mainWrapper} > div`,
   navBarItems: {
-    links: {
+    links: `${navBar} > div > div`,
+    linksItem: {
       logo: `${navBar} > div > div > a:nth-child(1)`,
       home: `${navBar} > div > div > a:nth-child(2)`,
       recommend: `${navBar} > div > div > a:nth-child(3)`,
@@ -24,7 +26,9 @@ const selectors = {
     /** 新帖提示 */
     newMessage: `${mainColumn} > div[class*="NewMessageNoti"]`,
     /** 帖子列表 */
-    posts: `${mainColumn} > div:last-child > div`,
+    posts: posts,
+    /** 帖子的操作栏，点赞、评论、分享等 */
+    postAction: `${posts} > div article > div:nth-child(2) > div:last-child > div:last-child`,
   },
   sideBar: sideBar,
   sideBarItems: {

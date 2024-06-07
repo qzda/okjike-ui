@@ -84,12 +84,6 @@ async function bundle(manifest: Record<string, any>, bundleDirectory: string) {
     await copy("css", `${bundleDirectory}/css`)
     console.log(`🚗  Moved css\t\t\t=> ${logCyan(`${bundleDirectory}/css`)}`)
 
-    // Bundle fonts
-    await copy("fonts", `${bundleDirectory}/fonts`)
-    console.log(
-      `🚗  Moved fonts\t\t\t=> ${logCyan(`${bundleDirectory}/fonts`)}`
-    )
-
     // Bundle images
     await copy("images", `${bundleDirectory}/images`)
     console.log(

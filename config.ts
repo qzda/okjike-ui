@@ -1,4 +1,4 @@
-import { version } from "./package.json"
+import { name, description, version } from "./package.json"
 
 export const CONFIG = {
   matches: ["https://web.okjike.com/*"],
@@ -13,12 +13,12 @@ export const CONFIG = {
 } as const
 
 export const MANIFEST = {
-  name: "okjike-ui",
-  short_name: "okjike-ui",
-  description: "完善即刻网页版的体验。",
+  name,
+  short_name: name,
+  description,
   version: version,
   icons: CONFIG.default_icon,
-  permissions: ["storage"],
+  permissions: ["storage", "tabs"],
   options_ui: {
     page: "index.html",
     open_in_tab: true,
@@ -41,7 +41,7 @@ export const MANIFEST_CHROME = {
   ],
   web_accessible_resources: [
     {
-      resources: ["css/main.css", "fonts/inter-subset.woff2"],
+      resources: ["css/main.css"],
       matches: CONFIG.matches,
     },
   ],
@@ -56,9 +56,7 @@ export const MANIFEST_FIREFOX = {
   ...MANIFEST,
   manifest_version: 2,
   browser_specific_settings: {
-    gecko: {
-      id: "{e7476172-097c-4b77-b56e-f56a894adca9}",
-    },
+    gecko: { id: "" },
   },
   background: {
     scripts: ["background/index.js"],
@@ -71,7 +69,7 @@ export const MANIFEST_FIREFOX = {
       js: ["content-scripts/index.js"],
     },
   ],
-  web_accessible_resources: ["css/main.css", "fonts/inter-subset.woff2"],
+  web_accessible_resources: ["css/main.css"],
   browser_action: {
     default_icon: CONFIG.default_icon,
     default_title: "okjike popup",

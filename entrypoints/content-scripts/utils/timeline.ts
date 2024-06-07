@@ -3,17 +3,21 @@ import selectors from "../selectors"
 import { getStorage } from "../../../utils/chromeStorage"
 import { KeyTimelineWidth } from "../../../storage-keys"
 
-export function changeTimelineWidth(width: number) {
-  addStyles(
-    "timelineWidth",
-    `
-    ${selectors.mainColumn} {
-      width: ${width}px !important;
-      max-width: 100% !important;
-      min-width: ${width}px !important;
-    }
-    `
-  )
+export function changeTimelineWidth(width: number, pathname: string) {
+  if (pathname === "/" || pathname === "/recommend") {
+    addStyles(
+      "timelineWidth",
+      `
+      ${selectors.mainColumn} {
+        width: ${width}px !important;
+        max-width: 100% !important;
+        min-width: ${width}px !important;
+      }
+      `
+    )
+  } else {
+    addStyles("timelineWidth", "")
+  }
 }
 
 export function changeKeyTimelinePostAlign(align: string) {
@@ -33,42 +37,46 @@ export function changeKeyTimelinePostAlign(align: string) {
   }
 }
 
-export function changeTimelineCardStyle() {
-  addStyles(
-    "timelineCardStyle",
-    `
-    ${selectors.mainColumnItems.posts} > div > div {
-      border-radius: 4px;
-      overflow: hidden;
-    }
-    ${selectors.mainColumnItems.posts} > div article {
-      padding: 12px !important;
-    }
-    ${selectors.mainColumnItems.posts} > div article > div:last-child > div:nth-child(3) > div:last-child {
-      justify-content: space-between;
-    }
-    ${selectors.mainColumnItems.posts} > div article > div:last-child > div:nth-child(3) > div:last-child > div {
-      min-width: auto;
-    }
-    ${selectors.mainColumnItems.posts} > div article > div:last-child > div:nth-child(3) > div:last-child > div.flex-1 {
-      display: none;
-    }
-    `
-  )
+export function changeTimelineCardStyle(pathname: string) {
+  if (pathname === "/" || pathname === "/recommend") {
+    addStyles(
+      "timelineCardStyle",
+      `
+      ${selectors.mainColumnItems.posts} > div > div {
+        border-radius: 4px;
+        overflow: hidden;
+      }
+      ${selectors.mainColumnItems.posts} > div article {
+        padding: 12px !important;
+      }
+      ${selectors.mainColumnItems.posts} > div article > div:last-child > div:nth-child(3) > div:last-child {
+        justify-content: space-between;
+      }
+      ${selectors.mainColumnItems.posts} > div article > div:last-child > div:nth-child(3) > div:last-child > div {
+        min-width: auto;
+      }
+      ${selectors.mainColumnItems.posts} > div article > div:last-child > div:nth-child(3) > div:last-child > div.flex-1 {
+        display: none;
+      }
+      `
+    )
+  } else {
+    addStyles("timelineCardStyle", "")
+  }
 }
+
+const posts = new Set<HTMLDivElement>()
+const cardMinWidth = 400
+const gap = 8
+let _pathname = ""
 
 /**
  * @param layout "default" or "waterfall"
  */
-export function changeTimelineLayout(layout: string) {
-  const posts = new Set<HTMLDivElement>()
-  const cardMinWidth = 400
-  const gap = 8
-  let pathname = ""
-
+export function changeTimelineLayout(layout: string, pathname: string) {
   function updatePosts() {
-    if (pathname !== location.pathname) {
-      pathname = location.pathname
+    if (_pathname !== location.pathname) {
+      _pathname = location.pathname
       posts.clear()
     }
     const _posts = [
@@ -127,38 +135,46 @@ export function changeTimelineLayout(layout: string) {
     posts.clear()
   }
 
-  if (layout === "waterfall") {
-    addStyles(
-      "timelineLayout",
-      `
-      ${selectors.mainColumnItems.posts} {
-        display: flex;
-        flex-flow: row wrap;
-        gap: ${gap}px;
-        margin-top: ${gap}px;
-      }
+  if (pathname === "/" || pathname === "/recommend") {
+    if (layout === "waterfall") {
+      addStyles(
+        "timelineLayout",
+        `
+        ${selectors.mainColumnItems.posts} {
+          display: flex;
+          flex-flow: row wrap;
+          gap: ${gap}px;
+          margin-top: ${gap}px;
+        }
 
-      ${selectors.mainColumnItems.posts} > div {
-        flex: 1;
-        min-width: ${cardMinWidth}px;
-      }
-      `
-    )
-    initWaterfall()
-    document.addEventListener("scroll", initWaterfall)
+        ${selectors.mainColumnItems.posts} > div {
+          flex: 1;
+          min-width: ${cardMinWidth}px;
+        }
+        `
+      )
+      initWaterfall()
+      // 200ms后再计算一次，确保无误
+      setTimeout(() => {
+        initWaterfall()
+      }, 200)
+      document.addEventListener("scroll", initWaterfall)
+    } else {
+      addStyles(
+        "timelineLayout",
+        `
+        ${selectors.mainColumnItems.posts} {
+          display: flex;
+          flex-direction: column;
+          gap: ${gap}px;
+          margin-top: ${gap}px;
+        }
+        `
+      )
+      cancelWaterfall()
+      document.removeEventListener("scroll", initWaterfall)
+    }
   } else {
-    addStyles(
-      "timelineLayout",
-      `
-      ${selectors.mainColumnItems.posts} {
-        display: flex;
-        flex-direction: column;
-        gap: ${gap}px;
-        margin-top: ${gap}px;
-      }
-      `
-    )
-    cancelWaterfall()
-    document.removeEventListener("scroll", initWaterfall)
+    addStyles("timelineLayout", "")
   }
 }
