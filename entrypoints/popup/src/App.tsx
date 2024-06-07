@@ -56,7 +56,7 @@ export default function App() {
     })
   }
 
-  function changeKeyTimelinePostAlig(b: boolean) {
+  function changeKeyTimelinePostAlign(b: boolean) {
     setStorage({
       [KeyTimelinePostAlign]: b ? "on" : "off",
     }).then(() => {
@@ -108,7 +108,7 @@ export default function App() {
           <div>内容与头像对齐</div>
           <Switch
             value={enableTimelinePostAlign}
-            onChange={changeKeyTimelinePostAlig}
+            onChange={changeKeyTimelinePostAlign}
           />
         </div>
       </div>

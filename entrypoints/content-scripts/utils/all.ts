@@ -1,4 +1,5 @@
 import {
+  KeyPathname,
   KeyTimelineLayout,
   KeyTimelinePostAlign,
   KeyTimelineWidth,
@@ -13,12 +14,16 @@ import {
 } from "./timeline"
 
 export function injectAllChanges(data: Record<string, string | number>) {
-  changeTimelineCardStyle()
-  changeTimelineWidth(+data[KeyTimelineWidth])
-  changeTimelineLayout(data[KeyTimelineLayout].toString())
-  changeKeyTimelinePostAlign(data[KeyTimelinePostAlign].toString())
-
-  hiddenNewPost()
+  const pathname = data[KeyPathname].toString()
+  const timelineLayout = data[KeyTimelineLayout].toString()
+  const timelineWidth = +data[KeyTimelineWidth]
+  const timelinePostAlign = data[KeyTimelinePostAlign].toString()
 
   hiddenSidebar()
+  hiddenNewPost(pathname)
+
+  changeTimelineCardStyle(pathname)
+  changeTimelineWidth(timelineWidth, pathname)
+  changeTimelineLayout(timelineLayout, pathname)
+  changeKeyTimelinePostAlign(timelinePostAlign)
 }

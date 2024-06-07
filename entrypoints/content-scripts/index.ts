@@ -1,6 +1,12 @@
-import { AllSettingsKeys, KeyExtensionStatus } from "../../storage-keys"
+import {
+  AllSettingsKeys,
+  KeyExtensionStatus,
+  KeyPathname,
+  KeyTimelineLayout,
+} from "../../storage-keys"
 import { getStorage } from "../../utils/chromeStorage"
 import { injectAllChanges } from "./utils/all"
+import { changeTimelineLayout } from "./utils/timeline"
 
 chrome.storage.onChanged.addListener(async (changes) => {
   if (
@@ -16,11 +22,8 @@ chrome.storage.onChanged.addListener(async (changes) => {
   if (status === "off") return
 
   const allSettings = await getStorage(AllSettingsKeys)
-  console.log("allSettings", JSON.stringify(allSettings))
-  Object.keys(changes).forEach((key) => {
-    allSettings[key] = changes[key].newValue
-  })
-  console.log("allSettings", JSON.stringify(allSettings))
+  console.log("storage changes", JSON.stringify(changes))
+  console.log("storage allSettings", JSON.stringify(allSettings))
   injectAllChanges(allSettings)
 })
 
@@ -30,6 +33,23 @@ async function init() {
 
   const allSettings = await getStorage(AllSettingsKeys)
   injectAllChanges(allSettings)
+
+  document.body.addEventListener("click", async (e) => {
+    const target = e.target as HTMLElement
+    const targetUrl = new URL(target.baseURI)
+
+    console.log(targetUrl.pathname, target)
+
+    if (targetUrl.pathname === "/" || targetUrl.pathname === "/recommend") {
+      const allSettings = await getStorage(AllSettingsKeys)
+      const pathname = allSettings[KeyPathname].toString()
+      const timelineLayout = allSettings[KeyTimelineLayout].toString()
+
+      setTimeout(() => {
+        changeTimelineLayout(timelineLayout, pathname)
+      }, 200)
+    }
+  })
 }
 
 init()
