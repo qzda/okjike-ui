@@ -6,7 +6,7 @@ import {
 } from "../../storage-keys"
 import { getStorage } from "../../utils/chromeStorage"
 import { injectAllChanges } from "./utils/all"
-import { changeTimelineLayout } from "./utils/timeline"
+import { changeTimelineLayout, isTimelineUrl } from "./utils/timeline"
 
 chrome.storage.onChanged.addListener(async (changes) => {
   if (
@@ -40,7 +40,7 @@ async function init() {
 
     console.log(targetUrl.pathname, target)
 
-    if (targetUrl.pathname === "/" || targetUrl.pathname === "/recommend") {
+    if (isTimelineUrl(targetUrl.pathname)) {
       const allSettings = await getStorage(AllSettingsKeys)
       const pathname = allSettings[KeyPathname].toString()
       const timelineLayout = allSettings[KeyTimelineLayout].toString()

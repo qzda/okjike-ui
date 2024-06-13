@@ -4,7 +4,7 @@ import { getStorage } from "../../../utils/chromeStorage"
 import { KeyTimelineWidth } from "../../../storage-keys"
 
 export function changeTimelineWidth(width: number, pathname: string) {
-  if (pathname === "/" || pathname === "/recommend") {
+  if (isTimelineUrl(pathname)) {
     addStyles(
       "timelineWidth",
       `
@@ -38,7 +38,7 @@ export function changeKeyTimelinePostAlign(align: string) {
 }
 
 export function changeTimelineCardStyle(pathname: string) {
-  if (pathname === "/" || pathname === "/recommend") {
+  if (isTimelineUrl(pathname)) {
     addStyles(
       "timelineCardStyle",
       `
@@ -135,7 +135,7 @@ export function changeTimelineLayout(layout: string, pathname: string) {
     posts.clear()
   }
 
-  if (pathname === "/" || pathname === "/recommend") {
+  if (isTimelineUrl(pathname)) {
     if (layout === "waterfall") {
       addStyles(
         "timelineLayout",
@@ -177,4 +177,8 @@ export function changeTimelineLayout(layout: string, pathname: string) {
   } else {
     removeStyles("timelineLayout")
   }
+}
+
+export function isTimelineUrl(url: string) {
+  return url === "/" || url === "/recommend"
 }
