@@ -2,6 +2,7 @@ import { addStyles, removeStyles } from "./style"
 import selectors from "../selectors"
 import { getStorage } from "../../../utils/chromeStorage"
 import { KeyTimelineWidth } from "../../../storage-keys"
+import { log } from "../../../utils/log"
 
 export function changeTimelineWidth(width: number, pathname: string) {
   if (isTimelineUrl(pathname)) {
@@ -89,7 +90,7 @@ export function changeTimelineLayout(layout: string, pathname: string) {
     _posts.forEach((_post) => {
       posts.add(_post as HTMLDivElement)
     })
-    console.log("posts.size", posts.size)
+    log("posts.size", posts.size)
   }
 
   function initWaterfall() {
