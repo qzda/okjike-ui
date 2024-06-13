@@ -7,6 +7,7 @@ import {
 import { getStorage } from "../../utils/chromeStorage"
 import { injectAllChanges } from "./utils/all"
 import { changeTimelineLayout, isTimelineUrl } from "./utils/timeline"
+import { log } from "../../utils/log"
 
 chrome.storage.onChanged.addListener(async (changes) => {
   if (
@@ -22,8 +23,8 @@ chrome.storage.onChanged.addListener(async (changes) => {
   if (status === "off") return
 
   const allSettings = await getStorage(AllSettingsKeys)
-  console.log("storage changes", JSON.stringify(changes))
-  console.log("storage allSettings", JSON.stringify(allSettings))
+  log("storage changes", JSON.stringify(changes))
+  log("storage allSettings", JSON.stringify(allSettings))
   injectAllChanges(allSettings)
 })
 
@@ -38,7 +39,8 @@ async function init() {
     const target = e.target as HTMLElement
     const targetUrl = new URL(target.baseURI)
 
-    console.log(targetUrl.pathname, target)
+    log("targetUrl.pathname", targetUrl.pathname)
+    log("target", target)
 
     if (isTimelineUrl(targetUrl.pathname)) {
       const allSettings = await getStorage(AllSettingsKeys)
