@@ -4,10 +4,7 @@ import process from "node:process"
 import readline from "node:readline"
 import { copy } from "fs-extra"
 import { MANIFEST_CHROME, MANIFEST_FIREFOX } from "./config"
-
-function logCyan(str: string): string {
-  return `\x1b[36m${str}\x1b[0m`
-}
+import { logColorCyan } from "./utils/log"
 
 function runCommand(command: string, yes?: boolean) {
   return new Promise((resolve, reject) => {
@@ -50,7 +47,7 @@ function runBuildScript(directory: string) {
 async function bundle(manifest: Record<string, any>, bundleDirectory: string) {
   try {
     await rm(bundleDirectory, { recursive: true, force: true })
-    console.log(`🧹  Cleaned up ${logCyan(bundleDirectory)} directory.`)
+    console.log(`🧹  Cleaned up ${logColorCyan(bundleDirectory)} directory.`)
 
     console.log("🔥  Built popup and content scripts.")
 
@@ -58,7 +55,9 @@ async function bundle(manifest: Record<string, any>, bundleDirectory: string) {
     await runBuildScript("entrypoints/popup")
     await copy("entrypoints/popup/dist", `${bundleDirectory}`)
     console.log(
-      `🚗  Moved popup export\t\t=> ${logCyan(`${bundleDirectory}/index.html`)}`
+      `🚗  Moved popup export\t\t=> ${logColorCyan(
+        `${bundleDirectory}/index.html`
+      )}`
     )
 
     // Bundle content-scripts
@@ -68,7 +67,7 @@ async function bundle(manifest: Record<string, any>, bundleDirectory: string) {
       `${bundleDirectory}/content-scripts`
     )
     console.log(
-      `🚗  Moved content-scripts\t=> ${logCyan(
+      `🚗  Moved content-scripts\t=> ${logColorCyan(
         `${bundleDirectory}/content-scripts`
       )}`
     )
@@ -77,17 +76,21 @@ async function bundle(manifest: Record<string, any>, bundleDirectory: string) {
     await runBuildScript("entrypoints/background")
     await copy("entrypoints/background/dist", `${bundleDirectory}/background`)
     console.log(
-      `🚗  Moved background\t\t=> ${logCyan(`${bundleDirectory}/background`)}`
+      `🚗  Moved background\t\t=> ${logColorCyan(
+        `${bundleDirectory}/background`
+      )}`
     )
 
     // Bundle css
     await copy("css", `${bundleDirectory}/css`)
-    console.log(`🚗  Moved css\t\t\t=> ${logCyan(`${bundleDirectory}/css`)}`)
+    console.log(
+      `🚗  Moved css\t\t\t=> ${logColorCyan(`${bundleDirectory}/css`)}`
+    )
 
     // Bundle images
     await copy("images", `${bundleDirectory}/images`)
     console.log(
-      `🚗  Moved images\t\t=> ${logCyan(`${bundleDirectory}/images`)}`
+      `🚗  Moved images\t\t=> ${logColorCyan(`${bundleDirectory}/images`)}`
     )
 
     // Create manifest
@@ -97,12 +100,12 @@ async function bundle(manifest: Record<string, any>, bundleDirectory: string) {
       "utf8"
     )
     console.log(
-      `🚗  Moved manifest.json\t\t=> ${logCyan(
+      `🚗  Moved manifest.json\t\t=> ${logColorCyan(
         `${bundleDirectory}/manifest.json`
       )}`
     )
 
-    console.log(`📦  Bundled\t\t\t=> ${logCyan(bundleDirectory)}`)
+    console.log(`📦  Bundled\t\t\t=> ${logColorCyan(bundleDirectory)}`)
 
     // todo: zip
 
