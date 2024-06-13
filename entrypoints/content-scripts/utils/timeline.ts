@@ -49,8 +49,10 @@ export function changeTimelineCardStyle(pathname: string) {
       ${selectors.mainColumnItems.posts} > div article {
         padding: 12px !important;
       }
+      /* 动态操作栏 */
       ${selectors.mainColumnItems.posts} > div article > div:last-child > div:nth-child(3) > div:last-child {
         justify-content: space-between;
+        user-select: none;
       }
       ${selectors.mainColumnItems.posts} > div article > div:last-child > div:nth-child(3) > div:last-child > div {
         min-width: auto;
