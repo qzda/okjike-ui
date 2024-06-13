@@ -1,4 +1,4 @@
-import addStyles from "./style"
+import { addStyles, removeStyles } from "./style"
 import selectors from "../selectors"
 import { getStorage } from "../../../utils/chromeStorage"
 import { KeyTimelineWidth } from "../../../storage-keys"
@@ -16,7 +16,7 @@ export function changeTimelineWidth(width: number, pathname: string) {
       `
     )
   } else {
-    addStyles("timelineWidth", "")
+    removeStyles("timelineWidth")
   }
 }
 
@@ -33,7 +33,7 @@ export function changeKeyTimelinePostAlign(align: string) {
       `
     )
   } else {
-    addStyles("timelinePostAlign", ``)
+    removeStyles("timelinePostAlign")
   }
 }
 
@@ -61,7 +61,7 @@ export function changeTimelineCardStyle(pathname: string) {
       `
     )
   } else {
-    addStyles("timelineCardStyle", "")
+    removeStyles("timelineCardStyle")
   }
 }
 
@@ -175,6 +175,6 @@ export function changeTimelineLayout(layout: string, pathname: string) {
       document.removeEventListener("scroll", initWaterfall)
     }
   } else {
-    addStyles("timelineLayout", "")
+    removeStyles("timelineLayout")
   }
 }
