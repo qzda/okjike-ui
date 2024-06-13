@@ -1,11 +1,24 @@
 import { removeElementById } from "./element.ts"
 
-export default function addStyles(id: string, css: string) {
-  removeElementById("okjike-ui-" + id)
-
+export function addStyles(id: string, css: string) {
+  const styleID = "okjike-ui-" + id
+  const oldStyle = document.getElementById(styleID)
   const head = document.querySelector("head")
-  const style = document.createElement("style")
-  style.id = "okjike-ui-" + id
-  style.textContent = css.trim()
-  head?.appendChild(style)
+
+  if (oldStyle) {
+    if (oldStyle.textContent !== css) {
+      oldStyle.textContent = css
+    }
+  } else {
+    const style = document.createElement("style")
+    style.id = styleID
+    style.textContent = css
+    head?.appendChild(style)
+  }
+}
+
+export function removeStyles(id: string) {
+  const styleID = "okjike-ui-" + id
+
+  removeElementById(styleID)
 }
