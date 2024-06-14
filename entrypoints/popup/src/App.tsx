@@ -9,7 +9,7 @@ import {
   KeyTimelineLayout,
   KeyTimelineWidth,
   KeyTimelinePostAlign,
-} from "../../../storage-keys"
+} from "../../../storageKeys"
 
 export default function App() {
   const [devMode, setDevMode] = useState<boolean>(false)

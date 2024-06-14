@@ -1,7 +1,7 @@
 import { addStyles, removeStyles } from "./style"
 import selectors from "../selectors"
 import { getStorage } from "../../../utils/chromeStorage"
-import { KeyTimelineWidth } from "../../../storage-keys"
+import { KeyTimelineWidth } from "../../../storageKeys"
 import { log } from "../../../utils/log"
 
 export function changeTimelineWidth(width: number, pathname: string) {

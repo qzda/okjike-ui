@@ -3,7 +3,7 @@ import {
   KeyTimelineLayout,
   KeyTimelinePostAlign,
   KeyTimelineWidth,
-} from "../../../storage-keys"
+} from "../../../storageKeys"
 import { hiddenNewPost } from "./newPost"
 import { hiddenSidebar } from "./sidebar"
 import {

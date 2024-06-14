@@ -1,4 +1,4 @@
-import { defaultPreferences } from "../storage-keys"
+import { defaultPreferences } from "../storageKeys"
 
 /**
  * Use storage.local to allow user to store customizations

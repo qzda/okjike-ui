@@ -1,6 +1,6 @@
 // Used by the manifest v3 extension
 
-import { KeyPathname } from "../../storage-keys"
+import { KeyPathname } from "../../storageKeys"
 import { setStorage } from "../../utils/chromeStorage"
 
 chrome.runtime.onInstalled.addListener((object) => {
