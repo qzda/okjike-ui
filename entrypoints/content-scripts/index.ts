@@ -3,7 +3,7 @@ import {
   KeyExtensionStatus,
   KeyPathname,
   KeyTimelineLayout,
-} from "../../storage-keys"
+} from "../../storageKeys"
 import { getStorage } from "../../utils/chromeStorage"
 import { injectAllChanges } from "./utils/all"
 import { changeTimelineLayout, isTimelineUrl } from "./utils/timeline"
