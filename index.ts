@@ -20,13 +20,13 @@ function runCommand(command: string, yes?: boolean) {
 
 function runBuildScript(directory: string) {
   return new Promise(async (resolve, reject) => {
-    const P = ["\\", "|", "/", "-"]
-    let spinner = "\\"
+    const P = "⌛⏳"
+    let spinner = P[0]
     const intervalId = setInterval(() => {
       process.stdout.clearLine(0)
       process.stdout.cursorTo(0)
       spinner = P[P.indexOf(spinner) + 1] || P[0]
-      process.stdout.write(`${spinner}   Building popup and content scripts...`)
+      process.stdout.write(`${spinner}  Building popup and content scripts...`)
     }, 250)
 
     try {
