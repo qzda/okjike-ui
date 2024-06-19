@@ -35,23 +35,26 @@ async function init() {
   const allSettings = await getStorage(AllSettingsKeys)
   injectAllChanges(allSettings)
 
-  document.body.addEventListener("click", async (e) => {
-    const target = e.target as HTMLElement
-    const targetUrl = new URL(target.baseURI)
+  document.body.addEventListener(
+    "click",
+    async (e) => {
+      const target = e.target as HTMLElement
+      const targetUrl = new URL(target.baseURI)
 
-    log("targetUrl.pathname", targetUrl.pathname)
-    log("target", target)
+      log("targetUrl.pathname", targetUrl.pathname)
+      log("target", target)
 
-    if (isTimelineUrl(targetUrl.pathname)) {
-      const allSettings = await getStorage(AllSettingsKeys)
-      const pathname = allSettings[KeyPathname].toString()
-      const timelineLayout = allSettings[KeyTimelineLayout].toString()
-
-      setTimeout(() => {
-        changeTimelineLayout(timelineLayout, pathname)
-      }, 200)
-    }
-  })
+      if (isTimelineUrl(targetUrl.pathname)) {
+        const allSettings = await getStorage(AllSettingsKeys)
+        const pathname = allSettings[KeyPathname].toString()
+        const timelineLayout = allSettings[KeyTimelineLayout].toString()
+        setTimeout(() => {
+          changeTimelineLayout(timelineLayout, pathname)
+        }, 200)
+      }
+    },
+    true
+  )
 }
 
 init()
