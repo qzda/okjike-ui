@@ -95,6 +95,10 @@ export function changeTimelineLayout(layout: string, pathname: string) {
   }
 
   function initWaterfall() {
+    if (!isTimelineUrl(location.pathname)) {
+      cancelWaterfall()
+      return
+    }
     updatePosts()
     getStorage(KeyTimelineWidth).then((val) => {
       // debugger
