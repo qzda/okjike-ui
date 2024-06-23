@@ -3,6 +3,7 @@ import selectors from "../selectors"
 import { getStorage } from "../../../utils/chromeStorage"
 import { KeyTimelineWidth } from "../../../storageKeys"
 import { log } from "../../../utils/log"
+import { createThrottler } from "../../../utils/function"
 
 export function changeTimelineWidth(width: number, pathname: string) {
   if (isTimelineUrl(pathname)) {
@@ -144,6 +145,10 @@ export function changeTimelineLayout(layout: string, pathname: string) {
 
   // debugger
   if (isTimelineUrl(pathname)) {
+    const throttler = createThrottler()
+    const throttledFunction = throttler.throttle(() => {
+      initWaterfall()
+    }, 1000) // 节流函数在每1000毫秒内最多执行一次
     if (layout === "waterfall") {
       addStyles(
         "timelineLayout",
@@ -166,7 +171,8 @@ export function changeTimelineLayout(layout: string, pathname: string) {
       setTimeout(() => {
         initWaterfall()
       }, 200)
-      document.addEventListener("scroll", initWaterfall)
+
+      document.addEventListener("scroll", throttledFunction)
     } else {
       addStyles(
         "timelineLayout",
@@ -180,7 +186,7 @@ export function changeTimelineLayout(layout: string, pathname: string) {
         `
       )
       cancelWaterfall()
-      document.removeEventListener("scroll", initWaterfall)
+      document.removeEventListener("scroll", throttledFunction)
     }
   } else {
     cancelWaterfall()
