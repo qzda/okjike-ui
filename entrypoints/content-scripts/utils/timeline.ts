@@ -96,7 +96,11 @@ export function changeTimelineLayout(layout: string, pathname: string) {
   function initWaterfall() {
     updatePosts()
     getStorage(KeyTimelineWidth).then((val) => {
-      const timelineWidth = Math.min(+val, +document.body.style.width * 0.85)
+      // debugger
+      const timelineWidth = Math.min(
+        +val,
+        document.body.getBoundingClientRect().width * 0.85
+      )
 
       const cols = (timelineWidth / cardMinWidth) >> 0
       const postsGroupByCol = new Array(cols)
@@ -138,6 +142,7 @@ export function changeTimelineLayout(layout: string, pathname: string) {
     posts.clear()
   }
 
+  // debugger
   if (isTimelineUrl(pathname)) {
     if (layout === "waterfall") {
       addStyles(
@@ -178,6 +183,7 @@ export function changeTimelineLayout(layout: string, pathname: string) {
       document.removeEventListener("scroll", initWaterfall)
     }
   } else {
+    cancelWaterfall()
     removeStyles("timelineLayout")
   }
 }
