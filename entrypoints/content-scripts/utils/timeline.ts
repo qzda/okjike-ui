@@ -73,6 +73,7 @@ const posts = new Set<HTMLDivElement>()
 const cardMinWidth = 400
 const gap = 8
 let _pathname = ""
+let scrollListeners: ((this: Document, ev: Event) => void)[] = []
 
 /**
  * @param layout "default" or "waterfall"
@@ -147,6 +148,13 @@ export function changeTimelineLayout(layout: string, pathname: string) {
     posts.clear()
   }
 
+  function resetScrollListener() {
+    scrollListeners.forEach((listener) => {
+      document.removeEventListener("scroll", listener)
+    })
+    scrollListeners = []
+  }
+
   // debugger
   if (isTimelineUrl(pathname)) {
     const throttler = createThrottler()
@@ -175,7 +183,8 @@ export function changeTimelineLayout(layout: string, pathname: string) {
       setTimeout(() => {
         initWaterfall()
       }, 200)
-
+      resetScrollListener()
+      scrollListeners.push(throttledFunction)
       document.addEventListener("scroll", throttledFunction)
     } else {
       addStyles(
@@ -190,11 +199,12 @@ export function changeTimelineLayout(layout: string, pathname: string) {
         `
       )
       cancelWaterfall()
-      document.removeEventListener("scroll", throttledFunction)
+      resetScrollListener()
     }
   } else {
     cancelWaterfall()
     removeStyles("timelineLayout")
+    cancelWaterfall()
   }
 }
 
