@@ -14,7 +14,7 @@ export const AllSettingsKeys = [
 
 export const defaultPreferences: Record<string, string | number> = {
   [KeyExtensionStatus]: "on",
-  [KeyTimelineWidth]: 1300,
+  [KeyTimelineWidth]: 1000,
   // default or waterfall
   [KeyTimelineLayout]: "waterfall",
   [KeyTimelinePostAlign]: "on",
