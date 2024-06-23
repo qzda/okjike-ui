@@ -93,7 +93,6 @@ export default function App() {
           <InputNumber
             className="w-100px"
             min={500}
-            max={1400}
             controls={false}
             addonAfter={"px"}
             value={allSettings[KeyTimelineWidth]}

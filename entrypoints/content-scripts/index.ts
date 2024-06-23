@@ -4,7 +4,7 @@ import {
   KeyPathname,
   KeyTimelineLayout,
 } from "../../storageKeys"
-import { getStorage } from "../../utils/chromeStorage"
+import { getStorage, setStorage } from "../../utils/chromeStorage"
 import { injectAllChanges } from "./utils/all"
 import { changeTimelineLayout, isTimelineUrl } from "./utils/timeline"
 import { log } from "../../utils/log"
@@ -32,6 +32,9 @@ async function init() {
   const status = await getStorage(KeyExtensionStatus)
   if (status === "off") return
 
+  await setStorage({
+    [KeyPathname]: location.pathname,
+  })
   const allSettings = await getStorage(AllSettingsKeys)
   injectAllChanges(allSettings)
 

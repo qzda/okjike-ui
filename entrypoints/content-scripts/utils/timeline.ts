@@ -10,9 +10,9 @@ export function changeTimelineWidth(width: number, pathname: string) {
       "timelineWidth",
       `
       ${selectors.mainColumn} {
+        padding: 0 8px;
         width: ${width}px !important;
-        max-width: 100% !important;
-        min-width: ${width}px !important;
+        max-width: 85% !important;
       }
       `
     )
@@ -90,20 +90,20 @@ export function changeTimelineLayout(layout: string, pathname: string) {
     _posts.forEach((_post) => {
       posts.add(_post as HTMLDivElement)
     })
-    log("posts.size", posts.size)
+    log("posts", [...posts])
   }
 
   function initWaterfall() {
     updatePosts()
     getStorage(KeyTimelineWidth).then((val) => {
-      const timelineWidth = +val
+      const timelineWidth = Math.min(+val, +document.body.style.width * 0.85)
 
       const cols = (timelineWidth / cardMinWidth) >> 0
       const postsGroupByCol = new Array(cols)
         .fill(0)
         .map<HTMLDivElement[]>(() => [])
       let [postsGroupByColIndex, postsIndex] = [0, 0]
-      const _posts = [...posts.values()]
+      const _posts = [...posts]
       while (postsGroupByColIndex < cols && postsIndex < _posts.length) {
         postsGroupByCol[postsGroupByColIndex].push(_posts[postsIndex])
 
