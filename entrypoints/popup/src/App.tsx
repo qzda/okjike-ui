@@ -11,6 +11,7 @@ import {
   KeyTimelinePostAlign,
   KeyHiddenSidebar,
 } from "../../../storageKeys"
+import { CarbonLogoGithub } from "./components/CarbonLogoGithub"
 
 export default function App() {
   const [devMode, setDevMode] = useState<boolean>(false)
@@ -83,16 +84,23 @@ export default function App() {
   return (
     <div className="p2 w-300px flex flex-col gap-2 select-none text-base">
       <div className="box xy-between">
-        <div>
+        <div className="xy-center">
           <span className="font-bold text-xl">okjike-ui</span>
           <span
-            className="mx-1 text-xs op50 cursor-pointer"
+            className="ml-2 text-xs op50 cursor-pointer"
             onDoubleClick={() => {
               setDevMode(!devMode)
             }}
           >
             v{version}
           </span>
+          <a
+            href="https://github.com/qzda/okjike-ui"
+            target="_blank"
+            className="ml-2 color-inherit flex"
+          >
+            <CarbonLogoGithub />
+          </a>
         </div>
         <Switch
           value={enable}

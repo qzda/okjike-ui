@@ -25,11 +25,5 @@ export default defineConfig({
         "vertical-align": "text-bottom",
       },
     }),
-    presetWebFonts({
-      provider: "google",
-      fonts: {
-        mono: ["JetBrains Mono"],
-      },
-    }),
   ],
 })
