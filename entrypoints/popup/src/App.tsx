@@ -9,12 +9,14 @@ import {
   KeyTimelineLayout,
   KeyTimelineWidth,
   KeyTimelinePostAlign,
+  KeyHiddenSidebar,
 } from "../../../storageKeys"
 
 export default function App() {
   const [devMode, setDevMode] = useState<boolean>(false)
 
   const [enable, setEnable] = useState<boolean>()
+  const [hiddenSidebar, setHiddenSidebar] = useState<boolean>()
   const [enableTimelinePostAlign, setEnableTimelinePostAlign] =
     useState<boolean>()
 
@@ -23,6 +25,7 @@ export default function App() {
   >({})
   useEffect(() => {
     setEnable(allSettings[KeyExtensionStatus] === "on")
+    setHiddenSidebar(allSettings[KeyHiddenSidebar] === "on")
     setEnableTimelinePostAlign(allSettings[KeyTimelinePostAlign] === "on")
   }, [allSettings])
 
@@ -51,6 +54,7 @@ export default function App() {
   function changeKeyTimelineLayout(layout: string) {
     setStorage({
       [KeyTimelineLayout]: layout,
+      [KeyHiddenSidebar]: layout === "waterfall" ? "on" : "off",
     }).then(() => {
       updateAllSettings()
     })
@@ -59,6 +63,14 @@ export default function App() {
   function changeKeyTimelinePostAlign(b: boolean) {
     setStorage({
       [KeyTimelinePostAlign]: b ? "on" : "off",
+    }).then(() => {
+      updateAllSettings()
+    })
+  }
+
+  function changeKeyHiddenSidebar(b: boolean) {
+    setStorage({
+      [KeyHiddenSidebar]: b ? "on" : "off",
     }).then(() => {
       updateAllSettings()
     })
@@ -125,6 +137,14 @@ export default function App() {
             onChange={(e) => {
               changeKeyTimelineLayout(e.target.value)
             }}
+          />
+        </div>
+        {/* 侧边栏 */}
+        <div className="xy-between">
+          <div>隐藏侧边栏</div>
+          <Switch
+            value={hiddenSidebar}
+            onChange={changeKeyHiddenSidebar}
           />
         </div>
       </div>

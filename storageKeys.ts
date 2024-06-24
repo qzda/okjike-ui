@@ -3,6 +3,7 @@ export const KeyTimelineWidth = "timelineWidth"
 export const KeyTimelineLayout = "timelineLayout"
 export const KeyTimelinePostAlign = "timelinePostAlign"
 export const KeyPathname = "pathname"
+export const KeyHiddenSidebar = "hiddenSidebar"
 
 export const AllSettingsKeys = [
   KeyExtensionStatus,
@@ -10,6 +11,7 @@ export const AllSettingsKeys = [
   KeyTimelineLayout,
   KeyTimelinePostAlign,
   KeyPathname,
+  KeyHiddenSidebar,
 ]
 
 export const defaultPreferences: Record<string, string | number> = {
@@ -19,4 +21,5 @@ export const defaultPreferences: Record<string, string | number> = {
   [KeyTimelineLayout]: "waterfall",
   [KeyTimelinePostAlign]: "on",
   [KeyPathname]: "/",
+  [KeyHiddenSidebar]: "on",
 }
