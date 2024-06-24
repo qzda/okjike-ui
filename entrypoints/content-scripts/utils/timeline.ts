@@ -167,7 +167,7 @@ export function changeTimelineLayout(layout: string, pathname: string) {
     const throttler = createThrottler()
     const throttledFunction = throttler.throttle(() => {
       initWaterfall()
-    }, 1000) // 节流函数在每1000毫秒内最多执行一次
+    }, 500) // 节流函数在每500毫秒内最多执行一次
     if (layout === "waterfall") {
       addStyles(
         "timelineLayout",
@@ -189,7 +189,7 @@ export function changeTimelineLayout(layout: string, pathname: string) {
       // 200ms后再计算一次，确保无误
       setTimeout(() => {
         initWaterfall()
-      }, 200)
+      }, 500)
       resetScrollListener()
       scrollListeners.push(throttledFunction)
       document.addEventListener("scroll", throttledFunction)
