@@ -1,6 +1,6 @@
 import { addStyles, removeStyles } from "./style"
 import selectors from "../selectors"
-import { getStorage } from "../../../utils/chromeStorage"
+import { getStorage, setStorage } from "../../../utils/chromeStorage"
 import { KeyTimelineWidth } from "../../../storageKeys"
 import { log } from "../../../utils/log"
 import { createThrottler } from "../../../utils/function"
@@ -13,7 +13,7 @@ export function changeTimelineWidth(width: number, pathname: string) {
       ${selectors.mainColumn} {
         padding: 0 8px;
         width: ${width}px !important;
-        max-width: 85% !important;
+        max-width: 100% !important;
       }
       `
     )
@@ -103,10 +103,14 @@ export function changeTimelineLayout(layout: string, pathname: string) {
     updatePosts()
     getStorage(KeyTimelineWidth).then((val) => {
       // debugger
-      const timelineWidth = Math.min(
-        +val,
-        document.body.getBoundingClientRect().width * 0.85
-      )
+      const bodyWidth = document.body.getBoundingClientRect().width
+      const timelineWidth = Math.min(+val, bodyWidth)
+
+      if (timelineWidth === bodyWidth && +val !== bodyWidth) {
+        setStorage({
+          [KeyTimelineWidth]: bodyWidth,
+        })
+      }
 
       const cols = (timelineWidth / cardMinWidth) >> 0
       const postsGroupByCol = new Array(cols)
