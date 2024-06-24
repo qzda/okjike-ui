@@ -11,7 +11,6 @@ export function changeTimelineWidth(width: number, pathname: string) {
       "timelineWidth",
       `
       ${selectors.mainColumn} {
-        padding: 0 8px;
         width: ${width}px !important;
         max-width: 100% !important;
       }
@@ -103,12 +102,16 @@ export function changeTimelineLayout(layout: string, pathname: string) {
     updatePosts()
     getStorage(KeyTimelineWidth).then((val) => {
       // debugger
-      const bodyWidth = document.body.getBoundingClientRect().width
-      const timelineWidth = Math.min(+val, bodyWidth)
+      const maxWidth =
+        (document
+          .querySelector(`${selectors.navBar} > div`)
+          ?.getBoundingClientRect().width ||
+          document.body.getBoundingClientRect().width * 0.85) >> 0
+      const timelineWidth = Math.min(+val, maxWidth)
 
-      if (timelineWidth === bodyWidth && +val !== bodyWidth) {
+      if (timelineWidth === maxWidth && +val !== maxWidth) {
         setStorage({
-          [KeyTimelineWidth]: bodyWidth,
+          [KeyTimelineWidth]: maxWidth,
         })
       }
 
