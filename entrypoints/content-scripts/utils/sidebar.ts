@@ -1,13 +1,17 @@
 import selectors from "../selectors"
-import { addStyles } from "./style"
+import { addStyles, removeStyles } from "./style"
 
-export function hiddenSidebar() {
-  addStyles(
-    "hiddenSidebar",
-    `
-    ${selectors.sideBar} {
-      display: none;
-    }
-    `
-  )
+export function changeKeySidebar(hidden: string) {
+  if (hidden === "on") {
+    addStyles(
+      "hiddenSidebar",
+      `
+      ${selectors.sideBar} {
+        display: none;
+      }
+      `
+    )
+  } else {
+    removeStyles("hiddenSidebar")
+  }
 }

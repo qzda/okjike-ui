@@ -1,11 +1,12 @@
 import {
+  KeyHiddenSidebar,
   KeyPathname,
   KeyTimelineLayout,
   KeyTimelinePostAlign,
   KeyTimelineWidth,
 } from "../../../storageKeys"
 import { hiddenNewPost } from "./newPost"
-import { hiddenSidebar } from "./sidebar"
+import { changeKeySidebar } from "./sidebar"
 import {
   changeTimelineLayout,
   changeTimelineWidth,
@@ -18,9 +19,10 @@ export function injectAllChanges(data: Record<string, string | number>) {
   const timelineLayout = data[KeyTimelineLayout].toString()
   const timelineWidth = +data[KeyTimelineWidth]
   const timelinePostAlign = data[KeyTimelinePostAlign].toString()
+  const hiddenSidebar = data[KeyHiddenSidebar].toString()
 
-  hiddenSidebar()
   hiddenNewPost(pathname)
+  changeKeySidebar(hiddenSidebar)
 
   changeTimelineCardStyle(pathname)
   changeTimelineWidth(timelineWidth, pathname)
