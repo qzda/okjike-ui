@@ -45,7 +45,7 @@ export function changeTimelineCardStyle(pathname: string) {
       "timelineCardStyle",
       `
       ${selectors.mainColumnItems.posts} > div > div {
-        border-radius: 4px;
+        border-radius: 10px;
         overflow: hidden;
       }
       ${selectors.mainColumnItems.posts} > div article {
