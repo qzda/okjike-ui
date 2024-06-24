@@ -208,7 +208,7 @@ export function changeTimelineLayout(layout: string, pathname: string) {
   } else {
     cancelWaterfall()
     removeStyles("timelineLayout")
-    cancelWaterfall()
+    resetScrollListener()
   }
 }
 
