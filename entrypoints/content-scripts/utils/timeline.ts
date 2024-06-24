@@ -186,7 +186,7 @@ export function changeTimelineLayout(layout: string, pathname: string) {
         `
       )
       initWaterfall()
-      // 200ms后再计算一次，确保无误
+      // 500ms后再计算一次，确保无误
       setTimeout(() => {
         initWaterfall()
       }, 500)
