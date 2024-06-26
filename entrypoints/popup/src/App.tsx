@@ -160,7 +160,9 @@ export default function App() {
         className="box"
         hidden={!devMode}
       >
-        <pre className="m0 text-xs">{JSON.stringify(allSettings, null, 2)}</pre>
+        <pre className="m0 text-xs select-text overflow-auto">
+          {JSON.stringify(allSettings, null, 2)}
+        </pre>
       </div>
     </div>
   )
