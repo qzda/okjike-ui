@@ -2,6 +2,9 @@
 
 完善即刻网页版的体验。
 
+![recommend](./images/recommend.png)
+![popup](./images/popup.png)
+
 ## 安装
 
 todo
