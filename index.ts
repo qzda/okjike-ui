@@ -3,8 +3,10 @@ import { rm, writeFile } from "node:fs/promises"
 import process from "node:process"
 import readline from "node:readline"
 import { copy } from "fs-extra"
+import admZip from "adm-zip"
 import { MANIFEST_CHROME, MANIFEST_FIREFOX } from "./config"
 import { logColorCyan } from "./utils/log"
+import { version } from "./package.json"
 
 function runCommand(command: string, yes?: boolean) {
   return new Promise((resolve, reject) => {
@@ -107,7 +109,16 @@ async function bundle(manifest: Record<string, any>, bundleDirectory: string) {
 
     console.log(`📦  Bundled\t\t\t=> ${logColorCyan(bundleDirectory)}`)
 
-    // todo: zip
+    const zip = new admZip()
+    zip.addLocalFolder(`${bundleDirectory}`)
+    zip.writeZip(`${bundleDirectory}.zip`, (err) => {
+      if (err) {
+        console.log(err)
+      }
+    })
+    console.log(
+      `📦  Compressed\t\t\t=> ${logColorCyan(`${bundleDirectory}.zip`)}`
+    )
 
     console.log()
   } catch (error) {
@@ -115,15 +126,18 @@ async function bundle(manifest: Record<string, any>, bundleDirectory: string) {
   }
 }
 
-async function bundleAll() {
-  await bundle(MANIFEST_CHROME, "dist/chrome")
-  await bundle(MANIFEST_FIREFOX, "dist/firefox")
-}
-
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 })
+
+async function buildChrome() {
+  await bundle(MANIFEST_CHROME, `dist/chrome-${version}`)
+}
+
+async function buildFirefox() {
+  await bundle(MANIFEST_FIREFOX, `dist/firefox-${version}`)
+}
 
 rl.question(
   "Which browser would you like to build for? [All / Chrome / Firefox] ",
@@ -132,20 +146,21 @@ rl.question(
       case "Chrome":
       case "chrome":
       case "c":
-        await bundle(MANIFEST_CHROME, "dist/chrome")
+        await buildChrome()
         break
 
       case "Firefox":
       case "firefox":
       case "f":
-        await bundle(MANIFEST_FIREFOX, "dist/firefox")
+        await buildFirefox()
         break
 
       case "All":
       case "all":
       case "a":
       default:
-        await bundleAll()
+        await buildChrome()
+        await buildFirefox()
     }
 
     rl.close()
