@@ -13,10 +13,12 @@
     "preview:chrome": "cd ./dist/chrome && bun x http-server"
   },
   "dependencies": {
+    "adm-zip": "^0.5.14",
     "fs-extra": "^11.2.0",
     "node-cmd": "^5.0.0"
   },
   "devDependencies": {
+    "@types/adm-zip": "^0.5.5",
     "@types/chrome": "^0.0.268",
     "@types/fs-extra": "^v11.0.4"
   }
