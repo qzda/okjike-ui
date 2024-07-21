@@ -55,7 +55,7 @@ export default function App() {
   function changeKeyTimelineLayout(layout: string) {
     setStorage({
       [KeyTimelineLayout]: layout,
-      [KeyHiddenSidebar]: layout === "waterfall" ? "on" : "off",
+      // [KeyHiddenSidebar]: layout === "waterfall" ? "on" : "off",
     }).then(() => {
       updateAllSettings()
     })
