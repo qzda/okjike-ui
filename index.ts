@@ -2,13 +2,17 @@ import { exec } from "node:child_process"
 import { rm, writeFile } from "node:fs/promises"
 import process from "node:process"
 import readline from "node:readline"
-import { copy } from "fs-extra"
+import { copy, mkdir } from "fs-extra"
 import admZip from "adm-zip"
 import prolog from "@qzda/prolog"
 import { MANIFEST_CHROME, MANIFEST_FIREFOX } from "./config"
 import { version } from "./package.json"
+import userScriptConfig from "./entrypoints/user-script/user-script.config"
 
-function runCommand(command: string, yes?: boolean) {
+function runCommand(
+  command: string,
+  yes?: boolean
+): Promise<{ stdout: string; stderr: string }> {
   return new Promise((resolve, reject) => {
     exec(yes ? `echo "y" | ${command}` : command, (err, stdout, stderr) => {
       if (err) {
@@ -139,8 +143,50 @@ async function buildFirefox() {
   await bundle(MANIFEST_FIREFOX, `dist/firefox-${version}`)
 }
 
+async function buildUserScript() {
+  const userScriptBuildPath = `dist/user-script-${version}`
+  await rm(userScriptBuildPath, { recursive: true, force: true })
+  console.log(`🧹  Cleaned up ${prolog.cyan(userScriptBuildPath)} directory.`)
+  console.log("🔥  Built user-script.")
+  const { stdout } = await runCommand(
+    "cd entrypoints/user-script && bun build --target=browser ./index.ts"
+  )
+  const userScriptLines: string[] = ["// ==UserScript=="]
+  Object.entries(userScriptConfig).map(([key, value]) => {
+    if (Array.isArray(value)) {
+      value.forEach((v) => {
+        userScriptLines.push(`// @${key} ${v}`)
+      })
+    } else {
+      userScriptLines.push(`// @${key} ${value}`)
+    }
+  })
+  userScriptLines.push("// ==/UserScript==")
+  userScriptLines.push(stdout)
+
+  await mkdir(userScriptBuildPath)
+  await writeFile(
+    `${userScriptBuildPath}/index.js`,
+    Buffer.from(userScriptLines.join("\n")),
+    "utf8"
+  )
+
+  const zip = new admZip()
+  zip.addLocalFolder(`${userScriptBuildPath}`)
+  zip.writeZip(`${userScriptBuildPath}.zip`, (err) => {
+    if (err) {
+      console.log(err)
+    }
+  })
+  console.log(
+    `📦  Compressed\t\t\t=> ${prolog.cyan(`${userScriptBuildPath}.zip`)}`
+  )
+
+  console.log()
+}
+
 rl.question(
-  "Which browser would you like to build for? [All / Chrome / Firefox] ",
+  "Which browser would you like to build for? [All / Chrome / Firefox / UserScript] ",
   async (browser) => {
     switch (browser) {
       case "Chrome":
@@ -155,12 +201,19 @@ rl.question(
         await buildFirefox()
         break
 
+      case "UserScript":
+      case "userscript":
+      case "u":
+        await buildUserScript()
+        break
+
       case "All":
       case "all":
       case "a":
       default:
         await buildChrome()
         await buildFirefox()
+        await buildUserScript()
     }
 
     rl.close()
