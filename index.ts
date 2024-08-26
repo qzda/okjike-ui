@@ -4,8 +4,8 @@ import process from "node:process"
 import readline from "node:readline"
 import { copy } from "fs-extra"
 import admZip from "adm-zip"
+import prolog from "@qzda/prolog"
 import { MANIFEST_CHROME, MANIFEST_FIREFOX } from "./config"
-import { logColorCyan } from "./utils/log"
 import { version } from "./package.json"
 
 function runCommand(command: string, yes?: boolean) {
@@ -49,7 +49,7 @@ function runBuildScript(directory: string) {
 async function bundle(manifest: Record<string, any>, bundleDirectory: string) {
   try {
     await rm(bundleDirectory, { recursive: true, force: true })
-    console.log(`🧹  Cleaned up ${logColorCyan(bundleDirectory)} directory.`)
+    console.log(`🧹  Cleaned up ${prolog.cyan(bundleDirectory)} directory.`)
 
     console.log("🔥  Built popup and content scripts.")
 
@@ -57,7 +57,7 @@ async function bundle(manifest: Record<string, any>, bundleDirectory: string) {
     await runBuildScript("entrypoints/popup")
     await copy("entrypoints/popup/dist", `${bundleDirectory}`)
     console.log(
-      `🚗  Moved popup export\t\t=> ${logColorCyan(
+      `🚗  Moved popup export\t\t=> ${prolog.cyan(
         `${bundleDirectory}/index.html`
       )}`
     )
@@ -69,7 +69,7 @@ async function bundle(manifest: Record<string, any>, bundleDirectory: string) {
       `${bundleDirectory}/content-scripts`
     )
     console.log(
-      `🚗  Moved content-scripts\t=> ${logColorCyan(
+      `🚗  Moved content-scripts\t=> ${prolog.cyan(
         `${bundleDirectory}/content-scripts`
       )}`
     )
@@ -78,7 +78,7 @@ async function bundle(manifest: Record<string, any>, bundleDirectory: string) {
     await runBuildScript("entrypoints/background")
     await copy("entrypoints/background/dist", `${bundleDirectory}/background`)
     console.log(
-      `🚗  Moved background\t\t=> ${logColorCyan(
+      `🚗  Moved background\t\t=> ${prolog.cyan(
         `${bundleDirectory}/background`
       )}`
     )
@@ -86,13 +86,13 @@ async function bundle(manifest: Record<string, any>, bundleDirectory: string) {
     // Bundle css
     await copy("css", `${bundleDirectory}/css`)
     console.log(
-      `🚗  Moved css\t\t\t=> ${logColorCyan(`${bundleDirectory}/css`)}`
+      `🚗  Moved css\t\t\t=> ${prolog.cyan(`${bundleDirectory}/css`)}`
     )
 
     // Bundle images
     await copy("images", `${bundleDirectory}/images`)
     console.log(
-      `🚗  Moved images\t\t=> ${logColorCyan(`${bundleDirectory}/images`)}`
+      `🚗  Moved images\t\t=> ${prolog.cyan(`${bundleDirectory}/images`)}`
     )
 
     // Create manifest
@@ -102,12 +102,12 @@ async function bundle(manifest: Record<string, any>, bundleDirectory: string) {
       "utf8"
     )
     console.log(
-      `🚗  Moved manifest.json\t\t=> ${logColorCyan(
+      `🚗  Moved manifest.json\t\t=> ${prolog.cyan(
         `${bundleDirectory}/manifest.json`
       )}`
     )
 
-    console.log(`📦  Bundled\t\t\t=> ${logColorCyan(bundleDirectory)}`)
+    console.log(`📦  Bundled\t\t\t=> ${prolog.cyan(bundleDirectory)}`)
 
     const zip = new admZip()
     zip.addLocalFolder(`${bundleDirectory}`)
@@ -117,7 +117,7 @@ async function bundle(manifest: Record<string, any>, bundleDirectory: string) {
       }
     })
     console.log(
-      `📦  Compressed\t\t\t=> ${logColorCyan(`${bundleDirectory}.zip`)}`
+      `📦  Compressed\t\t\t=> ${prolog.cyan(`${bundleDirectory}.zip`)}`
     )
 
     console.log()
