@@ -1,5 +1,5 @@
 "use strict";
-import { log } from "../../utils/log";
+import { devLog, log } from "../../utils/log";
 import selectors from "../../selectors";
 import { isTimelineUrl } from "../content-scripts/utils/timeline";
 
@@ -8,8 +8,17 @@ function mutationObserverPostsContainer() {
     selectors.mainColumnItems.posts
   );
   if (postsContainer) {
+    postsContainer.childNodes.forEach((child) => {
+      posts.add(child as Element);
+    });
+    devLog("posts init", posts);
     new MutationObserver((recordList) => {
-      log(recordList, [...postsContainer.childNodes]);
+      recordList.forEach((record) => {
+        record.addedNodes.forEach((node) => {
+          posts.add(node as Element);
+        });
+      });
+      devLog("posts update", posts);
     }).observe(postsContainer, {
       childList: true,
     });
@@ -20,11 +29,15 @@ function mutationObserverPostsContainer() {
   return false;
 }
 
+const posts = new Set<Element>();
+
 function main() {
   window.addEventListener("urlchange", (info: any) => {
-    const url = new URL(info.url as string);
-    log("urlchange", info);
+    devLog("urlchange", info);
+    posts.clear();
+    devLog("posts clear", posts);
 
+    const url = new URL(info.url as string);
     if (isTimelineUrl(url.pathname)) {
       let done = false;
       let interval = setInterval(() => {
@@ -40,5 +53,5 @@ function main() {
   mutationObserverPostsContainer();
 }
 
-log("hello user-script");
+log();
 main();
