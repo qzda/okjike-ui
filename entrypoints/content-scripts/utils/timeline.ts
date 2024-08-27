@@ -1,9 +1,9 @@
-import { addStyles, removeStyles } from "./style"
-import selectors from "../../../selectors"
-import { getStorage, setStorage } from "../../../utils/chromeStorage"
-import { KeyTimelineWidth } from "../../../storageKeys"
-import { log } from "../../../utils/log"
-import { createThrottler } from "../../../utils/function"
+import { addStyles, removeStyles } from "./style";
+import selectors from "../../../selectors";
+import { getStorage, setStorage } from "../../../utils/chromeStorage";
+import { KeyTimelineWidth } from "../../../storageKeys";
+import { devLog } from "../../../utils/log";
+import { createThrottler } from "../../../utils/function";
 
 export function changeTimelineWidth(width: number, pathname: string) {
   if (isTimelineUrl(pathname)) {
@@ -15,9 +15,9 @@ export function changeTimelineWidth(width: number, pathname: string) {
         max-width: 100% !important;
       }
       `
-    )
+    );
   } else {
-    removeStyles("timelineWidth")
+    removeStyles("timelineWidth");
   }
 }
 
@@ -32,9 +32,9 @@ export function changeKeyTimelinePostAlign(align: string) {
         margin-left: -56px;
       }
       `
-    )
+    );
   } else {
-    removeStyles("timelinePostAlign")
+    removeStyles("timelinePostAlign");
   }
 }
 
@@ -62,17 +62,17 @@ export function changeTimelineCardStyle(pathname: string) {
         display: none;
       }
       `
-    )
+    );
   } else {
-    removeStyles("timelineCardStyle")
+    removeStyles("timelineCardStyle");
   }
 }
 
-const posts = new Set<HTMLDivElement>()
-const cardMinWidth = 400
-const gap = 8
-let _pathname = ""
-let scrollListeners: ((this: Document, ev: Event) => void)[] = []
+const posts = new Set<HTMLDivElement>();
+const cardMinWidth = 400;
+const gap = 8;
+let _pathname = "";
+let scrollListeners: ((this: Document, ev: Event) => void)[] = [];
 
 /**
  * @param layout "default" or "waterfall"
@@ -80,94 +80,94 @@ let scrollListeners: ((this: Document, ev: Event) => void)[] = []
 export function changeTimelineLayout(layout: string, pathname: string) {
   function updatePosts() {
     if (_pathname !== location.pathname) {
-      _pathname = location.pathname
-      posts.clear()
+      _pathname = location.pathname;
+      posts.clear();
     }
     const _posts = [
       ...(document.querySelector<HTMLDivElement>(
         `${selectors.mainColumnItems.posts}`
       )?.childNodes || []),
-    ].slice(0, -1)
+    ].slice(0, -1);
     _posts.forEach((_post) => {
-      posts.add(_post as HTMLDivElement)
-    })
-    log("posts", [...posts])
+      posts.add(_post as HTMLDivElement);
+    });
+    devLog("posts", [...posts]);
   }
 
   function initWaterfall() {
     if (!isTimelineUrl(location.pathname)) {
-      cancelWaterfall()
-      return
+      cancelWaterfall();
+      return;
     }
-    updatePosts()
+    updatePosts();
     getStorage(KeyTimelineWidth).then((val) => {
       // debugger
       const maxWidth =
         (document
           .querySelector(`${selectors.navBar} > div`)
           ?.getBoundingClientRect().width ||
-          document.body.getBoundingClientRect().width * 0.85) >> 0
-      const timelineWidth = Math.min(+val, maxWidth)
+          document.body.getBoundingClientRect().width * 0.85) >> 0;
+      const timelineWidth = Math.min(+val, maxWidth);
 
       if (timelineWidth === maxWidth && +val !== maxWidth) {
         setStorage({
           [KeyTimelineWidth]: maxWidth,
-        })
+        });
       }
 
-      const cols = (timelineWidth / cardMinWidth) >> 0
+      const cols = (timelineWidth / cardMinWidth) >> 0;
       const postsGroupByCol = new Array(cols)
         .fill(0)
-        .map<HTMLDivElement[]>(() => [])
-      let [postsGroupByColIndex, postsIndex] = [0, 0]
-      const _posts = [...posts]
+        .map<HTMLDivElement[]>(() => []);
+      let [postsGroupByColIndex, postsIndex] = [0, 0];
+      const _posts = [...posts];
       while (postsGroupByColIndex < cols && postsIndex < _posts.length) {
-        postsGroupByCol[postsGroupByColIndex].push(_posts[postsIndex])
+        postsGroupByCol[postsGroupByColIndex].push(_posts[postsIndex]);
 
-        postsIndex++
-        postsGroupByColIndex++
+        postsIndex++;
+        postsGroupByColIndex++;
         if (postsGroupByColIndex === cols) {
-          postsGroupByColIndex = 0
+          postsGroupByColIndex = 0;
         }
       }
 
       postsGroupByCol.forEach((posts) => {
         for (let i = 1; i < posts.length; i++) {
-          const element = posts[i]
-          const previousElement = posts[i - 1]
+          const element = posts[i];
+          const previousElement = posts[i - 1];
 
           const heightDiff =
             ((
               previousElement.firstChild as HTMLDivElement
             )?.getBoundingClientRect().height || 0) -
-            previousElement.getBoundingClientRect().height
+            previousElement.getBoundingClientRect().height;
 
-          element.style.marginTop = `${heightDiff}px`
+          element.style.marginTop = `${heightDiff}px`;
         }
-      })
-    })
+      });
+    });
   }
 
   function cancelWaterfall() {
     posts.forEach((post) => {
-      post.style.marginTop = ""
-    })
-    posts.clear()
+      post.style.marginTop = "";
+    });
+    posts.clear();
   }
 
   function resetScrollListener() {
     scrollListeners.forEach((listener) => {
-      document.removeEventListener("scroll", listener)
-    })
-    scrollListeners = []
+      document.removeEventListener("scroll", listener);
+    });
+    scrollListeners = [];
   }
 
   // debugger
   if (isTimelineUrl(pathname)) {
-    const throttler = createThrottler()
+    const throttler = createThrottler();
     const throttledFunction = throttler.throttle(() => {
-      initWaterfall()
-    }, 500) // 节流函数在每500毫秒内最多执行一次
+      initWaterfall();
+    }, 500); // 节流函数在每500毫秒内最多执行一次
     if (layout === "waterfall") {
       addStyles(
         "timelineLayout",
@@ -184,15 +184,15 @@ export function changeTimelineLayout(layout: string, pathname: string) {
           min-width: ${cardMinWidth}px;
         }
         `
-      )
-      initWaterfall()
+      );
+      initWaterfall();
       // 500ms后再计算一次，确保无误
       setTimeout(() => {
-        initWaterfall()
-      }, 500)
-      resetScrollListener()
-      scrollListeners.push(throttledFunction)
-      document.addEventListener("scroll", throttledFunction)
+        initWaterfall();
+      }, 500);
+      resetScrollListener();
+      scrollListeners.push(throttledFunction);
+      document.addEventListener("scroll", throttledFunction);
     } else {
       addStyles(
         "timelineLayout",
@@ -204,17 +204,17 @@ export function changeTimelineLayout(layout: string, pathname: string) {
           margin-top: ${gap}px;
         }
         `
-      )
-      cancelWaterfall()
-      resetScrollListener()
+      );
+      cancelWaterfall();
+      resetScrollListener();
     }
   } else {
-    cancelWaterfall()
-    removeStyles("timelineLayout")
-    resetScrollListener()
+    cancelWaterfall();
+    removeStyles("timelineLayout");
+    resetScrollListener();
   }
 }
 
 export function isTimelineUrl(url: string) {
-  return url === "/" || url === "/recommend"
+  return url === "/" || url === "/recommend";
 }

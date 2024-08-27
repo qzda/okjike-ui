@@ -3,12 +3,12 @@ import {
   KeyExtensionStatus,
   KeyPathname,
   KeyTimelineLayout,
-} from "../../storageKeys"
-import { getStorage, setStorage } from "../../utils/chromeStorage"
-import { injectAllChanges } from "./utils/all"
-import { log } from "../../utils/log"
-import * as Constant from "./constant"
-import { changeTimelineLayout } from "./utils/timeline"
+} from "../../storageKeys";
+import { getStorage, setStorage } from "../../utils/chromeStorage";
+import { injectAllChanges } from "./utils/all";
+import { devLog } from "../../utils/log";
+import * as Constant from "./constant";
+import { changeTimelineLayout } from "./utils/timeline";
 
 chrome.storage.onChanged.addListener(async (changes) => {
   if (
@@ -16,34 +16,34 @@ chrome.storage.onChanged.addListener(async (changes) => {
     changes[KeyExtensionStatus]?.newValue !==
       changes[KeyExtensionStatus]?.oldValue
   ) {
-    window.location.reload()
-    return
+    window.location.reload();
+    return;
   }
 
-  const status = await getStorage(KeyExtensionStatus)
-  if (status === "off") return
+  const status = await getStorage(KeyExtensionStatus);
+  if (status === "off") return;
 
-  const allSettings = await getStorage(AllSettingsKeys)
-  log("storage changes", JSON.stringify(changes))
-  log("storage allSettings", JSON.stringify(allSettings))
-  injectAllChanges(allSettings)
-})
+  const allSettings = await getStorage(AllSettingsKeys);
+  devLog("storage changes", JSON.stringify(changes));
+  devLog("storage allSettings", JSON.stringify(allSettings));
+  injectAllChanges(allSettings);
+});
 
 async function init() {
-  const status = await getStorage(KeyExtensionStatus)
-  if (status === "off") return
+  const status = await getStorage(KeyExtensionStatus);
+  if (status === "off") return;
 
   await setStorage({
     [KeyPathname]: location.pathname,
-  })
-  const allSettings = await getStorage(AllSettingsKeys)
-  injectAllChanges(allSettings)
+  });
+  const allSettings = await getStorage(AllSettingsKeys);
+  injectAllChanges(allSettings);
 
   document.body.addEventListener(
     "click",
     async (e) => {
-      const target = e.target as HTMLElement
-      log("body onClike target", target)
+      const target = e.target as HTMLElement;
+      devLog("body onClike target", target);
 
       // 展开动态评论时
       if (
@@ -51,16 +51,16 @@ async function init() {
         target.parentElement?.firstElementChild?.firstElementChild
           ?.innerHTML === Constant.Comment
       ) {
-        const allSettings = await getStorage(AllSettingsKeys)
-        const pathname = allSettings[KeyPathname].toString()
-        const timelineLayout = allSettings[KeyTimelineLayout].toString()
+        const allSettings = await getStorage(AllSettingsKeys);
+        const pathname = allSettings[KeyPathname].toString();
+        const timelineLayout = allSettings[KeyTimelineLayout].toString();
         setTimeout(() => {
-          changeTimelineLayout(timelineLayout, pathname)
-        }, 200)
+          changeTimelineLayout(timelineLayout, pathname);
+        }, 200);
       }
     },
     true
-  )
+  );
 }
 
-init()
+init();
