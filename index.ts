@@ -130,11 +130,6 @@ async function bundle(manifest: Record<string, any>, bundleDirectory: string) {
   }
 }
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
 async function buildChrome() {
   await bundle(MANIFEST_CHROME, `dist/chrome-${version}`);
 }
@@ -188,6 +183,11 @@ async function buildUserScript() {
 
   console.log();
 }
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
 
 rl.question(
   "Which browser would you like to build for? [All / Chrome / Firefox / UserScript] ",
