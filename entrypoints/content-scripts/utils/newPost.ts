@@ -1,4 +1,4 @@
-import selectors from "../selectors"
+import selectors from "../../../selectors"
 import { addStyles, removeStyles } from "./style"
 
 export function hiddenNewPost(pathname: string) {
