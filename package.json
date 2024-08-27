@@ -8,7 +8,8 @@
     "entrypoints/*"
   ],
   "scripts": {
-    "build": "bun run ./index.ts",
+    "build": "NODE_ENV=dev bun run ./index.ts",
+    "build:pro": "bun run ./index.ts",
     "dev:popup": "cd ./entrypoints/popup && bun dev",
     "preview:chrome": "cd ./dist/chrome && bun x http-server"
   },
