@@ -1,11 +1,14 @@
 "use strict";
 import { devLog, log } from "../utils/log";
-import selectors from "../selectors";
+import Selectors from "../Selectors";
 import { isTimelineUrl } from "../utils/timeline";
+import { hiddenSidebar } from "../utils/sidebar";
+
+const posts = new Set<Element>();
 
 function initPost() {
   const postsContainer = document.querySelector(
-    selectors.mainColumnItems.posts
+    Selectors.mainColumnItems.posts
   );
   if (postsContainer) {
     postsContainer.childNodes.forEach((child) => {
@@ -17,7 +20,7 @@ function initPost() {
 
 function mutationObserverPostsContainer() {
   const postsContainer = document.querySelector(
-    selectors.mainColumnItems.posts
+    Selectors.mainColumnItems.posts
   );
   if (postsContainer) {
     initPost();
@@ -38,7 +41,25 @@ function mutationObserverPostsContainer() {
   return false;
 }
 
-const posts = new Set<Element>();
+function init() {
+  if (isTimelineUrl(location.pathname)) {
+    mutationObserverPostsContainer();
+
+    hiddenSidebar(true);
+  }
+
+  // @ts-ignore
+  GM_registerMenuCommand(
+    "Show Alert",
+    function (event: MouseEvent | KeyboardEvent) {
+      alert("Menu item selected");
+    },
+    {
+      accessKey: "a",
+      autoClose: true,
+    }
+  );
+}
 
 function main() {
   window.addEventListener("urlchange", (info: any) => {
@@ -59,7 +80,7 @@ function main() {
     }
   });
 
-  mutationObserverPostsContainer();
+  init();
 }
 
 log();

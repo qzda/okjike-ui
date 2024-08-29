@@ -1,28 +1,13 @@
-import selectors from "../selectors";
+import selectors from "../Selectors";
 import { addStyles } from "./style";
-import { isTimelineUrl } from "./timeline";
 
-export function changeKeyHiddenSidebar(hidden: string, pathname: string) {
-  if (isTimelineUrl(pathname) && hidden === "off") {
+export function hiddenSidebar(hidden: boolean) {
+  if (hidden) {
     addStyles(
       "hiddenSidebar",
       `
-      @keyframes showSideBar {
-        0% {
-          right: -100%;
-        }
-        100% {
-          right: 0%;
-        }
-      }
       ${selectors.sideBar} {
-        position: fixed;
-        right: -100%;
-        height: fit-content;
-        padding: 8px;
-        margin: 0;
-        gap: 8px;
-        animation: showSideBar 0.2s ease-in-out forwards;
+        display: none;
       }
       ${selectors.sideBar} > div {
         margin: 0;

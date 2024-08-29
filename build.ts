@@ -5,7 +5,7 @@ import { mkdir } from "fs-extra";
 import admZip from "adm-zip";
 import prolog from "@qzda/prolog";
 import { version } from "./package.json";
-import userScriptConfig from "./user-script/user-script.config";
+import { UserScriptConfig } from "./config";
 import { isDev } from "./utils/dev";
 
 function runCommand(
@@ -60,7 +60,7 @@ async function buildUserScript() {
       : "cd ./user-script && bun build --target=browser ./index.ts --minify"
   );
   const userScriptLines: string[] = ["// ==UserScript=="];
-  Object.entries(userScriptConfig).map(([key, value]) => {
+  Object.entries(UserScriptConfig).map(([key, value]) => {
     if (Array.isArray(value)) {
       value.forEach((v) => {
         userScriptLines.push(`// @${key} ${v}`);
