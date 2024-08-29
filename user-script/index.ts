@@ -79,6 +79,7 @@ const mainInterval = setInterval(() => {
   } else {
     if (document.querySelector(selectors.navBar)) {
       main();
+      clearInterval(mainInterval);
     }
   }
 }, 200);
