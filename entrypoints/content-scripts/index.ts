@@ -8,7 +8,7 @@ import { getStorage, setStorage } from "../../utils/chromeStorage";
 import { injectAllChanges } from "./utils/all";
 import { devLog } from "../../utils/log";
 import * as Constant from "./constant";
-import { changeTimelineLayout } from "./utils/timeline";
+import { changeTimelineLayout } from "../../utils/timeline";
 
 chrome.storage.onChanged.addListener(async (changes) => {
   if (

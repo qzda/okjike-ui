@@ -1,6 +1,6 @@
-import selectors from "../../../selectors"
-import { addStyles } from "./style"
-import { isTimelineUrl } from "./timeline"
+import selectors from "../selectors";
+import { addStyles } from "./style";
+import { isTimelineUrl } from "./timeline";
 
 export function changeKeyHiddenSidebar(hidden: string, pathname: string) {
   if (isTimelineUrl(pathname) && hidden === "off") {
@@ -35,7 +35,7 @@ export function changeKeyHiddenSidebar(hidden: string, pathname: string) {
         display: none;
       }
       `
-    )
+    );
   } else {
     addStyles(
       "hiddenSidebar",
@@ -44,6 +44,6 @@ export function changeKeyHiddenSidebar(hidden: string, pathname: string) {
         display: none;
       }
       `
-    )
+    );
   }
 }

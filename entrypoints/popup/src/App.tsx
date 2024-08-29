@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react"
-import { InputNumber, Radio, Switch } from "antd"
+import { useEffect, useState } from "react";
+import { InputNumber, Radio, Switch } from "antd";
 
-import { version } from "../../../package.json"
-import { getStorage, setStorage } from "../../../utils/chromeStorage"
+import { version } from "../../../package.json";
+import { getStorage, setStorage } from "../../../utils/chromeStorage";
 import {
   AllSettingsKeys,
   KeyExtensionStatus,
@@ -10,46 +10,46 @@ import {
   KeyTimelineWidth,
   KeyTimelinePostAlign,
   KeyHiddenSidebar,
-} from "../../../storageKeys"
-import { CarbonLogoGithub } from "./components/CarbonLogoGithub"
+} from "../../../storageKeys";
+import { CarbonLogoGithub } from "./components/CarbonLogoGithub";
 
 export default function App() {
-  const [devMode, setDevMode] = useState<boolean>(false)
+  const [devMode, setDevMode] = useState<boolean>(false);
 
-  const [enable, setEnable] = useState<boolean>()
-  const [hiddenSidebar, setHiddenSidebar] = useState<boolean>()
+  const [enable, setEnable] = useState<boolean>();
+  const [hiddenSidebar, setHiddenSidebar] = useState<boolean>();
   const [enableTimelinePostAlign, setEnableTimelinePostAlign] =
-    useState<boolean>()
+    useState<boolean>();
 
   const [allSettings, setAllSettings] = useState<
     Record<string, string | number>
-  >({})
+  >({});
   useEffect(() => {
-    setEnable(allSettings[KeyExtensionStatus] === "on")
-    setHiddenSidebar(allSettings[KeyHiddenSidebar] === "on")
-    setEnableTimelinePostAlign(allSettings[KeyTimelinePostAlign] === "on")
-  }, [allSettings])
+    setEnable(allSettings[KeyExtensionStatus] === "on");
+    setHiddenSidebar(allSettings[KeyHiddenSidebar] === "on");
+    setEnableTimelinePostAlign(allSettings[KeyTimelinePostAlign] === "on");
+  }, [allSettings]);
 
   function updateAllSettings() {
     getStorage(AllSettingsKeys).then((val) => {
-      setAllSettings(val)
-    })
+      setAllSettings(val);
+    });
   }
 
   function changeKeyExtensionStatus() {
     setStorage({
       [KeyExtensionStatus]: enable ? "off" : "on",
     }).then(() => {
-      updateAllSettings()
-    })
+      updateAllSettings();
+    });
   }
 
   function changeKeyTimelineWidth(w: number) {
     setStorage({
       [KeyTimelineWidth]: w,
     }).then(() => {
-      updateAllSettings()
-    })
+      updateAllSettings();
+    });
   }
 
   function changeKeyTimelineLayout(layout: string) {
@@ -57,29 +57,29 @@ export default function App() {
       [KeyTimelineLayout]: layout,
       // [KeyHiddenSidebar]: layout === "waterfall" ? "on" : "off",
     }).then(() => {
-      updateAllSettings()
-    })
+      updateAllSettings();
+    });
   }
 
   function changeKeyTimelinePostAlign(b: boolean) {
     setStorage({
       [KeyTimelinePostAlign]: b ? "on" : "off",
     }).then(() => {
-      updateAllSettings()
-    })
+      updateAllSettings();
+    });
   }
 
   function changeKeyHiddenSidebar(b: boolean) {
     setStorage({
       [KeyHiddenSidebar]: b ? "on" : "off",
     }).then(() => {
-      updateAllSettings()
-    })
+      updateAllSettings();
+    });
   }
 
   useEffect(() => {
-    updateAllSettings()
-  }, [])
+    updateAllSettings();
+  }, []);
 
   return (
     <div className="p2 w-300px flex flex-col gap-2 select-none text-base">
@@ -89,7 +89,7 @@ export default function App() {
           <span
             className="ml-2 text-xs op50 cursor-pointer"
             onDoubleClick={() => {
-              setDevMode(!devMode)
+              setDevMode(!devMode);
             }}
           >
             v{version}
@@ -118,7 +118,7 @@ export default function App() {
             value={allSettings[KeyTimelineWidth]}
             onChange={(v) => {
               if (v) {
-                changeKeyTimelineWidth(+v >> 0)
+                changeKeyTimelineWidth(+v >> 0);
               }
             }}
           />
@@ -143,7 +143,7 @@ export default function App() {
             optionType="button"
             value={allSettings[KeyTimelineLayout]}
             onChange={(e) => {
-              changeKeyTimelineLayout(e.target.value)
+              changeKeyTimelineLayout(e.target.value);
             }}
           />
         </div>
@@ -165,5 +165,5 @@ export default function App() {
         </pre>
       </div>
     </div>
-  )
+  );
 }

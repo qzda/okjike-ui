@@ -1,7 +1,7 @@
 export function removeElementById(id: string) {
-  document.getElementById(id)?.remove()
+  document.getElementById(id)?.remove();
 }
 
 export function removeElement(selector: string) {
-  document.querySelector(selector)?.remove()
+  document.querySelector(selector)?.remove();
 }

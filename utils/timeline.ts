@@ -1,9 +1,9 @@
 import { addStyles, removeStyles } from "./style";
-import selectors from "../../../selectors";
-import { getStorage, setStorage } from "../../../utils/chromeStorage";
-import { KeyTimelineWidth } from "../../../storageKeys";
-import { devLog } from "../../../utils/log";
-import { createThrottler } from "../../../utils/function";
+import selectors from "../selectors";
+import { getStorage, setStorage } from "./chromeStorage";
+import { KeyTimelineWidth } from "../storageKeys";
+import { devLog } from "./log";
+import { createThrottler } from "./functions";
 
 export function changeTimelineWidth(width: number, pathname: string) {
   if (isTimelineUrl(pathname)) {

@@ -1,5 +1,5 @@
-import selectors from "../../../selectors"
-import { addStyles, removeStyles } from "./style"
+import selectors from "../selectors";
+import { addStyles, removeStyles } from "./style";
 
 export function hiddenNewPost(pathname: string) {
   if (pathname === "/") {
@@ -10,8 +10,8 @@ export function hiddenNewPost(pathname: string) {
         display: none;
       }
       `
-    )
+    );
   } else {
-    removeStyles("hiddenNewPost")
+    removeStyles("hiddenNewPost");
   }
 }
