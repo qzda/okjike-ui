@@ -80,7 +80,7 @@ async function buildUserScript() {
     "utf8"
   );
   console.log(
-    `📦  Bundled\t\t\t=> ${prolog.cyan(`${userScriptBuildPath}/index.js`)}`
+    `📦  Bundled\t=> ${prolog.cyan(`${userScriptBuildPath}/index.js`)}`
   );
 
   const zip = new admZip();
@@ -91,7 +91,7 @@ async function buildUserScript() {
     }
   });
   console.log(
-    `📦  Compressed\t\t\t=> ${prolog.cyan(`${userScriptBuildPath}.zip`)}`
+    `📦  Compressed\t=> ${prolog.cyan(`${userScriptBuildPath}.zip`)}`
   );
 
   console.log();
