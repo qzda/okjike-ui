@@ -5,8 +5,8 @@
   "type": "module",
   "license": "MIT",
   "scripts": {
-    "build": "NODE_ENV=dev bun run ./index.ts",
-    "build:pro": "bun run ./index.ts",
+    "build": "NODE_ENV=dev bun run ./build.ts",
+    "build:pro": "bun run ./build.ts",
     "dev:popup": "cd ./entrypoints/popup && bun dev",
     "preview:chrome": "cd ./dist/chrome && bun x http-server"
   },

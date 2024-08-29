@@ -1,5 +1,6 @@
 import prolog from "@qzda/prolog";
 import { name, version } from "../package.json";
+import { isDev } from "./dev";
 
 export function log(...arg: any[]) {
   console.log(
@@ -9,7 +10,7 @@ export function log(...arg: any[]) {
 }
 
 export function devLog(...arg: any[]) {
-  if (process.env.NODE_ENV === "dev") {
+  if (isDev) {
     log(...arg);
   }
 }

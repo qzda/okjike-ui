@@ -1,9 +1,9 @@
 "use strict";
-import { devLog, log } from "../../utils/log";
-import selectors from "../../selectors";
-import { isTimelineUrl } from "../content-scripts/utils/timeline";
+import { devLog, log } from "../utils/log";
+import selectors from "../selectors";
+import { isTimelineUrl } from "../utils/timeline";
 
-function mutationObserverPostsContainer() {
+function initPost() {
   const postsContainer = document.querySelector(
     selectors.mainColumnItems.posts
   );
@@ -11,7 +11,16 @@ function mutationObserverPostsContainer() {
     postsContainer.childNodes.forEach((child) => {
       posts.add(child as Element);
     });
-    devLog("posts init", posts);
+  }
+  devLog("posts init", posts);
+}
+
+function mutationObserverPostsContainer() {
+  const postsContainer = document.querySelector(
+    selectors.mainColumnItems.posts
+  );
+  if (postsContainer) {
+    initPost();
     new MutationObserver((recordList) => {
       recordList.forEach((record) => {
         record.addedNodes.forEach((node) => {
