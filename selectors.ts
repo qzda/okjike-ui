@@ -1,8 +1,8 @@
-const mainWrapper = `#__next > div > div`
-const navBar = `${mainWrapper} > div`
-const mainColumn = `${mainWrapper} > div:nth-child(2) > div`
-const sideBar = `${mainWrapper} > div:nth-child(2) > aside`
-const posts = `${mainColumn} > div:last-child > div`
+const mainWrapper = `#__next > div > div`;
+const navBar = `${mainWrapper} > div`;
+const mainColumn = `${mainWrapper} > div:nth-child(2) > div`;
+const sideBar = `${mainWrapper} > div:nth-child(2) > aside`;
+const posts = `${mainColumn} > div:last-child > div`;
 
 const selectors = {
   mainWrapper: mainWrapper,
@@ -15,8 +15,8 @@ const selectors = {
       home: `${navBar} > div > div > a:nth-child(2)`,
       recommend: `${navBar} > div > div > a:nth-child(3)`,
     },
-    serchWrapper: `${navBar} > div > div:nth-child(2)`,
-    serchWrapperInput: `${navBar} > div > div:nth-child(2) > input`,
+    searchWrapper: `${navBar} > div > div:nth-child(2)`,
+    searchWrapperInput: `${navBar} > div > div:nth-child(2) > input`,
   },
 
   mainColumn: `${mainWrapper} > div:nth-child(2) > div`,
@@ -36,6 +36,6 @@ const selectors = {
     groupInfo: `${sideBar} > div:nth-child(2)`,
     footer: `${sideBar} > footer`,
   },
-} as const
+} as const;
 
-export default selectors
+export default selectors;
