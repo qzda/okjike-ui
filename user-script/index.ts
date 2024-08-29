@@ -3,6 +3,9 @@ import { devLog, log } from "../utils/log";
 import Selectors from "../Selectors";
 import { isTimelineUrl } from "../utils/timeline";
 import { hiddenSidebar } from "../utils/sidebar";
+import { initMenuCommand } from "./initMenuCommand";
+import selectors from "../Selectors";
+import { hiddenBody } from "../utils/element";
 
 const posts = new Set<Element>();
 
@@ -41,26 +44,6 @@ function mutationObserverPostsContainer() {
   return false;
 }
 
-function init() {
-  if (isTimelineUrl(location.pathname)) {
-    mutationObserverPostsContainer();
-
-    hiddenSidebar(true);
-  }
-
-  // @ts-ignore
-  GM_registerMenuCommand(
-    "Show Alert",
-    function (event: MouseEvent | KeyboardEvent) {
-      alert("Menu item selected");
-    },
-    {
-      accessKey: "a",
-      autoClose: true,
-    }
-  );
-}
-
 function main() {
   window.addEventListener("urlchange", (info: any) => {
     devLog("urlchange", info);
@@ -68,20 +51,34 @@ function main() {
     devLog("posts clear", posts);
 
     const url = new URL(info.url as string);
-    if (isTimelineUrl(url.pathname)) {
-      let done = false;
-      let interval = setInterval(() => {
-        if (done) {
+
+    const interval = setInterval(() => {
+      if (isTimelineUrl(url.pathname)) {
+        if (mutationObserverPostsContainer()) {
           clearInterval(interval);
-        } else {
-          done = mutationObserverPostsContainer();
         }
-      }, 200);
-    }
+      } else {
+        clearInterval(interval);
+      }
+    }, 200);
   });
 
-  init();
+  initMenuCommand();
+  hiddenSidebar(true);
+  hiddenBody(false);
 }
 
 log();
-main();
+hiddenBody(true);
+const mainInterval = setInterval(() => {
+  if (isTimelineUrl(location.pathname)) {
+    if (mutationObserverPostsContainer()) {
+      main();
+      clearInterval(mainInterval);
+    }
+  } else {
+    if (document.querySelector(selectors.navBar)) {
+      main();
+    }
+  }
+}, 200);

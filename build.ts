@@ -50,7 +50,7 @@ function runScript(func: () => any) {
 }
 
 async function buildUserScript() {
-  const userScriptBuildPath = `dist/user-script-${version}`;
+  const userScriptBuildPath = `dist`;
   await rm(userScriptBuildPath, { recursive: true, force: true });
   console.log(`🧹  Cleaned up ${prolog.cyan(userScriptBuildPath)} directory.`);
   console.log("🔥  Built user-script.");
@@ -73,15 +73,16 @@ async function buildUserScript() {
   userScriptLines.push("");
   userScriptLines.push(stdout);
 
-  await mkdir(userScriptBuildPath);
+  await mkdir(userScriptBuildPath, {
+    recursive: true,
+  });
+  const buildFilePath = `${userScriptBuildPath}/index-${version}.js`;
   await writeFile(
-    `${userScriptBuildPath}/index.js`,
+    buildFilePath,
     Buffer.from(userScriptLines.join("\n")),
     "utf8"
   );
-  console.log(
-    `📦  Bundled\t=> ${prolog.cyan(`${userScriptBuildPath}/index.js`)}`
-  );
+  console.log(`📦  Bundled\t=> ${prolog.cyan(buildFilePath)}`);
 
   const zip = new admZip();
   zip.addLocalFolder(`${userScriptBuildPath}`);

@@ -12,7 +12,7 @@ export const UserScriptConfig: Record<string, configValue | configValue[]> = {
   match: "https://web.okjike.com/*",
   namespace: "https://github.com/qzda/okjike-ui/",
   icon,
-  "run-at": "document-end",
+  "run-at": "document-start",
   grant: [
     "unsafeWindow",
     "window.onurlchange",
