@@ -2,9 +2,6 @@
 
 完善即刻网页版的体验。
 
-![recommend](./images/recommend.png)
-![popup](./images/popup.png)
-
 ## 安装
 
 todo
@@ -16,11 +13,10 @@ todo
 ```bash
 bun i
 bun run build
-# Which browser would you like to build for? [All / Chrome / Firefox] all
-#
-# dist
-# └── chrome
-# └── firefox
+# 🧹  Cleaned up dist/user-script-0.0.1 directory.
+# 🔥  Built user-script.
+# 📦  Bundled     => dist/user-script-0.0.1/index.js
+# 📦  Compressed  => dist/user-script-0.0.1.zip
 ```
 
-打开浏览器扩展管理，导入对应目录。
+将`dist/user-script-0.0.1/index.js`文件添加到 Tampermonkey 中。
