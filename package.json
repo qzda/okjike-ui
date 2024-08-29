@@ -4,9 +4,6 @@
   "description": "完善即刻网页版的体验。",
   "type": "module",
   "license": "MIT",
-  "workspaces": [
-    "entrypoints/*"
-  ],
   "scripts": {
     "build": "NODE_ENV=dev bun run ./index.ts",
     "build:pro": "bun run ./index.ts",
