@@ -6,6 +6,8 @@ import { hiddenSidebar } from "../utils/sidebar";
 import { initMenuCommand } from "./initMenuCommand";
 import selectors from "../Selectors";
 import { hiddenBody } from "../utils/element";
+import { hiddenNewPost } from "../utils/newPost";
+import { initMainColumn } from "./initMainColumn";
 
 const posts = new Set<Element>();
 
@@ -34,6 +36,7 @@ function mutationObserverPostsContainer() {
         });
       });
       devLog("posts update", posts);
+      // initMainColumn([...posts.values()]);
     }).observe(postsContainer, {
       childList: true,
     });
@@ -63,13 +66,16 @@ function main() {
     }, 200);
   });
 
-  initMenuCommand();
+  // initMainColumn([...posts.values()]);
   hiddenSidebar(true);
+  hiddenNewPost(true);
   hiddenBody(false);
 }
 
 log();
+initMenuCommand();
 hiddenBody(true);
+
 const mainInterval = setInterval(() => {
   if (isTimelineUrl(location.pathname)) {
     if (mutationObserverPostsContainer()) {

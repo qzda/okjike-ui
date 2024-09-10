@@ -1,8 +1,8 @@
 import selectors from "../Selectors";
 import { addStyles, removeStyles } from "./style";
 
-export function hiddenNewPost(pathname: string) {
-  if (pathname === "/") {
+export function hiddenNewPost(hidden: boolean) {
+  if (hidden) {
     addStyles(
       "hiddenNewPost",
       `
