@@ -2,7 +2,7 @@ import { exec } from "node:child_process";
 import { rm, writeFile } from "node:fs/promises";
 import process from "node:process";
 import { mkdir } from "fs-extra";
-import admZip from "adm-zip";
+// import admZip from "adm-zip";
 import prolog from "@qzda/prolog";
 import { version } from "./package.json";
 import { UserScriptConfig } from "./config";
@@ -84,16 +84,16 @@ async function buildUserScript() {
   );
   console.log(`📦  Bundled\t=> ${prolog.cyan(buildFilePath)}`);
 
-  const zip = new admZip();
-  zip.addLocalFolder(`${userScriptBuildPath}`);
-  zip.writeZip(`${userScriptBuildPath}.zip`, (err) => {
-    if (err) {
-      console.log(err);
-    }
-  });
-  console.log(
-    `📦  Compressed\t=> ${prolog.cyan(`${userScriptBuildPath}.zip`)}`
-  );
+  // const zip = new admZip();
+  // zip.addLocalFolder(`${userScriptBuildPath}`);
+  // zip.writeZip(`${userScriptBuildPath}.zip`, (err) => {
+  //   if (err) {
+  //     console.log(err);
+  //   }
+  // });
+  // console.log(
+  //   `📦  Compressed\t=> ${prolog.cyan(`${userScriptBuildPath}.zip`)}`
+  // );
 
   console.log();
 }

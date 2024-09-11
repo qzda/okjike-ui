@@ -1,51 +1,17 @@
 "use strict";
 import { devLog, log } from "../utils/log";
 import Selectors from "../Selectors";
-import { isTimelineUrl } from "../utils/timeline";
+import {
+  changeTimelineStyle,
+  isTimelineUrl,
+  mutationObserverPostsContainer,
+  posts,
+} from "../utils/timeline";
 import { hiddenSidebar } from "../utils/sidebar";
 import { initMenuCommand } from "./initMenuCommand";
 import selectors from "../Selectors";
 import { hiddenBody } from "../utils/element";
 import { hiddenNewPost } from "../utils/newPost";
-import { initMainColumn } from "./initMainColumn";
-
-const posts = new Set<Element>();
-
-function initPost() {
-  const postsContainer = document.querySelector(
-    Selectors.mainColumnItems.posts
-  );
-  if (postsContainer) {
-    postsContainer.childNodes.forEach((child) => {
-      posts.add(child as Element);
-    });
-  }
-  devLog("posts init", posts);
-}
-
-function mutationObserverPostsContainer() {
-  const postsContainer = document.querySelector(
-    Selectors.mainColumnItems.posts
-  );
-  if (postsContainer) {
-    initPost();
-    new MutationObserver((recordList) => {
-      recordList.forEach((record) => {
-        record.addedNodes.forEach((node) => {
-          posts.add(node as Element);
-        });
-      });
-      devLog("posts update", posts);
-      // initMainColumn([...posts.values()]);
-    }).observe(postsContainer, {
-      childList: true,
-    });
-
-    return true;
-  }
-
-  return false;
-}
 
 function main() {
   window.addEventListener("urlchange", (info: any) => {
@@ -58,21 +24,27 @@ function main() {
     const interval = setInterval(() => {
       if (isTimelineUrl(url.pathname)) {
         if (mutationObserverPostsContainer()) {
+          changeTimelineStyle(true);
           clearInterval(interval);
         }
       } else {
         clearInterval(interval);
+        changeTimelineStyle(false);
       }
     }, 200);
   });
 
-  // initMainColumn([...posts.values()]);
   hiddenSidebar(true);
   hiddenNewPost(true);
   hiddenBody(false);
+
+  if (isTimelineUrl(location.pathname)) {
+    changeTimelineStyle(true);
+  }
 }
 
 log();
+devLog("Selectors", Selectors);
 initMenuCommand();
 hiddenBody(true);
 

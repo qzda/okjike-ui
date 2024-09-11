@@ -1,3 +1,4 @@
+import { devLog } from "./log";
 import { addStyles, removeStyles } from "./style";
 
 export function removeElementById(id: string) {
@@ -16,7 +17,9 @@ export function hiddenBody(hidden: boolean) {
         body { opacity: 0; };
       `
     );
+    devLog("hiddenBody true");
   } else {
     removeStyles("okjike-body");
+    devLog("hiddenBody false");
   }
 }

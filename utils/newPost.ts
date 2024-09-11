@@ -1,4 +1,5 @@
 import selectors from "../Selectors";
+import { devLog } from "./log";
 import { addStyles, removeStyles } from "./style";
 
 export function hiddenNewPost(hidden: boolean) {
@@ -11,7 +12,9 @@ export function hiddenNewPost(hidden: boolean) {
       }
       `
     );
+    devLog("hiddenNewPost true");
   } else {
     removeStyles("hiddenNewPost");
+    devLog("hiddenNewPost false");
   }
 }

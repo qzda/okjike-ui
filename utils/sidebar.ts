@@ -1,4 +1,5 @@
 import selectors from "../Selectors";
+import { devLog } from "./log";
 import { addStyles } from "./style";
 
 export function hiddenSidebar(hidden: boolean) {
@@ -21,6 +22,7 @@ export function hiddenSidebar(hidden: boolean) {
       }
       `
     );
+    devLog("hiddenSidebar true");
   } else {
     addStyles(
       "hiddenSidebar",
@@ -30,5 +32,6 @@ export function hiddenSidebar(hidden: boolean) {
       }
       `
     );
+    devLog("hiddenSidebar false");
   }
 }
