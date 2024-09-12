@@ -3,6 +3,7 @@ export function initMenuCommand() {
   GM_registerMenuCommand(
     "显示/隐藏侧边栏",
     function (event: MouseEvent | KeyboardEvent) {
+      // todo
       alert("🚧施工中");
     },
     {
