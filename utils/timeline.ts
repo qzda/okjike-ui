@@ -3,6 +3,8 @@ import selectors from "../Selectors";
 import { devLog } from "./log";
 import { addStyles, removeStyles } from "./style";
 
+import Masonry from "masonry-layout";
+
 export function isTimelineUrl(url: string) {
   return url === "/" || url === "/recommend";
 }
@@ -11,31 +13,43 @@ export function isTimelineUrl(url: string) {
  * @param open 开启关闭瀑布流样式
  */
 export function changeTimelineStyle(open: boolean) {
+  const navBarWidth = document
+    .querySelector(`${selectors.navBar} > div`)
+    ?.getBoundingClientRect().width;
+  devLog("navBarWidth", navBarWidth);
+
+  const postWidth =
+    (navBarWidth || document.body.getBoundingClientRect().width) /
+    (((navBarWidth || document.body.getBoundingClientRect().width) / 400) >> 0);
+  devLog("postWidth", postWidth);
+
   if (open) {
     addStyles(
       "timelineStyle",
       `
       ${selectors.mainColumn} {
-        opacity: 0.5; /* todo 正式环境需要去掉opacity */
         min-width: 600px;
         max-width: 100%;
+        padding: 0px 160px;
       }
-
       @media (max-width: 1536px) {
         ${selectors.mainColumn} { padding: 0px 48px; }
       }
-
-      ${selectors.mainColumnItems.posts} {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-        padding-top: 0.5rem;
+      @media (max-width: 1280px) {
+        ${selectors.mainColumn} { padding: 0px 32px; }
+      }
+      @media (max-width: 1024px) {
+        ${selectors.mainColumn} { padding: 0px 16px; }
       }
 
       ${selectors.mainColumnItems.posts} > div {
-        flex: 1;
-        min-width: 400px;
+        width: ${postWidth}px;
         height: fit-content;
+        padding: 0 5px;
+      }
+      ${selectors.mainColumnItems.posts} > div > div {
+        border-color: transparent;
+        border-top-width: 10px;
       }
 
       /* 帖子宽度过小时帖子的操作栏会溢出 */
@@ -63,10 +77,28 @@ export function initPost() {
     });
   }
   devLog("posts init", posts);
-  changePostMargin([...posts]);
+  changePostLocation([...posts]);
 }
 
-export function changePostMargin(posts: HTMLDivElement[]) {
+export function changePostLocation(posts: HTMLDivElement[]) {
+  const navBarWidth = document
+    .querySelector(`${selectors.navBar} > div`)
+    ?.getBoundingClientRect().width;
+  devLog("navBarWidth", navBarWidth);
+
+  const postWidth =
+    (navBarWidth || document.body.getBoundingClientRect().width) /
+    (((navBarWidth || document.body.getBoundingClientRect().width) / 400) >> 0);
+  devLog("postWidth", postWidth);
+  const masonry = new Masonry(selectors.mainColumnItems.posts, {
+    columnWidth: postWidth,
+    itemSelector: `${selectors.mainColumnItems.posts} > div`,
+    transitionDuration: 0,
+    percentPosition: true,
+  });
+  devLog("masonry", masonry);
+
+  return;
   if (!posts.length) {
     return;
   }
@@ -107,7 +139,7 @@ export function mutationObserverPostsContainer() {
         });
       });
       devLog("posts update", posts);
-      changePostMargin([...posts]);
+      changePostLocation([...posts]);
     }).observe(postsContainer, {
       childList: true,
     });
