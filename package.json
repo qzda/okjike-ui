@@ -1,13 +1,19 @@
 {
   "name": "okjike-ui",
   "version": "0.0.1",
-  "description": "完善即刻网页版的体验。",
+  "description": "即刻网页版用户脚本。",
   "type": "module",
   "license": "MIT",
   "scripts": {
     "dev": "NODE_ENV=dev bun run ./build.ts",
     "build": "bun run ./build.ts"
   },
+  "keywords": [
+    "tampermonkey",
+    "user-scripts",
+    "jike",
+    "okjike"
+  ],
   "dependencies": {
     "adm-zip": "^0.5.14",
     "fs-extra": "^11.2.0",

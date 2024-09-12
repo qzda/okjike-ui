@@ -1,6 +1,6 @@
 # okjike-ui 🚧
 
-完善即刻网页版的体验。
+即刻网页版用户脚本。
 
 ## 安装
 
@@ -12,11 +12,11 @@ todo
 
 ```bash
 bun i
-bun run build
-# 🧹  Cleaned up dist/user-script-0.0.1 directory.
+bun dev
+# $ NODE_ENV=dev bun run ./build.ts
+# 🧹  Cleaned up dist directory.
 # 🔥  Built user-script.
-# 📦  Bundled     => dist/user-script-0.0.1/index.js
-# 📦  Compressed  => dist/user-script-0.0.1.zip
+# 📦  Bundled     => dist/index-0.0.1.js
 ```
 
-将`dist/user-script-0.0.1/index.js`文件添加到 Tampermonkey 中。
+将`dist/index-0.0.1.js`文件添加到 Tampermonkey 中。
