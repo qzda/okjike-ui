@@ -30,7 +30,6 @@ function main() {
     devLog("urlchange", info);
     const url = new URL(info.url as string);
     if (isTimelineUrl(url.pathname)) {
-      changeTimelineStyle(true);
       hiddenTimeline(true);
     } else {
       changeTimelineStyle(false);
@@ -39,6 +38,7 @@ function main() {
     const interval = setInterval(() => {
       if (isTimelineUrl(url.pathname)) {
         if (observerPosts()) {
+          changeTimelineStyle(true);
           hiddenTimeline(false);
           clearInterval(interval);
         }
@@ -63,6 +63,7 @@ function main() {
       resizeFlag = false;
       devLog("window resize updatePostLocation");
       setTimeout(() => {
+        changeTimelineStyle(true);
         updatePostLocation();
         resizeFlag = true;
       }, 200);

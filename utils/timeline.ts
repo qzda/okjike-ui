@@ -10,17 +10,20 @@ export function isTimelineUrl(url: string) {
 }
 
 export function changeTimelineStyle(open: boolean) {
-  const navBarWidth = document
-    .querySelector(`${selectors.navBar} > div`)
-    ?.getBoundingClientRect().width;
+  devLog("changeTimelineStyle start");
+  if (open) {
+    const navBarWidth = document
+      .querySelector(`${selectors.navBar} > div`)
+      ?.getBoundingClientRect().width;
+    const postWidth = navBarWidth
+      ? navBarWidth / ((navBarWidth / 400) >> 0)
+      : 400;
 
-  if (navBarWidth) {
-    const postWidth = navBarWidth / ((navBarWidth / 400) >> 0);
+    devLog("postWidth", postWidth);
 
-    if (open) {
-      addStyles(
-        "timelineStyle",
-        `
+    addStyles(
+      "timelineStyle",
+      `
         ${selectors.mainColumn} {
           min-width: 600px;
           max-width: 100%;
@@ -37,13 +40,15 @@ export function changeTimelineStyle(open: boolean) {
         }
 
         ${selectors.mainColumnItems.posts} > div {
-          width: ${postWidth}px;
           height: fit-content;
-          padding: 0 5px;
+          min-width: 400px;
+          width: ${postWidth}px;
         }
         ${selectors.mainColumnItems.posts} > div > div {
           border-color: transparent;
           border-top-width: 10px;
+          border-left-width: 5px;
+          border-right-width: 5px;
         }
 
         /* 帖子宽度过小时帖子的操作栏会溢出 */
@@ -51,37 +56,32 @@ export function changeTimelineStyle(open: boolean) {
         ${selectors.mainColumnItems.postAction} > div { min-width: unset; }
         ${selectors.mainColumnItems.postAction} > div.flex-1 { flex: 0; }
         `
-      );
-      devLog("changeTimelineStyle", true);
-    } else {
-      removeStyles("timelineStyle");
-      devLog("changeTimelineStyle", false);
-    }
+    );
+    devLog("changeTimelineStyle", true);
   } else {
-    devLogError("changeTimelineStyle can not found navBarWidth", navBarWidth);
+    removeStyles("timelineStyle");
+    devLog("changeTimelineStyle", false);
   }
+  devLog("changeTimelineStyle done");
 }
 
 export function updatePostLocation() {
   devLog("updatePostLocation start");
-
-  const navBarWidth = document
-    .querySelector(`${selectors.navBar} > div`)
-    ?.getBoundingClientRect().width;
-  devLog("navBarWidth", navBarWidth);
-
+  const navBar = document.querySelector(`${selectors.navBar} > div`);
+  const navBarWidth = navBar?.getBoundingClientRect().width;
   if (navBarWidth) {
     const postWidth = navBarWidth / ((navBarWidth / 400) >> 0);
-    devLog("postWidth", postWidth);
     const masonry = new Masonry(selectors.mainColumnItems.posts, {
       columnWidth: postWidth,
       itemSelector: `${selectors.mainColumnItems.posts} > div`,
       transitionDuration: 0,
-      percentPosition: true,
+      fitWidth: true,
+      // @ts-ignore
+      cols: navBarWidth / postWidth,
     });
     devLog("masonry", masonry);
   } else {
-    devLogError("changeTimelineStyle can not found navBarWidth", navBarWidth);
+    devLogError("updatePostLocation can not found navBarWidth", navBarWidth);
   }
   devLog("updatePostLocation done");
 }
