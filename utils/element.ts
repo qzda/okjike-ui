@@ -11,15 +11,10 @@ export function removeElement(selector: string) {
 
 export function hiddenBody(hidden: boolean) {
   if (hidden) {
-    addStyles(
-      "okjike-body",
-      `
-        body { opacity: 0; };
-      `
-    );
+    addStyles("body", "body { opacity: 0; };");
     devLog("hiddenBody true");
   } else {
-    removeStyles("okjike-body");
+    removeStyles("body");
     devLog("hiddenBody false");
   }
 }

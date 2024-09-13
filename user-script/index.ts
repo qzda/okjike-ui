@@ -3,6 +3,7 @@ import { devLog, log } from "../utils/log";
 import Selectors from "../Selectors";
 import {
   changeTimelineStyle,
+  hiddenTimeline,
   isTimelineUrl,
   mutationObserverPostsContainer,
   posts,
@@ -19,17 +20,23 @@ function main() {
     posts.clear();
     devLog("posts clear", posts);
 
+    hiddenTimeline(true);
+
     const url = new URL(info.url as string);
 
     const interval = setInterval(() => {
       if (isTimelineUrl(url.pathname)) {
         if (mutationObserverPostsContainer()) {
-          changeTimelineStyle(true);
           clearInterval(interval);
+          changeTimelineStyle(true);
+          hiddenTimeline(false);
         }
       } else {
-        clearInterval(interval);
-        changeTimelineStyle(false);
+        if (document.querySelector(selectors.navBar)) {
+          clearInterval(interval);
+          changeTimelineStyle(false);
+          hiddenTimeline(false);
+        }
       }
     }, 200);
   });

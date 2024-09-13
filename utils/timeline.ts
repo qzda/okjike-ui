@@ -97,33 +97,6 @@ export function changePostLocation(posts: HTMLDivElement[]) {
     percentPosition: true,
   });
   devLog("masonry", masonry);
-
-  return;
-  if (!posts.length) {
-    return;
-  }
-
-  const firstPostWidth = posts[0].getBoundingClientRect().width;
-  const parentElementWidth =
-    posts[0].parentElement!.getBoundingClientRect().width;
-
-  const cols = (parentElementWidth / firstPostWidth) >> 0;
-  devLog("cols", cols);
-
-  /**
-   * 以3列为例
-   * 0 1 2
-   * 3 4 5
-   * 6 7 8
-   */
-  for (let i = cols; i < posts.length; i++) {
-    const [thisPost, lastPost] = [posts[i], posts[i - cols]];
-    thisPost.style.marginTop = `calc(${
-      lastPost.getBoundingClientRect().bottom -
-      thisPost.getBoundingClientRect().top
-    }px + 0.5rem)`;
-  }
-  devLog("marginTop done");
 }
 
 export function mutationObserverPostsContainer() {
@@ -148,4 +121,19 @@ export function mutationObserverPostsContainer() {
   }
 
   return false;
+}
+
+export function hiddenTimeline(hidden: boolean) {
+  if (hidden) {
+    addStyles(
+      "hiddenTimeline",
+      `
+        ${selectors.mainColumn} { opacity: 0; };
+      `
+    );
+    devLog("hiddenTimeline true");
+  } else {
+    removeStyles("hiddenTimeline");
+    devLog("hiddenTimeline false");
+  }
 }
