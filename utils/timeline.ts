@@ -80,6 +80,8 @@ export function updatePostLocation() {
       percentPosition: true,
     });
     devLog("masonry", masonry);
+  } else {
+    devLogError("changeTimelineStyle can not found navBarWidth", navBarWidth);
   }
   devLog("updatePostLocation done");
 }
@@ -88,7 +90,8 @@ export function observerPosts() {
   const postsContainer = document.querySelector(
     Selectors.mainColumnItems.posts
   );
-  if (postsContainer) {
+  const navBar = document.querySelector(selectors.navBar);
+  if (postsContainer && navBar?.getBoundingClientRect().width) {
     updatePostLocation();
     new MutationObserver((recordList) => {
       updatePostLocation();

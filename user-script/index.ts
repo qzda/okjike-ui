@@ -5,6 +5,7 @@ import {
   hiddenTimeline,
   isTimelineUrl,
   observerPosts,
+  updatePostLocation,
 } from "../utils/timeline";
 import { hiddenSidebar } from "../utils/sidebar";
 import { initMenuCommand } from "./initMenuCommand";
@@ -47,6 +48,25 @@ function main() {
         }
       }
     }, 200);
+  });
+
+  window.addEventListener("load", (event) => {
+    devLog("window load");
+    if (isTimelineUrl(location.pathname)) {
+      updatePostLocation();
+    }
+  });
+
+  let resizeFlag = true;
+  window.addEventListener("resize", (e) => {
+    if (resizeFlag && isTimelineUrl(location.pathname)) {
+      resizeFlag = false;
+      devLog("window resize updatePostLocation");
+      setTimeout(() => {
+        updatePostLocation();
+        resizeFlag = true;
+      }, 200);
+    }
   });
 }
 
