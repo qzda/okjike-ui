@@ -2,6 +2,12 @@
 
 即刻网页版用户脚本。
 
+## 功能
+
+- 以瀑布流的方式浏览时间线。
+
+![timeline](./image/timeline.png)
+
 ## 安装
 
 todo
