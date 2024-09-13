@@ -1,6 +1,6 @@
 {
   "name": "okjike-ui",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "即刻网页版用户脚本。",
   "type": "module",
   "license": "MIT",
