@@ -1,12 +1,10 @@
 "use strict";
 import { devLog, log } from "../utils/log";
-import Selectors from "../Selectors";
 import {
   changeTimelineStyle,
   hiddenTimeline,
   isTimelineUrl,
-  mutationObserverPostsContainer,
-  posts,
+  observerPosts,
 } from "../utils/timeline";
 import { hiddenSidebar } from "../utils/sidebar";
 import { initMenuCommand } from "./initMenuCommand";
@@ -15,49 +13,50 @@ import { hiddenBody } from "../utils/element";
 import { hiddenNewPost } from "../utils/newPost";
 
 function main() {
+  if (isTimelineUrl(location.pathname)) {
+    changeTimelineStyle(true);
+    hiddenSidebar(true);
+    hiddenNewPost(true);
+  } else {
+    changeTimelineStyle(false);
+    hiddenSidebar(false);
+    hiddenNewPost(false);
+  }
+
+  hiddenBody(false);
+
   window.addEventListener("urlchange", (info: any) => {
     devLog("urlchange", info);
-    posts.clear();
-    devLog("posts clear", posts);
-
-    hiddenTimeline(true);
-
     const url = new URL(info.url as string);
+    if (isTimelineUrl(url.pathname)) {
+      changeTimelineStyle(true);
+      hiddenTimeline(true);
+    } else {
+      changeTimelineStyle(false);
+    }
 
     const interval = setInterval(() => {
       if (isTimelineUrl(url.pathname)) {
-        if (mutationObserverPostsContainer()) {
-          clearInterval(interval);
-          changeTimelineStyle(true);
+        if (observerPosts()) {
           hiddenTimeline(false);
+          clearInterval(interval);
         }
       } else {
         if (document.querySelector(selectors.navBar)) {
           clearInterval(interval);
-          changeTimelineStyle(false);
-          hiddenTimeline(false);
         }
       }
     }, 200);
   });
-
-  hiddenSidebar(true);
-  hiddenNewPost(true);
-  hiddenBody(false);
-
-  if (isTimelineUrl(location.pathname)) {
-    changeTimelineStyle(true);
-  }
 }
 
 log();
-devLog("Selectors", Selectors);
 initMenuCommand();
 hiddenBody(true);
 
 const mainInterval = setInterval(() => {
   if (isTimelineUrl(location.pathname)) {
-    if (mutationObserverPostsContainer()) {
+    if (observerPosts()) {
       main();
       clearInterval(mainInterval);
     }

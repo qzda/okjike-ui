@@ -9,8 +9,18 @@ export function log(...arg: any[]) {
   );
 }
 
+export function logError(...arg: any[]) {
+  console.log(prolog.bgRed(`${name} ${version}`), ...arg);
+}
+
 export function devLog(...arg: any[]) {
   if (isDev) {
     log(...arg);
+  }
+}
+
+export function devLogError(...arg: any[]) {
+  if (isDev) {
+    logError(...arg);
   }
 }
