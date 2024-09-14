@@ -11,6 +11,7 @@ export const UserScriptConfig: Record<string, configValue | configValue[]> = {
   version,
   match: "https://web.okjike.com/*",
   namespace: "https://github.com/qzda/okjike-ui/",
+  supportURL: "https://github.com/qzda/okjike-ui/issues/new",
   icon,
   "run-at": "document-start",
   grant: [
