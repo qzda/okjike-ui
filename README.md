@@ -10,7 +10,9 @@
 
 ## 安装
 
-todo
+[Github 源](./dist/okjike-ui.js)
+
+需要浏览器装有 [Tampermonkey](https://www.tampermonkey.net/index.php) 插件。
 
 ## 开发
 

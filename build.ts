@@ -2,9 +2,8 @@ import { exec } from "node:child_process";
 import { rm, writeFile } from "node:fs/promises";
 import process from "node:process";
 import { mkdir } from "fs-extra";
-// import admZip from "adm-zip";
 import prolog from "@qzda/prolog";
-import { name, version } from "./package.json";
+import { name } from "./package.json";
 import { UserScriptConfig } from "./config";
 import { isDev } from "./utils/dev";
 
@@ -76,7 +75,7 @@ async function buildUserScript() {
   await mkdir(userScriptBuildPath, {
     recursive: true,
   });
-  const buildFilePath = `${userScriptBuildPath}/${name}-${version}.js`;
+  const buildFilePath = `${userScriptBuildPath}/${name}.js`;
   await writeFile(
     buildFilePath,
     Buffer.from(userScriptLines.join("\n")),
