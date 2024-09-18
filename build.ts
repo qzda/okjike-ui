@@ -75,7 +75,7 @@ async function buildUserScript() {
   await mkdir(userScriptBuildPath, {
     recursive: true,
   });
-  const buildFilePath = `${userScriptBuildPath}/${name}.js`;
+  const buildFilePath = `${userScriptBuildPath}/${name}.user.js`;
   await writeFile(
     buildFilePath,
     Buffer.from(userScriptLines.join("\n")),

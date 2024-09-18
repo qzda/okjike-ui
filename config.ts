@@ -4,7 +4,7 @@ const icon =
   "https://raw.githubusercontent.com/qzda/okjike-ui/refs/heads/main/image/okjike-logo.png";
 
 const userScriptUrl =
-  "https://raw.githubusercontent.com/qzda/okjike-ui/main/dist/okjike-ui.js";
+  "https://raw.githubusercontent.com/qzda/okjike-ui/main/dist/okjike-ui.user.js";
 
 type configValue = string | number;
 export const UserScriptConfig: Record<string, configValue | configValue[]> = {

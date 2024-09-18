@@ -10,7 +10,7 @@
 
 ## 安装
 
-[Github 源](https://raw.githubusercontent.com/qzda/okjike-ui/main/dist/okjike-ui.js)
+[Github 源](https://raw.githubusercontent.com/qzda/okjike-ui/main/dist/okjike-ui.user.js)
 
 需要浏览器装有 [Tampermonkey](https://www.tampermonkey.net/index.php) 插件。
 
