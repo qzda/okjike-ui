@@ -10,6 +10,8 @@
 // @updateURL https://raw.githubusercontent.com/qzda/okjike-ui/main/dist/okjike-ui.user.js
 // @icon https://raw.githubusercontent.com/qzda/okjike-ui/refs/heads/main/image/okjike-logo.png
 // @run-at document-start
+// @connect raw.githubusercontent.com
+// @connect github.com
 // @grant unsafeWindow
 // @grant window.onurlchange
 // @grant GM_addStyle

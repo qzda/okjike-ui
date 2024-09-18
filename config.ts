@@ -19,6 +19,7 @@ export const UserScriptConfig: Record<string, configValue | configValue[]> = {
   updateURL: userScriptUrl,
   icon,
   "run-at": "document-start",
+  connect: ["raw.githubusercontent.com", "github.com"],
   grant: [
     "unsafeWindow",
     "window.onurlchange",
