@@ -6,8 +6,8 @@
 // @match https://web.okjike.com/*
 // @namespace https://github.com/qzda/okjike-ui/
 // @supportURL https://github.com/qzda/okjike-ui/issues/new
-// @downloadURL https://raw.githubusercontent.com/qzda/okjike-ui/main/dist/okjike-ui.js
-// @updateURL https://raw.githubusercontent.com/qzda/okjike-ui/main/dist/okjike-ui.js
+// @downloadURL https://raw.githubusercontent.com/qzda/okjike-ui/main/dist/okjike-ui.user.js
+// @updateURL https://raw.githubusercontent.com/qzda/okjike-ui/main/dist/okjike-ui.user.js
 // @icon https://raw.githubusercontent.com/qzda/okjike-ui/refs/heads/main/image/okjike-logo.png
 // @run-at document-start
 // @grant unsafeWindow
