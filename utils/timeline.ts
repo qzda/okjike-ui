@@ -5,6 +5,8 @@ import { addStyles, removeStyles } from "./style";
 
 import Masonry from "masonry-layout";
 
+export const PostMinWidth = 400;
+
 export function isTimelineUrl(url: string) {
   return url === "/" || url === "/recommend";
 }
@@ -16,12 +18,13 @@ export function changeTimelineStyle(open: boolean) {
       .querySelector(`${selectors.navBar} > div`)
       ?.getBoundingClientRect().width;
     const postWidth = navBarWidth
-      ? navBarWidth / ((navBarWidth / 400) >> 0)
-      : 400;
+      ? navBarWidth / ((navBarWidth / PostMinWidth) >> 0)
+      : PostMinWidth;
 
+    devLog("navBarWidth", navBarWidth);
     devLog("postWidth", postWidth);
 
-    addStyles(
+    const style = addStyles(
       "timelineStyle",
       `
         ${selectors.mainColumn} {
@@ -41,7 +44,7 @@ export function changeTimelineStyle(open: boolean) {
 
         ${selectors.mainColumnItems.posts} > div {
           height: fit-content;
-          min-width: 400px;
+          min-width: ${PostMinWidth}px;
           width: ${postWidth}px;
         }
         ${selectors.mainColumnItems.posts} > div > div {
@@ -57,33 +60,46 @@ export function changeTimelineStyle(open: boolean) {
         ${selectors.mainColumnItems.postAction} > div.flex-1 { flex: 0; }
         `
     );
-    devLog("changeTimelineStyle", true);
+    devLog("style", style);
   } else {
     removeStyles("timelineStyle");
-    devLog("changeTimelineStyle", false);
   }
+  devLog("changeTimelineStyle", open);
   devLog("changeTimelineStyle done");
 }
 
+let updatePostLocationFlag = true;
+
 export function updatePostLocation() {
   devLog("updatePostLocation start");
-  const navBar = document.querySelector(`${selectors.navBar} > div`);
-  const navBarWidth = navBar?.getBoundingClientRect().width;
-  devLog("navBar", navBar);
-  devLog("navBarWidth", navBarWidth);
-  if (navBarWidth) {
-    const postWidth = navBarWidth / ((navBarWidth / 400) >> 0);
-    const masonry = new Masonry(selectors.mainColumnItems.posts, {
-      columnWidth: postWidth,
-      itemSelector: `${selectors.mainColumnItems.posts} > div`,
-      transitionDuration: 0,
-      // fitWidth: true,
-      // // @ts-ignore
-      // cols: navBarWidth / postWidth,
-    });
-    devLog("masonry", masonry);
+  const homeLink = document.querySelector(selectors.navBarItems.linksItem.home);
+  if (homeLink) {
+    const navBar = document.querySelector(`${selectors.navBar} > div`)!;
+    const navBarWidth = navBar?.getBoundingClientRect().width;
+    const postWidth = navBarWidth / ((navBarWidth / PostMinWidth) >> 0);
+    const cols = navBarWidth / postWidth;
+    devLog("navBarWidth", navBarWidth);
+    devLog("postWidth", postWidth);
+    devLog("cols", cols);
+
+    const interval = setInterval(() => {
+      if (updatePostLocationFlag) {
+        updatePostLocationFlag = false;
+        const posts = document.querySelector(selectors.mainColumnItems.posts);
+        if (posts && posts.getBoundingClientRect().width === navBarWidth) {
+          clearInterval(interval);
+          const masonry = new Masonry(selectors.mainColumnItems.posts, {
+            columnWidth: postWidth,
+            itemSelector: `${selectors.mainColumnItems.posts} > div`,
+            transitionDuration: 0,
+          });
+          devLog("masonry", masonry);
+          updatePostLocationFlag = true;
+        }
+      }
+    }, 100);
   } else {
-    devLogError("updatePostLocation can not found navBarWidth", navBarWidth);
+    devLogError("updatePostLocation can not found homeLink", homeLink);
   }
   devLog("updatePostLocation done");
 }

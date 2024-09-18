@@ -1,42 +1,23 @@
 "use strict";
 import { devLog, log } from "../utils/log";
 import {
-  changeTimelineStyle,
-  hiddenTimeline,
   isTimelineUrl,
   observerPosts,
   updatePostLocation,
 } from "../utils/timeline";
-import { hiddenSidebar } from "../utils/sidebar";
+
 import { initMenuCommand } from "./initMenuCommand";
-import selectors from "../Selectors";
-import { hiddenBody } from "../utils/element";
-import { hiddenNewPost } from "../utils/newPost";
+
+import { changeStyles } from "../utils/style";
 
 function main() {
-  if (isTimelineUrl(location.pathname)) {
-    changeTimelineStyle(true);
-    hiddenNewPost(true);
-    hiddenSidebar(true);
-  } else {
-    changeTimelineStyle(false);
-    hiddenNewPost(false);
-    hiddenSidebar(false);
-  }
+  changeStyles(location.pathname);
 
   window.addEventListener("urlchange", (info: any) => {
     devLog("urlchange", info);
     const url = new URL(info.url as string);
 
-    if (isTimelineUrl(url.pathname)) {
-      changeTimelineStyle(true);
-      hiddenNewPost(true);
-      hiddenSidebar(true);
-    } else {
-      changeTimelineStyle(false);
-      hiddenNewPost(false);
-      hiddenSidebar(false);
-    }
+    changeStyles(url.pathname);
 
     const interval = setInterval(() => {
       if (isTimelineUrl(url.pathname)) {

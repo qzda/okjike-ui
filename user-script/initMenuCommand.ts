@@ -1,3 +1,5 @@
+import { devLog } from "../utils/log";
+
 export function initMenuCommand() {
   // @ts-ignore
   GM_registerMenuCommand(
@@ -10,4 +12,6 @@ export function initMenuCommand() {
       autoClose: false,
     }
   );
+
+  devLog("initMenuCommand");
 }
