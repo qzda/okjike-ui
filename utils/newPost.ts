@@ -12,9 +12,8 @@ export function hiddenNewPost(hidden: boolean) {
       }
       `
     );
-    devLog("hiddenNewPost true");
   } else {
     removeStyles("hiddenNewPost");
-    devLog("hiddenNewPost false");
   }
+  devLog("hiddenNewPost", hidden);
 }

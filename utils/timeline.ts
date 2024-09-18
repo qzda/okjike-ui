@@ -69,15 +69,17 @@ export function updatePostLocation() {
   devLog("updatePostLocation start");
   const navBar = document.querySelector(`${selectors.navBar} > div`);
   const navBarWidth = navBar?.getBoundingClientRect().width;
+  devLog("navBar", navBar);
+  devLog("navBarWidth", navBarWidth);
   if (navBarWidth) {
     const postWidth = navBarWidth / ((navBarWidth / 400) >> 0);
     const masonry = new Masonry(selectors.mainColumnItems.posts, {
       columnWidth: postWidth,
       itemSelector: `${selectors.mainColumnItems.posts} > div`,
       transitionDuration: 0,
-      fitWidth: true,
-      // @ts-ignore
-      cols: navBarWidth / postWidth,
+      // fitWidth: true,
+      // // @ts-ignore
+      // cols: navBarWidth / postWidth,
     });
     devLog("masonry", masonry);
   } else {
@@ -90,8 +92,9 @@ export function observerPosts() {
   const postsContainer = document.querySelector(
     Selectors.mainColumnItems.posts
   );
-  const navBar = document.querySelector(selectors.navBar);
-  if (postsContainer && navBar?.getBoundingClientRect().width) {
+  const homeLink = document.querySelector(selectors.navBarItems.linksItem.home);
+  devLog("homeLink", homeLink);
+  if (postsContainer && homeLink) {
     updatePostLocation();
     new MutationObserver((recordList) => {
       updatePostLocation();
@@ -108,15 +111,9 @@ export function observerPosts() {
 
 export function hiddenTimeline(hidden: boolean) {
   if (hidden) {
-    addStyles(
-      "hiddenTimeline",
-      `
-        ${selectors.mainColumn} { opacity: 0; };
-      `
-    );
-    devLog("hiddenTimeline", true);
+    addStyles("hiddenTimeline", `${selectors.mainColumn} { opacity: 0; };`);
   } else {
     removeStyles("hiddenTimeline");
-    devLog("hiddenTimeline", false);
   }
+  devLog("hiddenTimeline", hidden);
 }

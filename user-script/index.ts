@@ -16,36 +16,36 @@ import { hiddenNewPost } from "../utils/newPost";
 function main() {
   if (isTimelineUrl(location.pathname)) {
     changeTimelineStyle(true);
-    hiddenSidebar(true);
     hiddenNewPost(true);
+    hiddenSidebar(true);
   } else {
     changeTimelineStyle(false);
-    hiddenSidebar(false);
     hiddenNewPost(false);
+    hiddenSidebar(false);
   }
-
-  hiddenBody(false);
 
   window.addEventListener("urlchange", (info: any) => {
     devLog("urlchange", info);
     const url = new URL(info.url as string);
+
     if (isTimelineUrl(url.pathname)) {
-      hiddenTimeline(true);
+      changeTimelineStyle(true);
+      hiddenNewPost(true);
+      hiddenSidebar(true);
     } else {
       changeTimelineStyle(false);
+      hiddenNewPost(false);
+      hiddenSidebar(false);
     }
 
     const interval = setInterval(() => {
       if (isTimelineUrl(url.pathname)) {
         if (observerPosts()) {
-          changeTimelineStyle(true);
-          hiddenTimeline(false);
+          // hiddenTimeline(false);
           clearInterval(interval);
         }
       } else {
-        if (document.querySelector(selectors.navBar)) {
-          clearInterval(interval);
-        }
+        clearInterval(interval);
       }
     }, 200);
   });
@@ -57,23 +57,22 @@ function main() {
     }
   });
 
-  let resizeFlag = true;
-  window.addEventListener("resize", (e) => {
-    if (resizeFlag && isTimelineUrl(location.pathname)) {
-      resizeFlag = false;
-      devLog("window resize updatePostLocation");
-      setTimeout(() => {
-        changeTimelineStyle(true);
-        updatePostLocation();
-        resizeFlag = true;
-      }, 200);
-    }
-  });
+  // let resizeFlag = true;
+  // window.addEventListener("resize", (e) => {
+  //   if (resizeFlag && isTimelineUrl(location.pathname)) {
+  //     resizeFlag = false;
+  //     devLog("window resize updatePostLocation");
+  //     setTimeout(() => {
+  //       changeTimelineStyle(true);
+  //       updatePostLocation();
+  //       resizeFlag = true;
+  //     }, 200);
+  //   }
+  // });
 }
 
 log();
 initMenuCommand();
-hiddenBody(true);
 
 const mainInterval = setInterval(() => {
   if (isTimelineUrl(location.pathname)) {
@@ -82,9 +81,7 @@ const mainInterval = setInterval(() => {
       clearInterval(mainInterval);
     }
   } else {
-    if (document.querySelector(selectors.navBar)) {
-      main();
-      clearInterval(mainInterval);
-    }
+    main();
+    clearInterval(mainInterval);
   }
 }, 200);

@@ -1,4 +1,6 @@
 import { devLog } from "./log";
+import { hiddenNewPost } from "./newPost";
+import { hiddenSidebar } from "./sidebar";
 import { addStyles, removeStyles } from "./style";
 
 export function removeElementById(id: string) {

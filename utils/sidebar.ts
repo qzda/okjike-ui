@@ -22,7 +22,6 @@ export function hiddenSidebar(hidden: boolean) {
       }
       `
     );
-    devLog("hiddenSidebar true");
   } else {
     addStyles(
       "hiddenSidebar",
@@ -32,6 +31,6 @@ export function hiddenSidebar(hidden: boolean) {
       }
       `
     );
-    devLog("hiddenSidebar false");
   }
+  devLog("hiddenSidebar", hidden);
 }
