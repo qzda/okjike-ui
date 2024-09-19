@@ -26,10 +26,10 @@ window.addEventListener("load", (event) => {
     changeTimelineStyle(true);
 
     observerPosts();
-    hiddenBody(false);
   } else {
     changeTimelineStyle(false);
   }
+  hiddenBody(false);
 
   window.addEventListener("urlchange", (info: any) => {
     devLog("urlchange", info);
