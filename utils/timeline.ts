@@ -81,23 +81,12 @@ export function updatePostLocation() {
     devLog("navBarWidth", navBarWidth);
     devLog("postWidth", postWidth);
     devLog("cols", cols);
-
-    const interval = setInterval(() => {
-      if (updatePostLocationFlag) {
-        updatePostLocationFlag = false;
-        const posts = document.querySelector(selectors.mainColumnItems.posts);
-        if (posts && posts.getBoundingClientRect().width === navBarWidth) {
-          clearInterval(interval);
-          const masonry = new Masonry(selectors.mainColumnItems.posts, {
-            columnWidth: postWidth,
-            itemSelector: `${selectors.mainColumnItems.posts} > div`,
-            transitionDuration: 0,
-          });
-          devLog("masonry", masonry);
-          updatePostLocationFlag = true;
-        }
-      }
-    }, 100);
+    const masonry = new Masonry(selectors.mainColumnItems.posts, {
+      columnWidth: postWidth,
+      itemSelector: `${selectors.mainColumnItems.posts} > div`,
+      transitionDuration: 0,
+    });
+    devLog("masonry", masonry);
   } else {
     devLogError("updatePostLocation can not found homeLink", homeLink);
   }

@@ -1,6 +1,8 @@
 "use strict";
 import { devLog, log } from "../utils/log";
 import {
+  changeTimelineStyle,
+  hiddenTimeline,
   isTimelineUrl,
   observerPosts,
   updatePostLocation,
@@ -9,34 +11,12 @@ import {
 import { initMenuCommand } from "./initMenuCommand";
 
 import { changeStyles } from "../utils/style";
+import { hiddenBody } from "../utils/element";
+import { hiddenSidebar } from "../utils/sidebar";
+import { hiddenNewPost } from "../utils/newPost";
 
 function main() {
   changeStyles(location.pathname);
-
-  window.addEventListener("urlchange", (info: any) => {
-    devLog("urlchange", info);
-    const url = new URL(info.url as string);
-
-    changeStyles(url.pathname);
-
-    const interval = setInterval(() => {
-      if (isTimelineUrl(url.pathname)) {
-        if (observerPosts()) {
-          // hiddenTimeline(false);
-          clearInterval(interval);
-        }
-      } else {
-        clearInterval(interval);
-      }
-    }, 200);
-  });
-
-  window.addEventListener("load", (event) => {
-    devLog("window load");
-    if (isTimelineUrl(location.pathname)) {
-      updatePostLocation();
-    }
-  });
 
   // let resizeFlag = true;
   // window.addEventListener("resize", (e) => {
@@ -54,15 +34,37 @@ function main() {
 
 log();
 initMenuCommand();
+hiddenBody(true);
 
-const mainInterval = setInterval(() => {
+window.addEventListener("load", (event) => {
+  devLog("window load");
   if (isTimelineUrl(location.pathname)) {
-    if (observerPosts()) {
-      main();
-      clearInterval(mainInterval);
-    }
+    hiddenSidebar(true);
+    hiddenNewPost(true);
+    changeTimelineStyle(true);
+
+    observerPosts();
+    hiddenBody(false);
   } else {
-    main();
-    clearInterval(mainInterval);
+    changeTimelineStyle(false);
   }
-}, 200);
+
+  window.addEventListener("urlchange", (info: any) => {
+    devLog("urlchange", info);
+    const url = new URL(info.url as string);
+
+    changeStyles(url.pathname);
+
+    const interval = setInterval(() => {
+      if (isTimelineUrl(url.pathname)) {
+        hiddenTimeline(true);
+        if (observerPosts()) {
+          hiddenTimeline(false);
+          clearInterval(interval);
+        }
+      } else {
+        clearInterval(interval);
+      }
+    }, 200);
+  });
+});
