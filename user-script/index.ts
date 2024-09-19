@@ -5,7 +5,6 @@ import {
   hiddenTimeline,
   isTimelineUrl,
   observerPosts,
-  updatePostLocation,
 } from "../utils/timeline";
 
 import { initMenuCommand } from "./initMenuCommand";
@@ -14,23 +13,6 @@ import { changeStyles } from "../utils/style";
 import { hiddenBody } from "../utils/element";
 import { hiddenSidebar } from "../utils/sidebar";
 import { hiddenNewPost } from "../utils/newPost";
-
-function main() {
-  changeStyles(location.pathname);
-
-  // let resizeFlag = true;
-  // window.addEventListener("resize", (e) => {
-  //   if (resizeFlag && isTimelineUrl(location.pathname)) {
-  //     resizeFlag = false;
-  //     devLog("window resize updatePostLocation");
-  //     setTimeout(() => {
-  //       changeTimelineStyle(true);
-  //       updatePostLocation();
-  //       resizeFlag = true;
-  //     }, 200);
-  //   }
-  // });
-}
 
 log();
 initMenuCommand();
