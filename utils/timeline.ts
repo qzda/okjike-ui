@@ -54,6 +54,8 @@ export function changeTimelineStyle(open: boolean) {
           border-right-width: 5px;
         }
 
+        ${selectors.mainColumnItems.posts} > div article [class*="AudioContent___StyledFlex"] { width: 100%; }
+
         /* 帖子宽度过小时帖子的操作栏会溢出 */
         ${selectors.mainColumnItems.postAction} { justify-content: space-between; }
         ${selectors.mainColumnItems.postAction} > div { min-width: unset; }
