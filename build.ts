@@ -56,7 +56,7 @@ async function buildUserScript() {
   const { stdout } = await runCommand(
     isDev
       ? "cd ./user-script && bun build --target=browser ./index.ts "
-      : "cd ./user-script && bun build --target=browser ./index.ts --minify"
+      : "cd ./user-script && bun build --target=browser ./index.ts "
   );
   const userScriptLines: string[] = ["// ==UserScript=="];
   Object.entries(UserScriptConfig).map(([key, value]) => {
