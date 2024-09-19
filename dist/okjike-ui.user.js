@@ -2,7 +2,7 @@
 // @name okjike-ui
 // @description 即刻网页版用户脚本。
 // @author qzda
-// @version 0.0.2
+// @version 0.0.3
 // @match https://web.okjike.com/*
 // @namespace https://github.com/qzda/okjike-ui/
 // @supportURL https://github.com/qzda/okjike-ui/issues/new
@@ -1498,10 +1498,10 @@ var dist_default = Obj;
 
 // ../package.json
 var name = "okjike-ui";
-var version = "0.0.2";
+var version = "0.0.3";
 
 // ../utils/dev.ts
-var isDev = true;
+var isDev = false;
 
 // ../utils/log.ts
 function log(...arg) {
@@ -1560,15 +1560,20 @@ var Selectors_default = selectors;
 function removeElementById(id) {
   document.getElementById(id)?.remove();
 }
+function hiddenBody(hidden) {
+  if (hidden) {
+    addStyles("body", "body { opacity: 0; };");
+    devLog("hiddenBody true");
+  } else {
+    removeStyles("body");
+    devLog("hiddenBody false");
+  }
+}
 
 // ../utils/newPost.ts
 function hiddenNewPost(hidden) {
   if (hidden) {
-    addStyles("hiddenNewPost", `
-      ${Selectors_default.mainColumnItems.newPost} {
-        display: none;
-      }
-      `);
+    addStyles("hiddenNewPost", `${Selectors_default.mainColumnItems.newPost} { display: none; }`);
   } else {
     removeStyles("hiddenNewPost");
   }
@@ -1672,6 +1677,8 @@ function changeTimelineStyle(open) {
           border-right-width: 5px;
         }
 
+        ${Selectors_default.mainColumnItems.posts} > div article [class*="AudioContent___StyledFlex"] { width: 100%; }
+
         /* \u5E16\u5B50\u5BBD\u5EA6\u8FC7\u5C0F\u65F6\u5E16\u5B50\u7684\u64CD\u4F5C\u680F\u4F1A\u6EA2\u51FA */
         ${Selectors_default.mainColumnItems.postAction} { justify-content: space-between; }
         ${Selectors_default.mainColumnItems.postAction} > div { min-width: unset; }
@@ -1695,22 +1702,12 @@ function updatePostLocation() {
     devLog("navBarWidth", navBarWidth);
     devLog("postWidth", postWidth);
     devLog("cols", cols);
-    const interval = setInterval(() => {
-      if (updatePostLocationFlag) {
-        updatePostLocationFlag = false;
-        const posts2 = document.querySelector(Selectors_default.mainColumnItems.posts);
-        if (posts2 && posts2.getBoundingClientRect().width === navBarWidth) {
-          clearInterval(interval);
-          const masonry = new import_masonry_layout.default(Selectors_default.mainColumnItems.posts, {
-            columnWidth: postWidth,
-            itemSelector: `${Selectors_default.mainColumnItems.posts} > div`,
-            transitionDuration: 0
-          });
-          devLog("masonry", masonry);
-          updatePostLocationFlag = true;
-        }
-      }
-    }, 100);
+    const masonry = new import_masonry_layout.default(Selectors_default.mainColumnItems.posts, {
+      columnWidth: postWidth,
+      itemSelector: `${Selectors_default.mainColumnItems.posts} > div`,
+      transitionDuration: 0
+    });
+    devLog("masonry", masonry);
   } else {
     devLogError("updatePostLocation can not found homeLink", homeLink);
   }
@@ -1733,8 +1730,15 @@ function observerPosts() {
   devLog("observerPosts", false);
   return false;
 }
+function hiddenTimeline(hidden) {
+  if (hidden) {
+    addStyles("hiddenTimeline", `${Selectors_default.mainColumn} { opacity: 0; };`);
+  } else {
+    removeStyles("hiddenTimeline");
+  }
+  devLog("hiddenTimeline", hidden);
+}
 var PostMinWidth = 400;
-var updatePostLocationFlag = true;
 
 // initMenuCommand.ts
 function initMenuCommand() {
@@ -1747,15 +1751,29 @@ function initMenuCommand() {
 }
 
 // index.ts
-function main() {
-  changeStyles(location.pathname);
+log();
+initMenuCommand();
+hiddenBody(true);
+window.addEventListener("load", (event) => {
+  devLog("window load");
+  if (isTimelineUrl(location.pathname)) {
+    hiddenSidebar(true);
+    hiddenNewPost(true);
+    changeTimelineStyle(true);
+    observerPosts();
+    hiddenBody(false);
+  } else {
+    changeTimelineStyle(false);
+  }
   window.addEventListener("urlchange", (info) => {
     devLog("urlchange", info);
     const url = new URL(info.url);
     changeStyles(url.pathname);
     const interval = setInterval(() => {
       if (isTimelineUrl(url.pathname)) {
+        hiddenTimeline(true);
         if (observerPosts()) {
+          hiddenTimeline(false);
           clearInterval(interval);
         }
       } else {
@@ -1763,23 +1781,4 @@ function main() {
       }
     }, 200);
   });
-  window.addEventListener("load", (event) => {
-    devLog("window load");
-    if (isTimelineUrl(location.pathname)) {
-      updatePostLocation();
-    }
-  });
-}
-log();
-initMenuCommand();
-var mainInterval = setInterval(() => {
-  if (isTimelineUrl(location.pathname)) {
-    if (observerPosts()) {
-      main();
-      clearInterval(mainInterval);
-    }
-  } else {
-    main();
-    clearInterval(mainInterval);
-  }
-}, 200);
+});
