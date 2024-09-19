@@ -54,6 +54,22 @@ export function changeTimelineStyle(open: boolean) {
           border-right-width: 5px;
         }
 
+        /* 帖子评论直接隐藏吧，弹出样式没想好 */
+        ${selectors.mainColumnItems.posts} > div article + div {
+          display: none;
+          /*
+            z-index: 100;
+            width: 500px;
+            position: fixed;
+            left: 50vw;
+            top: 66px;
+            transform: translateX(-50%);
+            box-shadow:
+              10px 0px 1000px 1000px rgba(0, 0, 0, 0.5),
+              0px 10px 1000px 1000px rgba(0, 0, 0, 0.5);
+          */
+        }
+        /* body:has(${selectors.mainColumnItems.posts} > div article + div) { overflow-y: hidden; } */
         ${selectors.mainColumnItems.posts} > div article [class*="AudioContent___StyledFlex"] { width: 100%; }
 
         /* 帖子宽度过小时帖子的操作栏会溢出 */
@@ -69,8 +85,6 @@ export function changeTimelineStyle(open: boolean) {
   devLog("changeTimelineStyle", open);
   devLog("changeTimelineStyle done");
 }
-
-let updatePostLocationFlag = true;
 
 export function updatePostLocation() {
   devLog("updatePostLocation start");
