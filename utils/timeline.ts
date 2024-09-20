@@ -77,6 +77,11 @@ export function changeTimelineStyle(open: boolean) {
         ${selectors.mainColumnItems.postAction} > div { min-width: unset; }
         ${selectors.mainColumnItems.postAction} > div.flex-1 { flex: 0; }
 
+        ${selectors.mainColumnItems.posts} > div article > div:nth-child(2) > div:nth-child(2),
+        ${selectors.mainColumnItems.posts} > div article > div:nth-child(2) > div:nth-child(3) {
+          margin-left: calc(-1rem - 40px);
+        }
+
         ${selectors.mainColumnItems.newMessage} {
           padding: 0 5px;
           border: none;
