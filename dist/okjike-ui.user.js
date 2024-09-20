@@ -1502,7 +1502,7 @@ var name = "okjike-ui";
 var version = "0.0.4";
 
 // ../utils/dev.ts
-var isDev = true;
+var isDev = false;
 
 // ../utils/log.ts
 function log(...arg) {
