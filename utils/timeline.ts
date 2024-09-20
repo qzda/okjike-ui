@@ -76,6 +76,11 @@ export function changeTimelineStyle(open: boolean) {
         ${selectors.mainColumnItems.postAction} { justify-content: space-between; }
         ${selectors.mainColumnItems.postAction} > div { min-width: unset; }
         ${selectors.mainColumnItems.postAction} > div.flex-1 { flex: 0; }
+
+        ${selectors.mainColumnItems.newMessage} {
+          padding: 0 5px;
+          border: none;
+        }
         `
     );
     devLog("style", style);
