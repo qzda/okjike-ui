@@ -18,6 +18,7 @@ export const UserScriptConfig: Record<string, configValue | configValue[]> = {
   downloadURL: userScriptUrl,
   updateURL: userScriptUrl,
   icon,
+  copyright: "MIT",
   "run-at": "document-start",
   connect: ["raw.githubusercontent.com", "github.com"],
   grant: [
