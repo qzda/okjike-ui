@@ -2,7 +2,7 @@
 // @name okjike-ui
 // @description 即刻网页版用户脚本。
 // @author qzda
-// @version 0.0.3
+// @version 0.0.4
 // @match https://web.okjike.com/*
 // @namespace https://github.com/qzda/okjike-ui/
 // @supportURL https://github.com/qzda/okjike-ui/issues/new
@@ -1499,10 +1499,10 @@ var dist_default = Obj;
 
 // ../package.json
 var name = "okjike-ui";
-var version = "0.0.3";
+var version = "0.0.4";
 
 // ../utils/dev.ts
-var isDev = false;
+var isDev = true;
 
 // ../utils/log.ts
 function log(...arg) {
@@ -1564,11 +1564,10 @@ function removeElementById(id) {
 function hiddenBody(hidden) {
   if (hidden) {
     addStyles("body", "body { opacity: 0; };");
-    devLog("hiddenBody true");
   } else {
     removeStyles("body");
-    devLog("hiddenBody false");
   }
+  devLog("hiddenBody", hidden);
 }
 
 // ../utils/newPost.ts
@@ -1741,6 +1740,7 @@ function updatePostLocation() {
   devLog("updatePostLocation done");
 }
 function observerPosts() {
+  devLog("observerPosts start");
   const postsContainer = document.querySelector(Selectors_default.mainColumnItems.posts);
   const homeLink = document.querySelector(Selectors_default.navBarItems.linksItem.home);
   devLog("homeLink", homeLink);
@@ -1752,9 +1752,11 @@ function observerPosts() {
       childList: true
     });
     devLog("observerPosts", true);
+    devLog("observerPosts done");
     return true;
   }
   devLog("observerPosts", false);
+  devLog("observerPosts done");
   return false;
 }
 function hiddenTimeline(hidden) {
@@ -1787,11 +1789,16 @@ window.addEventListener("load", (event) => {
     hiddenSidebar(true);
     hiddenNewPost(true);
     changeTimelineStyle(true);
-    observerPosts();
+    const interval = setInterval(() => {
+      if (observerPosts()) {
+        clearInterval(interval);
+        hiddenBody(false);
+      }
+    }, 200);
   } else {
     changeTimelineStyle(false);
+    hiddenBody(false);
   }
-  hiddenBody(false);
   window.addEventListener("urlchange", (info) => {
     devLog("urlchange", info);
     const url = new URL(info.url);

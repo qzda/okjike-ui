@@ -120,6 +120,8 @@ export function updatePostLocation() {
 }
 
 export function observerPosts() {
+  devLog("observerPosts start");
+
   const postsContainer = document.querySelector(
     Selectors.mainColumnItems.posts
   );
@@ -133,10 +135,12 @@ export function observerPosts() {
       childList: true,
     });
     devLog("observerPosts", true);
+    devLog("observerPosts done");
+
     return true;
   }
-
   devLog("observerPosts", false);
+  devLog("observerPosts done");
   return false;
 }
 

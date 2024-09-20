@@ -1,6 +1,4 @@
 import { devLog } from "./log";
-import { hiddenNewPost } from "./newPost";
-import { hiddenSidebar } from "./sidebar";
 import { addStyles, removeStyles } from "./style";
 
 export function removeElementById(id: string) {
@@ -14,9 +12,8 @@ export function removeElement(selector: string) {
 export function hiddenBody(hidden: boolean) {
   if (hidden) {
     addStyles("body", "body { opacity: 0; };");
-    devLog("hiddenBody true");
   } else {
     removeStyles("body");
-    devLog("hiddenBody false");
   }
+  devLog("hiddenBody", hidden);
 }

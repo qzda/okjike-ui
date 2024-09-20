@@ -25,11 +25,16 @@ window.addEventListener("load", (event) => {
     hiddenNewPost(true);
     changeTimelineStyle(true);
 
-    observerPosts();
+    const interval = setInterval(() => {
+      if (observerPosts()) {
+        clearInterval(interval);
+        hiddenBody(false);
+      }
+    }, 200);
   } else {
     changeTimelineStyle(false);
+    hiddenBody(false);
   }
-  hiddenBody(false);
 
   window.addEventListener("urlchange", (info: any) => {
     devLog("urlchange", info);
