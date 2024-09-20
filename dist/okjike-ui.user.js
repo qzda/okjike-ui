@@ -9,6 +9,7 @@
 // @downloadURL https://raw.githubusercontent.com/qzda/okjike-ui/main/dist/okjike-ui.user.js
 // @updateURL https://raw.githubusercontent.com/qzda/okjike-ui/main/dist/okjike-ui.user.js
 // @icon https://raw.githubusercontent.com/qzda/okjike-ui/refs/heads/main/image/okjike-logo.png
+// @copyright MIT
 // @run-at document-start
 // @connect raw.githubusercontent.com
 // @connect github.com
@@ -167,11 +168,11 @@ var require_get_size = __commonJS((exports, module) => {
       return size;
     }
     function getStyle(elem) {
-      var style4 = getComputedStyle(elem);
-      if (!style4) {
-        logError2("Style returned " + style4 + ". Are you running this code in a hidden iframe on Firefox? " + "See https://bit.ly/getsizebug1");
+      var style = getComputedStyle(elem);
+      if (!style) {
+        logError2("Style returned " + style + ". Are you running this code in a hidden iframe on Firefox? " + "See https://bit.ly/getsizebug1");
       }
-      return style4;
+      return style;
     }
     var isSetup = false;
     var isBoxSizeOuter;
@@ -188,8 +189,8 @@ var require_get_size = __commonJS((exports, module) => {
       div.style.boxSizing = "border-box";
       var body = document.body || document.documentElement;
       body.appendChild(div);
-      var style4 = getStyle(div);
-      isBoxSizeOuter = Math.round(getStyleSize(style4.width)) == 200;
+      var style = getStyle(div);
+      isBoxSizeOuter = Math.round(getStyleSize(style.width)) == 200;
       getSize.isBoxSizeOuter = isBoxSizeOuter;
       body.removeChild(div);
     }
@@ -201,17 +202,17 @@ var require_get_size = __commonJS((exports, module) => {
       if (!elem || typeof elem != "object" || !elem.nodeType) {
         return;
       }
-      var style4 = getStyle(elem);
-      if (style4.display == "none") {
+      var style = getStyle(elem);
+      if (style.display == "none") {
         return getZeroSize();
       }
       var size = {};
       size.width = elem.offsetWidth;
       size.height = elem.offsetHeight;
-      var isBorderBox = size.isBorderBox = style4.boxSizing == "border-box";
+      var isBorderBox = size.isBorderBox = style.boxSizing == "border-box";
       for (var i = 0;i < measurementsLength; i++) {
         var measurement = measurements[i];
-        var value = style4[measurement];
+        var value = style[measurement];
         var num = parseFloat(value);
         size[measurement] = !isNaN(num) ? num : 0;
       }
@@ -222,11 +223,11 @@ var require_get_size = __commonJS((exports, module) => {
       var borderWidth = size.borderLeftWidth + size.borderRightWidth;
       var borderHeight = size.borderTopWidth + size.borderBottomWidth;
       var isBorderBoxSizeOuter = isBorderBox && isBoxSizeOuter;
-      var styleWidth = getStyleSize(style4.width);
+      var styleWidth = getStyleSize(style.width);
       if (styleWidth !== false) {
         size.width = styleWidth + (isBorderBoxSizeOuter ? 0 : paddingWidth + borderWidth);
       }
-      var styleHeight = getStyleSize(style4.height);
+      var styleHeight = getStyleSize(style.height);
       if (styleHeight !== false) {
         size.height = styleHeight + (isBorderBoxSizeOuter ? 0 : paddingHeight + borderHeight);
       }
@@ -456,11 +457,11 @@ var require_item = __commonJS((exports, module) => {
       transitionProperty: transitionProperty + "Property",
       transitionDelay: transitionProperty + "Delay"
     };
-    function Item(element2, layout) {
-      if (!element2) {
+    function Item(element, layout) {
+      if (!element) {
         return;
       }
-      this.element = element2;
+      this.element = element;
       this.layout = layout;
       this.position = {
         x: 0,
@@ -489,19 +490,19 @@ var require_item = __commonJS((exports, module) => {
     proto.getSize = function() {
       this.size = getSize(this.element);
     };
-    proto.css = function(style4) {
+    proto.css = function(style) {
       var elemStyle = this.element.style;
-      for (var prop in style4) {
+      for (var prop in style) {
         var supportedProp = vendorProperties[prop] || prop;
-        elemStyle[supportedProp] = style4[prop];
+        elemStyle[supportedProp] = style[prop];
       }
     };
     proto.getPosition = function() {
-      var style4 = getComputedStyle(this.element);
+      var style = getComputedStyle(this.element);
       var isOriginLeft = this.layout._getOption("originLeft");
       var isOriginTop = this.layout._getOption("originTop");
-      var xValue = style4[isOriginLeft ? "left" : "right"];
-      var yValue = style4[isOriginTop ? "top" : "bottom"];
+      var xValue = style[isOriginLeft ? "left" : "right"];
+      var yValue = style[isOriginTop ? "top" : "bottom"];
       var x = parseFloat(xValue);
       var y = parseFloat(yValue);
       var layoutSize = this.layout.size;
@@ -520,22 +521,22 @@ var require_item = __commonJS((exports, module) => {
     };
     proto.layoutPosition = function() {
       var layoutSize = this.layout.size;
-      var style4 = {};
+      var style = {};
       var isOriginLeft = this.layout._getOption("originLeft");
       var isOriginTop = this.layout._getOption("originTop");
       var xPadding = isOriginLeft ? "paddingLeft" : "paddingRight";
       var xProperty = isOriginLeft ? "left" : "right";
       var xResetProperty = isOriginLeft ? "right" : "left";
       var x = this.position.x + layoutSize[xPadding];
-      style4[xProperty] = this.getXValue(x);
-      style4[xResetProperty] = "";
+      style[xProperty] = this.getXValue(x);
+      style[xResetProperty] = "";
       var yPadding = isOriginTop ? "paddingTop" : "paddingBottom";
       var yProperty = isOriginTop ? "top" : "bottom";
       var yResetProperty = isOriginTop ? "bottom" : "top";
       var y = this.position.y + layoutSize[yPadding];
-      style4[yProperty] = this.getYValue(y);
-      style4[yResetProperty] = "";
-      this.css(style4);
+      style[yProperty] = this.getYValue(y);
+      style[yResetProperty] = "";
+      this.css(style);
       this.emitEvent("layout", [this]);
     };
     proto.getXValue = function(x) {
@@ -671,9 +672,9 @@ var require_item = __commonJS((exports, module) => {
       this.element.removeEventListener(transitionEndEvent, this, false);
       this.isTransitioning = false;
     };
-    proto._removeStyles = function(style4) {
+    proto._removeStyles = function(style) {
       var cleanStyle = {};
-      for (var prop in style4) {
+      for (var prop in style) {
         cleanStyle[prop] = "";
       }
       this.css(cleanStyle);
@@ -797,11 +798,11 @@ var require_outlayer = __commonJS((exports, module) => {
     };
     var GUID = 0;
     var instances = {};
-    function Outlayer(element2, options) {
-      var queryElement = utils.getQueryElement(element2);
+    function Outlayer(element, options) {
+      var queryElement = utils.getQueryElement(element);
       if (!queryElement) {
         if (console2) {
-          console2.error("Bad element for " + this.constructor.namespace + ": " + (queryElement || element2));
+          console2.error("Bad element for " + this.constructor.namespace + ": " + (queryElement || element));
         }
         return;
       }
@@ -1217,10 +1218,10 @@ var require_outlayer = __commonJS((exports, module) => {
       }, this);
     };
     proto.destroy = function() {
-      var style4 = this.element.style;
-      style4.height = "";
-      style4.position = "";
-      style4.width = "";
+      var style = this.element.style;
+      style.height = "";
+      style.position = "";
+      style.width = "";
       this.items.forEach(function(item) {
         item.destroy();
       });
@@ -1619,11 +1620,11 @@ function addStyles(id, css) {
     }
     return oldStyle;
   } else {
-    const style4 = document.createElement("style");
-    style4.id = styleID;
-    style4.textContent = css;
-    head?.appendChild(style4);
-    return style4;
+    const style = document.createElement("style");
+    style.id = styleID;
+    style.textContent = css;
+    head?.appendChild(style);
+    return style;
   }
 }
 function removeStyles(id) {
@@ -1649,7 +1650,7 @@ function changeTimelineStyle(open) {
     const postWidth = navBarWidth ? navBarWidth / (navBarWidth / PostMinWidth >> 0) : PostMinWidth;
     devLog("navBarWidth", navBarWidth);
     devLog("postWidth", postWidth);
-    const style5 = addStyles("timelineStyle", `
+    const style = addStyles("timelineStyle", `
         ${Selectors_default.mainColumn} {
           min-width: 600px;
           max-width: 100%;
@@ -1677,14 +1678,40 @@ function changeTimelineStyle(open) {
           border-right-width: 5px;
         }
 
+        /* \u5E16\u5B50\u8BC4\u8BBA\u76F4\u63A5\u9690\u85CF\u5427\uFF0C\u5F39\u51FA\u6837\u5F0F\u6CA1\u60F3\u597D */
+        ${Selectors_default.mainColumnItems.posts} > div article + div {
+          display: none;
+          /*
+            z-index: 100;
+            width: 500px;
+            position: fixed;
+            left: 50vw;
+            top: 66px;
+            transform: translateX(-50%);
+            box-shadow:
+              10px 0px 1000px 1000px rgba(0, 0, 0, 0.5),
+              0px 10px 1000px 1000px rgba(0, 0, 0, 0.5);
+          */
+        }
+        /* body:has(${Selectors_default.mainColumnItems.posts} > div article + div) { overflow-y: hidden; } */
         ${Selectors_default.mainColumnItems.posts} > div article [class*="AudioContent___StyledFlex"] { width: 100%; }
 
         /* \u5E16\u5B50\u5BBD\u5EA6\u8FC7\u5C0F\u65F6\u5E16\u5B50\u7684\u64CD\u4F5C\u680F\u4F1A\u6EA2\u51FA */
         ${Selectors_default.mainColumnItems.postAction} { justify-content: space-between; }
         ${Selectors_default.mainColumnItems.postAction} > div { min-width: unset; }
         ${Selectors_default.mainColumnItems.postAction} > div.flex-1 { flex: 0; }
+
+        ${Selectors_default.mainColumnItems.posts} > div article > div:nth-child(2) > div:nth-child(2),
+        ${Selectors_default.mainColumnItems.posts} > div article > div:nth-child(2) > div:nth-child(3) {
+          margin-left: calc(-1rem - 40px);
+        }
+
+        ${Selectors_default.mainColumnItems.newMessage} {
+          padding: 0 5px;
+          border: none;
+        }
         `);
-    devLog("style", style5);
+    devLog("style", style);
   } else {
     removeStyles("timelineStyle");
   }
@@ -1761,10 +1788,10 @@ window.addEventListener("load", (event) => {
     hiddenNewPost(true);
     changeTimelineStyle(true);
     observerPosts();
-    hiddenBody(false);
   } else {
     changeTimelineStyle(false);
   }
+  hiddenBody(false);
   window.addEventListener("urlchange", (info) => {
     devLog("urlchange", info);
     const url = new URL(info.url);
