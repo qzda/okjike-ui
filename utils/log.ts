@@ -4,7 +4,7 @@ import { isDev } from "./dev";
 
 export function log(...arg: any[]) {
   console.log(
-    prolog.bgBlack(prolog.brightYellow(`${name} ${version}`)),
+    prolog.bgBlack(prolog.brightYellow(`${name} v${version}`)),
     ...arg
   );
 }
