@@ -6,7 +6,6 @@
 ## 功能
 
 - 以瀑布流的方式浏览时间线。
-- 🚧 时间线里展开评论、展开全文改为弹窗的形式。目前隐藏评论展开，请直接跳转查看。
 
 ![timeline](./image/timeline.png)
 
@@ -30,7 +29,3 @@ bun dev
 ```
 
 将 `dist/okjike-ui.user.js` 文件添加到 Tampermonkey 中。
-
-## Bugs
-
-- 时间线帖子展开评论、展开全文元素位置未刷新。
