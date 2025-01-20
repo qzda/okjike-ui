@@ -2,7 +2,7 @@
 // @name okjike-ui
 // @description 即刻网页版用户脚本。
 // @author qzda
-// @version 0.0.4
+// @version 0.0.5
 // @match https://web.okjike.com/*
 // @namespace https://github.com/qzda/okjike-ui/
 // @supportURL https://github.com/qzda/okjike-ui/issues/new
@@ -1499,14 +1499,14 @@ var dist_default = Obj;
 
 // ../package.json
 var name = "okjike-ui";
-var version = "0.0.4";
+var version = "0.0.5";
 
 // ../utils/dev.ts
 var isDev = false;
 
 // ../utils/log.ts
 function log(...arg) {
-  console.log(dist_default.bgBlack(dist_default.brightYellow(`${name} ${version}`)), ...arg);
+  console.log(dist_default.bgBlack(dist_default.brightYellow(`${name} v${version}`)), ...arg);
 }
 function logError(...arg) {
   console.log(dist_default.bgRed(`${name} ${version}`), ...arg);
@@ -1543,7 +1543,7 @@ var selectors = {
   },
   mainColumn: `${mainWrapper} > div:nth-child(2) > div`,
   mainColumnItems: {
-    newPost: `${mainColumn} > div:has(textarea[placeholder="\u5206\u4EAB\u4F60\u7684\u60F3\u6CD5..."])`,
+    newPost: `${mainColumn} > div:has(textarea[placeholder="分享你的想法..."])`,
     newMessage: `${mainColumn} > div[class*="NewMessageNoti"]`,
     posts,
     postAction: `${posts} > div article > div:nth-child(2) > div:last-child > div:last-child`
@@ -1639,6 +1639,7 @@ function changeStyles(pathname) {
 
 // ../utils/timeline.ts
 var import_masonry_layout = __toESM(require_masonry(), 1);
+var PostMinWidth = 400;
 function isTimelineUrl(url) {
   return url === "/" || url === "/recommend";
 }
@@ -1677,25 +1678,10 @@ function changeTimelineStyle(open) {
           border-right-width: 5px;
         }
 
-        /* \u5E16\u5B50\u8BC4\u8BBA\u76F4\u63A5\u9690\u85CF\u5427\uFF0C\u5F39\u51FA\u6837\u5F0F\u6CA1\u60F3\u597D */
-        ${Selectors_default.mainColumnItems.posts} > div article + div {
-          display: none;
-          /*
-            z-index: 100;
-            width: 500px;
-            position: fixed;
-            left: 50vw;
-            top: 66px;
-            transform: translateX(-50%);
-            box-shadow:
-              10px 0px 1000px 1000px rgba(0, 0, 0, 0.5),
-              0px 10px 1000px 1000px rgba(0, 0, 0, 0.5);
-          */
-        }
         /* body:has(${Selectors_default.mainColumnItems.posts} > div article + div) { overflow-y: hidden; } */
         ${Selectors_default.mainColumnItems.posts} > div article [class*="AudioContent___StyledFlex"] { width: 100%; }
 
-        /* \u5E16\u5B50\u5BBD\u5EA6\u8FC7\u5C0F\u65F6\u5E16\u5B50\u7684\u64CD\u4F5C\u680F\u4F1A\u6EA2\u51FA */
+        /* 帖子宽度过小时帖子的操作栏会溢出 */
         ${Selectors_default.mainColumnItems.postAction} { justify-content: space-between; }
         ${Selectors_default.mainColumnItems.postAction} > div { min-width: unset; }
         ${Selectors_default.mainColumnItems.postAction} > div.flex-1 { flex: 0; }
@@ -1767,12 +1753,11 @@ function hiddenTimeline(hidden) {
   }
   devLog("hiddenTimeline", hidden);
 }
-var PostMinWidth = 400;
 
 // initMenuCommand.ts
 function initMenuCommand() {
-  GM_registerMenuCommand("\u663E\u793A/\u9690\u85CF\u4FA7\u8FB9\u680F", function(event) {
-    alert("\uD83D\uDEA7\u65BD\u5DE5\u4E2D");
+  GM_registerMenuCommand("显示/隐藏侧边栏", function(event) {
+    alert("\uD83D\uDEA7施工中");
   }, {
     autoClose: false
   });
@@ -1785,8 +1770,8 @@ initMenuCommand();
 hiddenBody(true);
 window.addEventListener("load", (event) => {
   devLog("window load");
+  hiddenSidebar(true);
   if (isTimelineUrl(location.pathname)) {
-    hiddenSidebar(true);
     hiddenNewPost(true);
     changeTimelineStyle(true);
     const interval = setInterval(() => {
@@ -1815,4 +1800,32 @@ window.addEventListener("load", (event) => {
       }
     }, 200);
   });
+  window.addEventListener("click", (e) => {
+    devLog("window click", e);
+    if (e.target) {
+      const target = e.target;
+      if (target.innerHTML === "收起全文" || target.innerHTML === "展开全文") {
+        devLog("展开/收起全文");
+        setTimeout(() => {
+          updatePostLocation();
+        }, 300);
+        setTimeout(() => {
+          updatePostLocation();
+        }, 1000);
+        updatePostLocation();
+        return;
+      }
+      const commentElement = document.querySelectorAll(`${Selectors_default.mainColumnItems.postAction} > div:nth-child(2)`);
+      if ([...commentElement].some((item) => item.contains(target))) {
+        devLog("展开/收起评论");
+        setTimeout(() => {
+          updatePostLocation();
+        }, 300);
+        setTimeout(() => {
+          updatePostLocation();
+        }, 1000);
+        return;
+      }
+    }
+  }, true);
 });
