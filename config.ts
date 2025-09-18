@@ -19,7 +19,7 @@ export const UserScriptConfig: Record<string, configValue | configValue[]> = {
   updateURL: userScriptUrl,
   icon,
   copyright: "MIT",
-  "run-at": "document-start",
+  "run-at": "document-end",
   connect: ["raw.githubusercontent.com", "github.com"],
   grant: [
     "unsafeWindow",

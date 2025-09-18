@@ -10,7 +10,7 @@
 // @updateURL https://raw.githubusercontent.com/qzda/okjike-ui/main/dist/okjike-ui.user.js
 // @icon https://raw.githubusercontent.com/qzda/okjike-ui/refs/heads/main/image/okjike-logo.png
 // @copyright MIT
-// @run-at document-start
+// @run-at document-end
 // @connect raw.githubusercontent.com
 // @connect github.com
 // @grant unsafeWindow
@@ -49,8 +49,7 @@ var require_ev_emitter = __commonJS((exports, module) => {
       global.EvEmitter = factory();
     }
   })(typeof window != "undefined" ? window : exports, function() {
-    function EvEmitter() {
-    }
+    function EvEmitter() {}
     var proto = EvEmitter.prototype;
     proto.on = function(eventName, listener) {
       if (!eventName || !listener) {
@@ -132,8 +131,7 @@ var require_get_size = __commonJS((exports, module) => {
       var isValid = value.indexOf("%") == -1 && !isNaN(num);
       return isValid && num;
     }
-    function noop() {
-    }
+    function noop() {}
     var logError2 = typeof console == "undefined" ? noop : function(message) {
       console.error(message);
     };
@@ -794,8 +792,7 @@ var require_outlayer = __commonJS((exports, module) => {
   })(window, function factory(window2, EvEmitter, getSize, utils, Item) {
     var console2 = window2.console;
     var jQuery = window2.jQuery;
-    var noop = function() {
-    };
+    var noop = function() {};
     var GUID = 0;
     var instances = {};
     function Outlayer(element, options) {
@@ -1502,14 +1499,14 @@ var name = "okjike-ui";
 var version = "0.0.5";
 
 // ../utils/dev.ts
-var isDev = false;
+var isDev = true;
 
 // ../utils/log.ts
 function log(...arg) {
   console.log(dist_default.bgBlack(dist_default.brightYellow(`${name} v${version}`)), ...arg);
 }
 function logError(...arg) {
-  console.log(dist_default.bgRed(`${name} ${version}`), ...arg);
+  console.log(dist_default.bgRed(`${name} v${version}`), ...arg);
 }
 function devLog(...arg) {
   if (isDev) {
@@ -1522,91 +1519,23 @@ function devLogError(...arg) {
   }
 }
 
-// ../Selectors.ts
-var mainWrapper = `#__next > div > div`;
-var navBar = `${mainWrapper} > div`;
-var mainColumn = `${mainWrapper} > div:nth-child(2) > div`;
-var sideBar = `${mainWrapper} > div:nth-child(2) > aside`;
-var posts = `${mainColumn} > div:last-child > div`;
+// ../selectors.ts
+var mainWrapper = `#root > div.mantine-ScrollArea-root > div.mantine-ScrollArea-viewport > div`;
+var navBar = `${mainWrapper} > div.navbar`;
+var postsWrapper = `${mainWrapper} .mantine-Container-root > div > div`;
+var addNewPost = `${postsWrapper} > :nth-child(1)`;
+var posts = `${postsWrapper} > :nth-child(n+2)`;
 var selectors = {
   mainWrapper,
-  navBar: `${mainWrapper} > div`,
-  navBarItems: {
-    links: `${navBar} > div > div`,
-    linksItem: {
-      logo: `${navBar} > div > div > a:nth-child(1)`,
-      home: `${navBar} > div > div > a:nth-child(2)`,
-      recommend: `${navBar} > div > div > a:nth-child(3)`
-    },
-    searchWrapper: `${navBar} > div > div:nth-child(2)`,
-    searchWrapperInput: `${navBar} > div > div:nth-child(2) > input`
-  },
-  mainColumn: `${mainWrapper} > div:nth-child(2) > div`,
-  mainColumnItems: {
-    newPost: `${mainColumn} > div:has(textarea[placeholder="分享你的想法..."])`,
-    newMessage: `${mainColumn} > div[class*="NewMessageNoti"]`,
-    posts,
-    postAction: `${posts} > div article > div:nth-child(2) > div:last-child > div:last-child`
-  },
-  sideBar,
-  sideBarItems: {
-    userInfo: `${sideBar} > div`,
-    groupInfo: `${sideBar} > div:nth-child(2)`,
-    footer: `${sideBar} > footer`
-  }
+  navBar,
+  postsWrapper,
+  addNewPost,
+  posts
 };
-var Selectors_default = selectors;
+var selectors_default = selectors;
 
-// ../utils/element.ts
-function removeElementById(id) {
-  document.getElementById(id)?.remove();
-}
-function hiddenBody(hidden) {
-  if (hidden) {
-    addStyles("body", "body { opacity: 0; };");
-  } else {
-    removeStyles("body");
-  }
-  devLog("hiddenBody", hidden);
-}
-
-// ../utils/newPost.ts
-function hiddenNewPost(hidden) {
-  if (hidden) {
-    addStyles("hiddenNewPost", `${Selectors_default.mainColumnItems.newPost} { display: none; }`);
-  } else {
-    removeStyles("hiddenNewPost");
-  }
-  devLog("hiddenNewPost", hidden);
-}
-
-// ../utils/sidebar.ts
-function hiddenSidebar(hidden) {
-  if (hidden) {
-    addStyles("hiddenSidebar", `
-      ${Selectors_default.sideBar} {
-        display: none;
-      }
-      ${Selectors_default.sideBar} > div {
-        margin: 0;
-        border-radius: 10px;
-        overflow: hidden;
-        box-shadow:
-          4px 8px 8px rgba(128, 128, 128, 0.5);
-      }
-      ${Selectors_default.sideBar} > footer {
-        display: none;
-      }
-      `);
-  } else {
-    addStyles("hiddenSidebar", `
-      ${Selectors_default.sideBar} {
-        display: none;
-      }
-      `);
-  }
-  devLog("hiddenSidebar", hidden);
-}
+// ../utils/timeline.ts
+var import_masonry_layout = __toESM(require_masonry(), 1);
 
 // ../utils/style.ts
 function addStyles(id, css) {
@@ -1626,206 +1555,53 @@ function addStyles(id, css) {
     return style;
   }
 }
-function removeStyles(id) {
-  const styleID = "okjike-ui-" + id;
-  removeElementById(styleID);
-}
-function changeStyles(pathname) {
-  const b = isTimelineUrl(pathname);
-  changeTimelineStyle(b);
-  hiddenNewPost(b);
-  hiddenSidebar(b);
-}
 
 // ../utils/timeline.ts
-var import_masonry_layout = __toESM(require_masonry(), 1);
-var PostMinWidth = 400;
-function isTimelineUrl(url) {
-  return url === "/" || url === "/recommend";
-}
-function changeTimelineStyle(open) {
-  devLog("changeTimelineStyle start");
-  if (open) {
-    const navBarWidth = document.querySelector(`${Selectors_default.navBar} > div`)?.getBoundingClientRect().width;
-    const postWidth = navBarWidth ? navBarWidth / (navBarWidth / PostMinWidth >> 0) : PostMinWidth;
-    devLog("navBarWidth", navBarWidth);
-    devLog("postWidth", postWidth);
-    const style = addStyles("timelineStyle", `
-        ${Selectors_default.mainColumn} {
-          min-width: 600px;
-          max-width: 100%;
-          padding: 0px 160px;
-        }
-        @media (max-width: 1536px) {
-          ${Selectors_default.mainColumn} { padding: 0px 48px; }
-        }
-        @media (max-width: 1280px) {
-          ${Selectors_default.mainColumn} { padding: 0px 32px; }
-        }
-        @media (max-width: 1024px) {
-          ${Selectors_default.mainColumn} { padding: 0px 16px; }
-        }
-
-        ${Selectors_default.mainColumnItems.posts} > div {
-          height: fit-content;
-          min-width: ${PostMinWidth}px;
-          width: ${postWidth}px;
-        }
-        ${Selectors_default.mainColumnItems.posts} > div > div {
-          border-color: transparent;
-          border-top-width: 10px;
-          border-left-width: 5px;
-          border-right-width: 5px;
-        }
-
-        /* body:has(${Selectors_default.mainColumnItems.posts} > div article + div) { overflow-y: hidden; } */
-        ${Selectors_default.mainColumnItems.posts} > div article [class*="AudioContent___StyledFlex"] { width: 100%; }
-
-        /* 帖子宽度过小时帖子的操作栏会溢出 */
-        ${Selectors_default.mainColumnItems.postAction} { justify-content: space-between; }
-        ${Selectors_default.mainColumnItems.postAction} > div { min-width: unset; }
-        ${Selectors_default.mainColumnItems.postAction} > div.flex-1 { flex: 0; }
-
-        ${Selectors_default.mainColumnItems.posts} > div article > div:nth-child(2) > div:nth-child(2),
-        ${Selectors_default.mainColumnItems.posts} > div article > div:nth-child(2) > div:nth-child(3) {
-          margin-left: calc(-1rem - 40px);
-        }
-
-        ${Selectors_default.mainColumnItems.newMessage} {
-          padding: 0 5px;
-          border: none;
-        }
-        `);
-    devLog("style", style);
-  } else {
-    removeStyles("timelineStyle");
-  }
-  devLog("changeTimelineStyle", open);
-  devLog("changeTimelineStyle done");
-}
 function updatePostLocation() {
   devLog("updatePostLocation start");
-  const homeLink = document.querySelector(Selectors_default.navBarItems.linksItem.home);
-  if (homeLink) {
-    const navBar2 = document.querySelector(`${Selectors_default.navBar} > div`);
-    const navBarWidth = navBar2?.getBoundingClientRect().width;
-    const postWidth = navBarWidth / (navBarWidth / PostMinWidth >> 0);
-    const cols = navBarWidth / postWidth;
-    devLog("navBarWidth", navBarWidth);
+  addStyles("hidden-addNewPost", `
+      ${selectors_default.addNewPost} {
+        display: none;
+      }
+    `);
+  const postsWrapper2 = document.querySelector(selectors_default.postsWrapper);
+  if (postsWrapper2) {
+    const postWidth = postsWrapper2.getBoundingClientRect().width;
     devLog("postWidth", postWidth);
-    devLog("cols", cols);
-    const masonry = new import_masonry_layout.default(Selectors_default.mainColumnItems.posts, {
-      columnWidth: postWidth,
-      itemSelector: `${Selectors_default.mainColumnItems.posts} > div`,
+    const masonry = new import_masonry_layout.default(selectors_default.postsWrapper, {
+      columnWidth: postWidth / 3 >> 0,
+      itemSelector: selectors_default.posts,
       transitionDuration: 0
     });
     devLog("masonry", masonry);
   } else {
-    devLogError("updatePostLocation can not found homeLink", homeLink);
+    devLogError("updatePostLocation can not found postsWrapper", selectors_default.postsWrapper);
   }
   devLog("updatePostLocation done");
 }
 function observerPosts() {
   devLog("observerPosts start");
-  const postsContainer = document.querySelector(Selectors_default.mainColumnItems.posts);
-  const homeLink = document.querySelector(Selectors_default.navBarItems.linksItem.home);
-  devLog("homeLink", homeLink);
-  if (postsContainer && homeLink) {
+  const postsWrapper2 = document.querySelector(selectors_default.postsWrapper);
+  if (postsWrapper2) {
     updatePostLocation();
-    new MutationObserver((recordList) => {
+    new MutationObserver(() => {
       updatePostLocation();
-    }).observe(postsContainer, {
+    }).observe(postsWrapper2, {
       childList: true
     });
-    devLog("observerPosts", true);
-    devLog("observerPosts done");
-    return true;
   }
-  devLog("observerPosts", false);
-  devLog("observerPosts done");
-  return false;
-}
-function hiddenTimeline(hidden) {
-  if (hidden) {
-    addStyles("hiddenTimeline", `${Selectors_default.mainColumn} { opacity: 0; };`);
-  } else {
-    removeStyles("hiddenTimeline");
-  }
-  devLog("hiddenTimeline", hidden);
-}
-
-// initMenuCommand.ts
-function initMenuCommand() {
-  GM_registerMenuCommand("显示/隐藏侧边栏", function(event) {
-    alert("\uD83D\uDEA7施工中");
-  }, {
-    autoClose: false
-  });
-  devLog("initMenuCommand");
 }
 
 // index.ts
 log();
-initMenuCommand();
-hiddenBody(true);
-window.addEventListener("load", (event) => {
-  devLog("window load");
-  hiddenSidebar(true);
-  if (isTimelineUrl(location.pathname)) {
-    hiddenNewPost(true);
-    changeTimelineStyle(true);
-    const interval = setInterval(() => {
-      if (observerPosts()) {
-        clearInterval(interval);
-        hiddenBody(false);
-      }
-    }, 200);
-  } else {
-    changeTimelineStyle(false);
-    hiddenBody(false);
-  }
-  window.addEventListener("urlchange", (info) => {
-    devLog("urlchange", info);
-    const url = new URL(info.url);
-    changeStyles(url.pathname);
-    const interval = setInterval(() => {
-      if (isTimelineUrl(url.pathname)) {
-        hiddenTimeline(true);
-        if (observerPosts()) {
-          hiddenTimeline(false);
-          clearInterval(interval);
-        }
-      } else {
-        clearInterval(interval);
-      }
-    }, 200);
-  });
-  window.addEventListener("click", (e) => {
-    devLog("window click", e);
-    if (e.target) {
-      const target = e.target;
-      if (target.innerHTML === "收起全文" || target.innerHTML === "展开全文") {
-        devLog("展开/收起全文");
-        setTimeout(() => {
-          updatePostLocation();
-        }, 300);
-        setTimeout(() => {
-          updatePostLocation();
-        }, 1000);
-        updatePostLocation();
-        return;
-      }
-      const commentElement = document.querySelectorAll(`${Selectors_default.mainColumnItems.postAction} > div:nth-child(2)`);
-      if ([...commentElement].some((item) => item.contains(target))) {
-        devLog("展开/收起评论");
-        setTimeout(() => {
-          updatePostLocation();
-        }, 300);
-        setTimeout(() => {
-          updatePostLocation();
-        }, 1000);
-        return;
-      }
-    }
-  }, true);
-});
+devLog("selectors", selectors_default);
+window.onload = () => {
+  devLog("onload");
+  setTimeout(() => {
+    updatePostLocation();
+    observerPosts();
+  }, 500);
+};
+window.addEventListener("click", (e) => {
+  devLog("window click", e);
+}, true);

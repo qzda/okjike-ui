@@ -1,7 +1,6 @@
 import { removeElementById } from "./element.ts";
 import { hiddenNewPost } from "./newPost.ts";
-import { hiddenSidebar } from "./sidebar.ts";
-import { changeTimelineStyle, isTimelineUrl } from "./timeline.ts";
+import { isTimelineUrl } from "./timeline.ts";
 
 export function addStyles(id: string, css: string) {
   const styleID = "okjike-ui-" + id;
@@ -30,7 +29,5 @@ export function removeStyles(id: string) {
 
 export function changeStyles(pathname: string) {
   const b = isTimelineUrl(pathname);
-  changeTimelineStyle(b);
   hiddenNewPost(b);
-  hiddenSidebar(b);
 }

@@ -10,7 +10,7 @@ export function log(...arg: any[]) {
 }
 
 export function logError(...arg: any[]) {
-  console.log(prolog.bgRed(`${name} ${version}`), ...arg);
+  console.log(prolog.bgRed(`${name} v${version}`), ...arg);
 }
 
 export function devLog(...arg: any[]) {
